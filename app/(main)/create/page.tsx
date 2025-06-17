@@ -260,7 +260,7 @@ export default function CreateHomily() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between py-4">
             <div className="flex items-center space-x-2 sm:space-x-4 min-w-0 flex-1">
-              <Link href="/">
+              <Link href="/dashboard">
                 <Button variant="ghost" size="sm" className="flex-shrink-0">
                   <ArrowLeft className="w-4 h-4 mr-1 sm:mr-2" />
                   <span className="hidden sm:inline">Back to Dashboard</span>

@@ -2,11 +2,14 @@ import type * as React from "react"
 import {
   BookOpen,
   LayoutDashboard,
+  Calendar,
+  SquarePlus,
 } from "lucide-react"
 import { NavProjects } from "@/components/nav-projects"
 import { NavUser } from "@/components/nav-user"
 import { TeamSwitcher } from "@/components/team-switcher"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar"
+import { SidebarMenuItemsComponent } from "@/components/sidebar-menu-items-component"
 
 const data = {
   teams: [
@@ -57,12 +60,54 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <a href={`/create`}>
-                  <BookOpen />
-                  <span>Create</span>
+                <a href={`/calendar`}>
+                  <Calendar />
+                  <span>Calendar</span>
                 </a>
               </SidebarMenuButton>
             </SidebarMenuItem>
+
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <a href={`/calendar`}>
+                  <SquarePlus />
+                  <span>Build a Homily</span>
+                </a>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+
+            {/* <SidebarMenuItemsComponent items={[{
+              title: "Build a Homily",
+              url: "#",
+              icon: SquarePlus,
+              isActive: true,
+              items: [
+                {
+                  title: "Create",
+                  url: "/create",
+                },
+                {
+                  title: "Theme",
+                  url: "/theme",
+                },
+                {
+                  title: "Context",
+                  url: "/context",
+                },
+                {
+                  title: "Point Development",
+                  url: "/point-development",
+                },
+                {
+                  title: "Stories and Examples",
+                  url: "/stories-and-examples",
+                },
+                {
+                  title: "Review",
+                  url: "/review",
+                },
+              ],
+            }]}/> */}
 
           </SidebarMenu>
         </SidebarGroup>
