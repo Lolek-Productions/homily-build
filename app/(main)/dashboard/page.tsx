@@ -232,7 +232,7 @@ export default function Dashboard() {
                   <div className="text-center">
                     <div className="w-16 h-16 bg-gray-300 rounded-full mx-auto mb-3"></div>
                     <h3 className="font-semibold">Father Michael</h3>
-                    <p className="text-sm text-gray-600">St. Mary's Parish</p>
+                    <p className="text-sm text-gray-600">St. Mary&apos;s Parish</p>
                   </div>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
@@ -284,7 +284,7 @@ export default function Dashboard() {
             {/* Tips */}
             <Card>
               <CardHeader>
-                <CardTitle>Today's Tip</CardTitle>
+                <CardTitle>Today&apos;s Tip</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-gray-600 mb-3">

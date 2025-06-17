@@ -4,7 +4,7 @@
 ### Clone the repository
 
 ```bash
-https://github.com/Lolek-Productions/liturgicalschedule-org
+https://github.com/Lolek-Productions/homily-build
 ```
 
 ### Install dependencies
@@ -19,6 +19,7 @@ npm install
 npm run dev
 ```
 
+Send an email to fr.mccarty@gmail.com for the credentials to the database and openai
 
 
 Contributing Guidelines:
