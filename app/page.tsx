@@ -117,7 +117,7 @@ export default function Home() {
           <section className="bg-gradient-to-br from-blue-50 to-indigo-100 py-16 sm:py-24">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center">
-                <Badge className="mb-6 bg-indigo-100 text-indigo-800 px-4 py-2">
+                <Badge variant="outline" className="mb-6 bg-indigo-100 text-indigo-800 px-4 py-2 border-indigo-200 hover:bg-indigo-200 hover:text-indigo-900">
                   Trusted by Catholic Priests Worldwide
                 </Badge>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
@@ -135,11 +135,11 @@ export default function Home() {
                       <ArrowRight className="w-5 h-5 ml-2" />
                     </Button>
                   </Link>
-                  <Button variant="outline" size="lg" className="w-full sm:w-auto">
+                  {/* <Button variant="outline" size="lg" className="w-full sm:w-auto">
                     Watch Demo
-                  </Button>
+                  </Button> */}
                 </div>
-                <p className="text-sm text-gray-500 mt-4">Free trial • No credit card required</p>
+                {/* <p className="text-sm text-gray-500 mt-4">Free trial • No credit card required</p> */}
               </div>
             </div>
           </section>
