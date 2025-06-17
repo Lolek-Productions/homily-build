@@ -1,16 +1,12 @@
 import type * as React from "react"
 import {
   BookOpen,
-  Calendar,
-  Bot,
   LayoutDashboard,
 } from "lucide-react"
 import { NavProjects } from "@/components/nav-projects"
 import { NavUser } from "@/components/nav-user"
 import { TeamSwitcher } from "@/components/team-switcher"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar"
-import { SidebarMenuItemsComponent } from "@/components/sidebar-menu-items-component"
-import { SidebarMenuMinistriesComponent } from "@/components/sidebar-menu-ministries-component"
 
 const data = {
   teams: [
