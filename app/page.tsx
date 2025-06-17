@@ -1,5 +1,4 @@
 import { AuthButton } from "@/components/auth-button";
-import { Hero } from "@/components/hero";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import Link from "next/link";
 import {
@@ -130,7 +129,7 @@ export default function Home() {
                   across different audiences and settings.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Link href="/">
+                  <Link href="/create">
                     <Button size="lg" className="w-full sm:w-auto">
                       Start Creating Homilies
                       <ArrowRight className="w-5 h-5 ml-2" />
@@ -220,7 +219,7 @@ export default function Home() {
                   <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">One Weekend, Multiple Contexts</h2>
                   <p className="text-xl text-gray-600 mb-8">
                     Many priests serve diverse congregations. Create different homilies for the same weekend that speak to
-                    each community's unique needs and cultural context.
+                    each community&apos;s unique needs and cultural context.
                   </p>
                   <div className="space-y-4">
                     <div className="flex items-center space-x-3">
@@ -303,7 +302,7 @@ export default function Home() {
                           <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
                         ))}
                       </div>
-                      <p className="text-gray-600 mb-4 italic">"{testimonial.quote}"</p>
+                      <p className="text-gray-600 mb-4 italic">&ldquo;{testimonial.quote}&rdquo;</p>
                       <div>
                         <p className="font-semibold text-gray-900">{testimonial.name}</p>
                         <p className="text-sm text-gray-500">{testimonial.parish}</p>
