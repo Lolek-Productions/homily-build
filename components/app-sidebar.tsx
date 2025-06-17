@@ -60,9 +60,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <a href={`/calendar`}>
-                  <Calendar />
-                  <span>Calendar</span>
+                <a href={`/create`}>
+                  <SquarePlus />
+                  <span>Build a Homily</span>
                 </a>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -70,8 +70,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
                 <a href={`/calendar`}>
-                  <SquarePlus />
-                  <span>Build a Homily</span>
+                  <Calendar />
+                  <span>Calendar</span>
                 </a>
               </SidebarMenuButton>
             </SidebarMenuItem>

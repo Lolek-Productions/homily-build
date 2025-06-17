@@ -6,10 +6,8 @@ import { createClient } from '@/lib/supabase/client';
 import { getUserSettings } from '@/lib/actions/userSettings';
 
 interface UserSettings {
-  id: string;
-  user_id: string;
-  created_at: string | null;
-  updated_at: string | null;
+  id: string; // This is the user's UUID from auth.users
+  created_at: string;
 }
 
 interface AppContextProviderProps {
@@ -65,9 +63,7 @@ export const AppContextProvider = ({
       // Ensure we have a complete UserSettings object
       const completeUserSettings: UserSettings | null = data ? {
         id: (data as any).id || '',
-        user_id: (data as any).user_id || user.id,
         created_at: (data as any).created_at || null,
-        updated_at: (data as any).updated_at || null
       } : null;
       
       setUserSettings(completeUserSettings);
@@ -125,9 +121,7 @@ export const AppContextProvider = ({
             // Ensure we have a complete UserSettings object
             const completeUserSettings: UserSettings | null = data ? {
               id: (data as any).id || '',
-              user_id: (data as any).user_id || newUser.id,
               created_at: (data as any).created_at || null,
-              updated_at: (data as any).updated_at || null
             } : null;
             
             setUserSettings(completeUserSettings);
