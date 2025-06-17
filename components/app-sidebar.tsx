@@ -59,66 +59,40 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               </SidebarMenuButton>
             </SidebarMenuItem>
 
-            <SidebarMenuItemsComponent items={[{
-              title: "Calendar",
-              url: "#",
-              icon: Calendar,
-              isActive: true,
-              items: [
-                {
-                  title: "Yearly",
-                  url: "/yearly",
-                },
-                {
-                  title: "Monthly",
-                  url: "/monthly",
-                },
-                {
-                  title: "Weekly",
-                  url: "/weekly",
-                },
-                {
-                  title: "Daily",
-                  url: "/daily",
-                },
-              ],
-            }]}/>
-            <SidebarMenuItemsComponent items={[{
-              title: "Resources",
-              url: "#",
-              icon: Bot,
-              items: [
-                {
-                  title: "People",
-                  url: "/people",
-                },
-                {
-                  title: "Locations",
-                  url: "/locations",
-                },
-                {
-                  title: "Groups",
-                  url: "/groups",
-                },
-              ],
-            }]}/>
-            <SidebarMenuMinistriesComponent/>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <a href={`/training`}>
+                <a href={`/create`}>
                   <BookOpen />
-                  <span>Training</span>
+                  <span>Create</span>
+                </a>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+
+          </SidebarMenu>
+        </SidebarGroup>
+
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Collaborators</SidebarGroupLabel>
+          <SidebarMenu>
+
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <a href={`https://www.magisterium.com/`} target="_blank">
+                  <BookOpen />
+                  <span>Magesterium AI</span>
                 </a>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <a href={`/onboarding`}>
+                <a href={`https://litcal.johnromanodorazio.com`} target="_blank">
                   <BookOpen />
-                  <span>Onboarding</span>
+                  <span>LitCal</span>
                 </a>
               </SidebarMenuButton>
             </SidebarMenuItem>
+
           </SidebarMenu>
         </SidebarGroup>
 

@@ -37,8 +37,10 @@ Contributing Guidelines:
 
 
 Services:
-https://github.com/jquense/react-big-calendar
+https://litcal.johnromanodorazio.com/api/dev/calendar
 
+
+Supabase
 
 
 Using Shadcn

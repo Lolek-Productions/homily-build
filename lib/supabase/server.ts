@@ -52,34 +52,3 @@ export async function getCurrentUser() {
     };
   }
 }
-
-// Additional helper for getting user with parish data
-export async function getCurrentUserWithParish() {
-  try {
-    const supabase = await createClient();
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    
-    if (authError || !user) {
-      return { user: null, selectedParishId: null, error: authError };
-    }
-
-    const { data: profile, error: profileError } = await supabase
-      .from('user_profiles')
-      .select('selected_parish_id')
-      .eq('user_id', user.id)
-      .single();
-    
-    return { 
-      user, 
-      selectedParishId: profile?.selected_parish_id || null, 
-      error: profileError 
-    };
-  } catch (error) {
-    console.error('Error in getCurrentUserWithParish:', error);
-    return { 
-      user: null, 
-      selectedParishId: null,
-      error: error instanceof Error ? error : new Error('Unknown error occurred') 
-    };
-  }
-}
