@@ -22,6 +22,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
+import { MainHeader } from "@/components/main-header"
 
 export default function CreateHomily() {
   const [currentStep, setCurrentStep] = useState(1)
@@ -255,6 +256,12 @@ export default function CreateHomily() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <MainHeader 
+        breadcrumbs={[
+          { label: "Calendar", href: "/calendar" },
+          { label: "Daily View", active: true }
+        ]}
+      />
       {/* Header */}
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

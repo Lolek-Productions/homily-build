@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
+import { MainHeader } from "@/components/main-header"
 
 export default function Dashboard() {
   const upcomingWeekends = [
@@ -48,6 +49,12 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <MainHeader 
+        breadcrumbs={[
+          { label: "Calendar", href: "/calendar" },
+          { label: "Daily View", active: true }
+        ]}
+      />
       {/* Header */}
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

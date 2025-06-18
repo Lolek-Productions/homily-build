@@ -4,6 +4,7 @@ import {
   LayoutDashboard,
   Calendar,
   SquarePlus,
+  Bot,
 } from "lucide-react"
 import { NavProjects } from "@/components/nav-projects"
 import { NavUser } from "@/components/nav-user"
@@ -75,36 +76,38 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 </a>
               </SidebarMenuButton>
             </SidebarMenuItem>
+            
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <a href={`/context`}>
+                  <Bot />
+                  <span>Context</span>
+                </a>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <a href={`/prompts`}>
+                  <Bot />
+                  <span>Prompts</span>
+                </a>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
 
             {/* <SidebarMenuItemsComponent items={[{
-              title: "Build a Homily",
+              title: "Settings",
               url: "#",
-              icon: SquarePlus,
+              icon: Bot,
               isActive: true,
               items: [
                 {
-                  title: "Create",
-                  url: "/create",
-                },
-                {
-                  title: "Theme",
-                  url: "/theme",
-                },
-                {
                   title: "Context",
-                  url: "/context",
+                  url: "/settings/context",
                 },
                 {
-                  title: "Point Development",
-                  url: "/point-development",
-                },
-                {
-                  title: "Stories and Examples",
-                  url: "/stories-and-examples",
-                },
-                {
-                  title: "Review",
-                  url: "/review",
+                  title: "Prompts",
+                  url: "/settings/prompts",
                 },
               ],
             }]}/> */}
