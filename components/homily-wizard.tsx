@@ -21,7 +21,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useAppContext } from "@/contexts/AppContextProvider"
 import { updateHomily } from "@/lib/actions/homilies"
-import { generateAIResponse } from "@/lib/actions/ai"
+import { generateClaudeResponse } from "@/lib/actions/ai-claude"
 import { useApiToast } from "@/lib/utils"
 
 interface HomilyWizardProps {
@@ -122,7 +122,7 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
     setIsLoadingAI(true);
     try {
       const prompt = `Here are the readings: ${homilyData.readings} and here is what makes an excellent homily: ${homilyData.definitions}. Generate thoughtful questions that explore the main themes and messages. These should be initial questions that help frame the homily's direction.  Do not generate any other response other than the questions for the user to answer.`
-      const result = await generateAIResponse(prompt, user.id);
+      const result = await generateClaudeResponse(prompt, user.id);
       if (result.error) {
         showErrorToast(new Error(result.error));
         return;
@@ -146,10 +146,12 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
       showErrorToast(new Error("You must be logged in to use AI features"));
       return;
     }
+    console.log('handleSecondSetOfQuestionsAI')
+
     setIsLoadingAI(true);
     try {
-      const prompt = `Here are the responses to your first set of questions: ${homilyData.first_set_of_questions}. Generate one final set of questions before producing the final product.`
-      const result = await generateAIResponse(prompt, user.id);
+      const prompt = `Here are the responses to your first set of questions: ${homilyData.first_set_of_questions}. Generate one final set of questions before producing the final homily.`
+      const result = await generateClaudeResponse(prompt, user.id);
       if (result.error) {
         showErrorToast(new Error(result.error));
         return;
@@ -176,7 +178,7 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
     setIsLoadingAI(true);
     try {
       const prompt = `Here are the final responses to your second set of questions: ${homilyData.second_set_of_questions}. Generate a final draft of the homily.`
-      const result = await generateAIResponse(prompt, user.id);
+      const result = await generateClaudeResponse(prompt, user.id);
       if (result.error) {
         showErrorToast(new Error(result.error));
         return;

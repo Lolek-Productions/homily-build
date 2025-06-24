@@ -2,7 +2,13 @@
 
 import Anthropic from '@anthropic-ai/sdk'
 
-export async function generateAIResponse(prompt, userId) {
+/**
+ * Generates an AI response using Claude from Anthropic
+ * @param {string} prompt - The prompt to send to Claude
+ * @param {string} userId - The user ID for authentication
+ * @returns {Promise<{success?: boolean, content?: string, usage?: object, error?: string}>}
+ */
+export async function generateClaudeResponse(prompt: string, userId: string) {
   try {
     // Validate inputs
     if (!userId) {
@@ -51,8 +57,8 @@ export async function generateAIResponse(prompt, userId) {
       }
     }
 
-  } catch (error) {
-    console.error('Error generating AI content:', error)
+  } catch (error: any) {
+    console.error('Error generating AI content with Claude:', error)
     
     // Provide more specific error messages for Anthropic API
     if (error.status === 429) {
@@ -67,6 +73,6 @@ export async function generateAIResponse(prompt, userId) {
       return { error: 'Bad request. Please check your prompt and try again.' }
     }
     
-    return { error: 'Failed to generate AI content. Please try again.' }
+    return { error: 'Failed to generate AI content with Claude. Please try again.' }
   }
 }

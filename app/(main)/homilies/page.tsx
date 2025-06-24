@@ -24,7 +24,7 @@ import {
 import { MainHeader } from "@/components/main-header"
 import { HomiliesTable } from "@/components/homilies/homilies-table"
 import { useAppContext } from "@/contexts/AppContextProvider"
-import { getHomilies, createHomily, updateHomily, deleteHomily } from "@/lib/actions/homilies"
+import { getHomilies, deleteHomily } from "@/lib/actions/homilies"
 import { useApiToast } from "@/lib/utils"
 import { useRouter } from "next/navigation"
 
@@ -65,7 +65,7 @@ export default function HomiliesPage() {
   })
   const [isLoading, setIsLoading] = useState(false)
   
-  const [editingHomily, setEditingHomily] = useState<Homily | null>(null)
+  // Removed unused state variables
   const [deletingId, setDeletingId] = useState<number | null>(null)
   
 
