@@ -1,11 +1,43 @@
+"use client"
+
+import { useEffect } from "react"
 import { Calendar, BookOpen, Users, Settings, Plus, Clock, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import { MainHeader } from "@/components/main-header"
+import { useAppContext } from "@/contexts/AppContextProvider"
+import { updateUserSettings } from "@/lib/actions/userSettings"
+import { DEFAULT_USER_SETTINGS_DEFINITION } from "@/lib/definition"
 
 export default function Dashboard() {
+  const { user, userSettings, isLoading, refreshSettings } = useAppContext()
+
+  // Initialize user settings with defaults for new users
+  useEffect(() => {
+    const initializeUserSettings = async () => {
+      // Only proceed if we have a user, settings are loaded, and no settings exist
+      if (user?.id && !isLoading && userSettings === null) {
+        try {
+          console.log('Creating default user settings for new user')
+          const result = await updateUserSettings(user.id, { 
+            definitions: DEFAULT_USER_SETTINGS_DEFINITION 
+          })
+          
+          if (result.data) {
+            // Refresh settings to get the newly created data
+            await refreshSettings()
+          }
+        } catch (error) {
+          console.error('Failed to create default user settings:', error)
+        }
+      }
+    }
+
+    initializeUserSettings()
+  }, [user?.id, userSettings, isLoading, refreshSettings])
+
   const upcomingWeekends = [
     {
       date: "December 22, 2024",
