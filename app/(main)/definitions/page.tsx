@@ -134,7 +134,7 @@ export default function Definitions() {
                   id="definitions"
                   value={definitions}
                   onChange={(e) => handleDefinitionsChange(e.target.value)}
-                  placeholder="Enter your personal definitions, theological terms, and concepts that should guide your homily creation..."
+                  placeholder="Your personal definitions and homily guidelines will appear here. Click 'Reset to Default' to load comprehensive guidelines, or start writing your own..."
                   className="min-h-[200px]"
                 />
                 {!definitions && (
