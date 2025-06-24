@@ -55,6 +55,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               </SidebarMenuButton>
             </SidebarMenuItem>
 
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <a href={`/homilies`}>
+                  <SquarePlus />
+                  <span>Homilies</span>
+                </a>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+
             {/* <SidebarMenuItemsComponent items={[{
               title: "Settings",
               url: "#",
