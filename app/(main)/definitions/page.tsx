@@ -12,7 +12,7 @@ import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import { MainHeader } from "@/components/main-header"
 
-export default function PromptsSettings() {
+export default function Definitions() {
   const [personalContext, setPersonalContext] = useState({
     name: "Father Michael Rodriguez",
     parish: "St. Mary's Catholic Church",

@@ -417,7 +417,7 @@ export default function Home() {
                 </div>
               </div>
               <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-                <p>&copy; 2024 Lock Productions. All rights reserved. Built with ❤️ for the Catholic Church.</p>
+                <p>&copy; {new Date().getFullYear()} Lolek Productions. All rights reserved. Built with ❤️ for the Catholic Church.</p>
               </div>
             </div>
             <ThemeSwitcher />

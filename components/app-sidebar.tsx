@@ -1,3 +1,5 @@
+"use client"
+
 import type * as React from "react"
 import {
   BookOpen,
@@ -6,43 +8,19 @@ import {
   SquarePlus,
   Bot,
 } from "lucide-react"
-import { NavProjects } from "@/components/nav-projects"
 import { NavUser } from "@/components/nav-user"
-import { TeamSwitcher } from "@/components/team-switcher"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar"
-// import { SidebarMenuItemsComponent } from "@/components/sidebar-menu-items-component"
-
-const data = {
-  teams: [
-    {
-      name: "St. Leo",
-      plan: "Murray, KY",
-    },
-    {
-      name: "St. Mary's",
-      plan: "Murray, KY",
-    },
-    {
-      name: "St. John's",
-      plan: "Murray, KY",
-    },
-  ],
-  
-
-  projects: [
-  //   {
-  //     name: "Design Engineering",
-  //     url: "#",
-  //     icon: Frame,
-  //   },
-  ],
-}
+import { useAppContext } from "@/contexts/AppContextProvider"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { user } = useAppContext()
+
   return (
     <Sidebar collapsible="offcanvas" className="w-64" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <div className="flex flex-col gap-1 p-2">
+          <div className="text-sm font-semibold">{user?.email}</div>
+        </div>
       </SidebarHeader>
       <SidebarContent>
 
@@ -61,36 +39,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <a href={`/create`}>
+                <a href={`/definitions`}>
                   <SquarePlus />
-                  <span>Build a Homily</span>
+                  <span>Definitions</span>
                 </a>
               </SidebarMenuButton>
             </SidebarMenuItem>
 
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <a href={`/calendar`}>
-                  <Calendar />
-                  <span>Calendar</span>
-                </a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <a href={`/context`}>
-                  <Bot />
-                  <span>Context</span>
-                </a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <a href={`/prompts`}>
-                  <Bot />
-                  <span>Prompts</span>
+                <a href={`/create`}>
+                  <SquarePlus />
+                  <span>Build a Homily</span>
                 </a>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -140,7 +100,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarMenu>
         </SidebarGroup>
 
-        <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser />
