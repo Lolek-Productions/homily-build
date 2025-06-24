@@ -121,7 +121,6 @@ export default function Dashboard() {
               <Button variant="outline" size="sm" className="sm:hidden">
                 <Settings className="w-4 h-4" />
               </Button>
-              <div className="w-8 h-8 bg-gray-300 rounded-full"></div>
             </div>
           </div>
         </div>

@@ -17,15 +17,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useApiToast } from "@/lib/utils"
 
 interface Homily {
-  id?: number
+  id: number
   title: string
   description: string | null
   definitions: string | null
-  rough_draft: string | null
-  second_draft: string | null
+  readings: string | null
+  first_set_of_questions: string | null
+  second_set_of_questions: string | null
   final_draft: string | null
-  created_at?: string
-  user_id?: string
+  status: string | null
+  created_at: string
+  user_id: string
 }
 
 interface HomilyDialogProps {
@@ -42,9 +44,11 @@ export function HomilyDialog({ open, onOpenChange, homily, onSave, isLoading = f
     title: "",
     description: "",
     definitions: "",
-    rough_draft: "",
-    second_draft: "",
+    readings: "",
+    first_set_of_questions: "",
+    second_set_of_questions: "",
     final_draft: "",
+    status: "",
   })
 
   // Reset form when dialog opens/closes or homily changes
@@ -55,18 +59,22 @@ export function HomilyDialog({ open, onOpenChange, homily, onSave, isLoading = f
           title: homily.title || "",
           description: homily.description || "",
           definitions: homily.definitions || "",
-          rough_draft: homily.rough_draft || "",
-          second_draft: homily.second_draft || "",
+          readings: homily.readings || "",
+          first_set_of_questions: homily.first_set_of_questions || "",
+          second_set_of_questions: homily.second_set_of_questions || "",
           final_draft: homily.final_draft || "",
+          status: homily.status || "",
         })
       } else {
         setFormData({
           title: "",
           description: "",
           definitions: "",
-          rough_draft: "",
-          second_draft: "",
+          readings: "",
+          first_set_of_questions: "",
+          second_set_of_questions: "",
           final_draft: "",
+          status: "",
         })
       }
     }
@@ -128,6 +136,16 @@ export function HomilyDialog({ open, onOpenChange, homily, onSave, isLoading = f
                   className="min-h-[80px]"
                 />
               </div>
+              <div>
+                <Label htmlFor="readings">Readings</Label>
+                <Textarea
+                  id="readings"
+                  value={formData.readings || ""}
+                  onChange={(e) => updateField('readings', e.target.value)}
+                  placeholder="List the readings for this homily..."
+                  className="min-h-[80px]"
+                />
+              </div>
             </div>
           </div>
 
@@ -135,9 +153,9 @@ export function HomilyDialog({ open, onOpenChange, homily, onSave, isLoading = f
           <Tabs defaultValue="definitions" className="w-full">
             <TabsList className="grid w-full grid-cols-4">
               <TabsTrigger value="definitions">Definitions</TabsTrigger>
-              <TabsTrigger value="rough">Rough Draft</TabsTrigger>
-              <TabsTrigger value="second">Second Draft</TabsTrigger>
-              <TabsTrigger value="final">Final Draft</TabsTrigger>
+              <TabsTrigger value="first_set_of_questions">First Set of Questions</TabsTrigger>
+              <TabsTrigger value="second_set_of_questions">Second Set of Questions</TabsTrigger>
+              <TabsTrigger value="final_draft">Final Draft</TabsTrigger>
             </TabsList>
 
             <TabsContent value="definitions" className="space-y-4">
@@ -153,33 +171,33 @@ export function HomilyDialog({ open, onOpenChange, homily, onSave, isLoading = f
               </div>
             </TabsContent>
 
-            <TabsContent value="rough" className="space-y-4">
+            <TabsContent value="first_set_of_questions" className="space-y-4">
               <div>
-                <Label htmlFor="rough_draft">Rough Draft</Label>
+                <Label htmlFor="first_set_of_questions">First Set of Questions</Label>
                 <Textarea
-                  id="rough_draft"
-                  value={formData.rough_draft || ""}
-                  onChange={(e) => updateField('rough_draft', e.target.value)}
-                  placeholder="Write your initial thoughts and rough draft here..."
+                  id="first_set_of_questions"
+                  value={formData.first_set_of_questions || ""}
+                  onChange={(e) => updateField('first_set_of_questions', e.target.value)}
+                  placeholder="Write your first set of questions here..."
                   className="min-h-[300px]"
                 />
               </div>
             </TabsContent>
 
-            <TabsContent value="second" className="space-y-4">
+            <TabsContent value="second_set_of_questions" className="space-y-4">
               <div>
-                <Label htmlFor="second_draft">Second Draft</Label>
+                <Label htmlFor="second_set_of_questions">Second Set of Questions</Label>
                 <Textarea
-                  id="second_draft"
-                  value={formData.second_draft || ""}
-                  onChange={(e) => updateField('second_draft', e.target.value)}
-                  placeholder="Refine your homily with improved structure and flow..."
+                  id="second_set_of_questions"
+                  value={formData.second_set_of_questions || ""}
+                  onChange={(e) => updateField('second_set_of_questions', e.target.value)}
+                  placeholder="Write your second set of questions here..."
                   className="min-h-[300px]"
                 />
               </div>
             </TabsContent>
 
-            <TabsContent value="final" className="space-y-4">
+            <TabsContent value="final_draft" className="space-y-4">
               <div>
                 <Label htmlFor="final_draft">Final Draft</Label>
                 <Textarea

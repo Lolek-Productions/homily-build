@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect } from "react"
 import { Plus, Search, RefreshCw } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -27,15 +27,18 @@ import { HomilyDialog } from "@/components/homilies/homily-dialog"
 import { useAppContext } from "@/contexts/AppContextProvider"
 import { getHomilies, createHomily, updateHomily, deleteHomily } from "@/lib/actions/homilies"
 import { useApiToast } from "@/lib/utils"
+import { useRouter } from "next/navigation"
 
 interface Homily {
   id: number
   title: string
   description: string | null
   definitions: string | null
-  rough_draft: string | null
-  second_draft: string | null
+  readings: string | null
+  first_set_of_questions: string | null
+  second_set_of_questions: string | null
   final_draft: string | null
+  status: string | null
   created_at: string
   user_id: string
 }
@@ -51,6 +54,7 @@ interface PaginationData {
 export default function HomiliesPage() {
   const { user, isLoading: userLoading } = useAppContext()
   const { showResponseToast, showErrorToast } = useApiToast()
+  const router = useRouter()
 
   // State management
   const [homilies, setHomilies] = useState<PaginationData>({
@@ -60,7 +64,7 @@ export default function HomiliesPage() {
     currentPage: 1,
     error: null
   })
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [editingHomily, setEditingHomily] = useState<Homily | null>(null)
   const [deletingId, setDeletingId] = useState<number | null>(null)
@@ -73,12 +77,86 @@ export default function HomiliesPage() {
   const [pageSize, setPageSize] = useState(10)
   const [currentPage, setCurrentPage] = useState(1)
 
-  // Load homilies
-  const loadHomilies = useCallback(async () => {
-    if (!user?.id) return
+  // Debug: Component mount/unmount
+  useEffect(() => {
+    console.log('🔄 HomiliesPage component MOUNTED')
+    return () => {
+      console.log('💀 HomiliesPage component UNMOUNTED')
+    }
+  }, [])
+
+  // Debug: Track all state changes
+  useEffect(() => {
+    console.log('📊 State update - isLoading:', isLoading, 'homilies.data.length:', homilies.data?.length, 'user:', user?.id)
+  }, [isLoading, homilies.data?.length, user?.id])
+
+  // Debug: Component mount
+  useEffect(() => {
+    console.log('HomiliesPage component mounted, user:', user?.id, 'userLoading:', userLoading)
+  }, [user?.id, userLoading])
+
+  // Debug: Track user state changes specifically
+  useEffect(() => {
+    console.log('User state changed - user:', user?.id, 'userLoading:', userLoading)
+  }, [user, userLoading])
+
+  // Debug: Track homilies state changes
+  useEffect(() => {
+    console.log('Homilies state changed:', {
+      dataLength: homilies.data?.length,
+      count: homilies.count,
+      error: homilies.error,
+      isLoading: isLoading
+    })
+  }, [homilies, isLoading])
+
+  // Load initial data when user is available
+  useEffect(() => {
+    console.log('🚀 useEffect triggered with deps:', { userId: user?.id, currentPage, pageSize, search, sortBy, sortOrder })
+    const loadData = async () => {
+      if (user?.id) {
+        console.log('✅ Loading data for user:', user.id)
+        setIsLoading(true)
+        try {
+          const result = await getHomilies(user.id, {
+            page: currentPage,
+            pageSize,
+            search,
+            sortBy,
+            sortOrder
+          })
+          console.log('✅ Data loaded successfully:', result)
+          setHomilies({...result})
+        } catch (error) {
+          console.log('❌ Error loading data:', error)
+          setHomilies({
+            data: [],
+            count: 0,
+            totalPages: 0,
+            currentPage: 1,
+            error: error instanceof Error ? error.message : 'Failed to load homilies'
+          })
+        } finally {
+          setIsLoading(false)
+        }
+      } else {
+        console.log('⏳ No user available yet, user:', user?.id)
+      }
+    }
+    loadData()
+  }, [user?.id, currentPage, pageSize, search, sortBy, sortOrder])
+
+  // Load homilies function for manual refresh
+  const loadHomilies = async () => {
+    if (!user?.id || typeof user.id !== 'string' || user.id.trim() === '') {
+      console.log('Cannot load homilies - invalid user ID:', user?.id)
+      return
+    }
 
     setIsLoading(true)
     try {
+      console.log('Manual reload - Loading homilies for user ID:', user.id)
+
       const result = await getHomilies(user.id, {
         page: currentPage,
         pageSize,
@@ -87,39 +165,32 @@ export default function HomiliesPage() {
         sortOrder
       })
 
-      if (result.error) {
-        console.error('Error loading homilies:', result.error)
-      }
-      setHomilies(result)
+      console.log('Manual reload - getHomilies result:', result)
+      setHomilies({...result})
+      console.log('State update called with:', result)
+      setTimeout(() => {
+        console.log('After timeout - checking if state updated')
+      }, 100)
     } catch (error) {
-      console.error('Error loading homilies:', error)
+      console.error('Manual reload - Error loading homilies:', error)
       setHomilies({
         data: [],
         count: 0,
         totalPages: 0,
         currentPage: 1,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? error.message : 'Failed to load homilies'
       })
     } finally {
       setIsLoading(false)
     }
-  }, [user?.id, currentPage, pageSize, search, sortBy, sortOrder])
-
-  // Load homilies when dependencies change
-  useEffect(() => {
-    if (user?.id) {
-      loadHomilies()
-    }
-  }, [loadHomilies, user?.id])
-
-  // Reset to first page when search/sort changes
-  useEffect(() => {
-    setCurrentPage(1)
-  }, [search, sortBy, sortOrder])
+  }
 
   // Handle create/update homily
   const handleSaveHomily = async (homilyData: Omit<Homily, 'id' | 'created_at' | 'user_id'>) => {
-    if (!user?.id) return
+    if (!user?.id || typeof user.id !== 'string' || user.id.trim() === '') {
+      console.log('Cannot save homily - invalid user ID:', user?.id)
+      return
+    }
 
     setIsSaving(true)
     try {
@@ -149,7 +220,10 @@ export default function HomiliesPage() {
 
   // Handle delete homily
   const handleDeleteHomily = async (id: number) => {
-    if (!user?.id) return
+    if (!user?.id || typeof user.id !== 'string' || user.id.trim() === '') {
+      console.log('Cannot delete homily - invalid user ID:', user?.id)
+      return
+    }
 
     try {
       const result = await deleteHomily(id, user.id)
@@ -174,13 +248,13 @@ export default function HomiliesPage() {
 
   // Handle dialog actions
   const handleCreateNew = () => {
-    setEditingHomily(null)
-    setIsDialogOpen(true)
+    // Navigate to the create page
+    router.push('/homilies/create')
   }
 
   const handleEdit = (homily: Homily) => {
-    setEditingHomily(homily)
-    setIsDialogOpen(true)
+    // Navigate to the wizard for editing
+    router.push(`/homilies/${homily.id}`)
   }
 
   const handleView = (homily: Homily) => {
@@ -194,21 +268,23 @@ export default function HomiliesPage() {
     setDeletingId(id)
   }
 
-  if (userLoading) {
+  // Only show loading/login if we definitely don't have a user
+  if (!user && !userLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
         <div className="flex items-center justify-center h-64">
-          <div className="text-center">Loading...</div>
+          <div className="text-center">Please log in to view homilies.</div>
         </div>
       </div>
     )
   }
 
+  // If we have a user, show the main content regardless of userLoading state
   if (!user) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
         <div className="flex items-center justify-center h-64">
-          <div className="text-center">Please log in to view homilies.</div>
+          <div className="text-center">Loading...</div>
         </div>
       </div>
     )
@@ -295,6 +371,16 @@ export default function HomiliesPage() {
         </div>
 
         {/* Table */}
+        {(() => {
+          console.log('🎯 RENDER DECISION:')
+          console.log('  - isLoading:', isLoading)
+          console.log('  - homilies.error:', homilies.error)
+          console.log('  - homilies.data:', homilies.data)
+          console.log('  - Will show loading?', isLoading)
+          console.log('  - Will show error?', !isLoading && homilies.error)
+          console.log('  - Will show table?', !isLoading && !homilies.error)
+          return null
+        })()}
         {isLoading ? (
           <div className="flex items-center justify-center h-64">
             <div className="text-center">Loading homilies...</div>
@@ -312,6 +398,7 @@ export default function HomiliesPage() {
           </div>
         ) : (
           <>
+            {console.log('🎉 Rendering table with homilies.data:', homilies.data, 'length:', homilies.data?.length)}
             <HomiliesTable
               homilies={homilies.data}
               onEdit={handleEdit}

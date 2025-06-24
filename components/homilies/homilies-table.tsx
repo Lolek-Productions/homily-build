@@ -26,9 +26,11 @@ interface Homily {
   title: string
   description: string | null
   definitions: string | null
-  rough_draft: string | null
-  second_draft: string | null
+  readings: string | null
+  first_set_of_questions: string | null
+  second_set_of_questions: string | null
   final_draft: string | null
+  status: string | null
   created_at: string
   user_id: string
 }
@@ -41,10 +43,16 @@ interface HomiliesTableProps {
 }
 
 export function HomiliesTable({ homilies, onEdit, onDelete, onView }: HomiliesTableProps) {
+  console.log('=== HomiliesTable RENDER ===')
+  console.log('homilies prop:', homilies)
+  console.log('homilies type:', typeof homilies)
+  console.log('homilies length:', homilies?.length)
+  console.log('Array.isArray(homilies):', Array.isArray(homilies))
+
   const getDraftStatus = (homily: Homily) => {
     if (homily.final_draft) return { status: "Final", variant: "default" as const }
-    if (homily.second_draft) return { status: "Second Draft", variant: "secondary" as const }
-    if (homily.rough_draft) return { status: "Rough Draft", variant: "outline" as const }
+    if (homily.second_set_of_questions) return { status: "Second Set of Questions", variant: "secondary" as const }
+    if (homily.first_set_of_questions) return { status: "First Set of Questions", variant: "outline" as const }
     return { status: "Not Started", variant: "destructive" as const }
   }
 

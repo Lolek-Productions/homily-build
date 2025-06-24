@@ -6,11 +6,13 @@ CREATE TABLE public.homilies (
   title text NOT NULL,
   description text,
   definitions text,
-  rough_draft text,
-  second_draft text,
+  first_set_of_questions text,
+  second_set_of_questions text,
   final_draft text,
   created_at timestamp with time zone NOT NULL DEFAULT now(),
-  user_id uuid,
+  user_id uuid NOT NULL,
+  status text,
+  readings text,
   CONSTRAINT homilies_pkey PRIMARY KEY (id),
   CONSTRAINT homilies_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id)
 );
