@@ -65,32 +65,26 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
 
   // Auto-populate definitions from user settings when reaching step 3
   useEffect(() => {
-    if (currentStep === 3 && userSettings?.definitions && !homilyData.definitions) {
+    if (currentStep === 3 && userSettings?.definitions) {
       setHomilyData(prev => ({
         ...prev,
         definitions: userSettings?.definitions || ""
       }))
     }
-  }, [currentStep, userSettings?.definitions, homilyData.definitions])
+  }, [currentStep, userSettings?.definitions])
 
-  // Sync URL step parameter when currentStep changes
-  useEffect(() => {
-    const currentUrlStep = parseInt(searchParams.get('step') || '1', 10)
-    if (currentStep !== currentUrlStep) {
-      const url = new URL(window.location.href)
-      url.searchParams.set('step', currentStep.toString())
-      router.replace(url.pathname + url.search)
-    }
-  }, [currentStep, searchParams, router])
-
-  // Initialize step from URL on mount
+  // Sync URL step parameter when currentStep changes and initialize step from URL on mount
   useEffect(() => {
     const urlStep = parseInt(searchParams.get('step') || '1', 10)
     const validStep = Math.max(1, Math.min(6, urlStep))
-    if (validStep !== currentStep) {
-      setCurrentStep(validStep)
-    }
-  }, [searchParams, currentStep])
+    setCurrentStep(validStep)
+  }, [searchParams])
+
+  useEffect(() => {
+    const url = new URL(window.location.href)
+    url.searchParams.set('step', currentStep.toString())
+    router.replace(url.pathname + url.search)
+  }, [currentStep, router])
 
   const steps = [
     { id: 1, name: "Name and Description", icon: FileText },
@@ -160,6 +154,20 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
       showErrorToast(error)
     } finally {
       setIsLoadingAI(false)
+    }
+  }
+
+  const handleCopyDefinitions = () => {
+    if (userSettings?.definitions) {
+      console.log('Copying definitions from user settings...')
+      setHomilyData(prev => ({
+        ...prev,
+        definitions: userSettings?.definitions || ""
+      }))
+      showResponseToast({ success: true, message: "Definitions copied successfully!" })
+    } else {
+      console.log('No definitions found in user settings.')
+      showErrorToast(new Error("No definitions found in user settings"))
     }
   }
 
@@ -246,34 +254,46 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      {/* Progress Steps */}
+      {/* Progress Steps - Horizontally Scrollable */}
       <div className="mb-8">
-        <div className="flex items-center justify-between">
-          {steps.map((step, index) => (
-            <div key={step.id} className="flex items-center">
-              <div
-                className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${
-                  currentStep >= step.id
-                    ? "bg-blue-600 border-blue-600 text-white"
-                    : "bg-white border-gray-300 text-gray-500"
-                }`}
-              >
-                <step.icon className="w-5 h-5" />
-              </div>
-              {index < steps.length - 1 && (
-                <div
-                  className={`w-full h-1 mx-4 ${
-                    currentStep > step.id ? "bg-blue-600" : "bg-gray-300"
-                  }`}
-                />
-              )}
-            </div>
-          ))}
+        <div className="overflow-x-auto pb-4">
+          <div className="flex space-x-6 min-w-max px-1">
+            {steps.map((step, index) => {
+  const Icon = step.icon;
+  const isActive = step.id === currentStep;
+  const isCompleted = step.id < currentStep;
+  const isAccessible = true; // Allow navigation to any step; restrict if needed
+
+  return (
+    <div key={step.id} className="flex items-center flex-shrink-0">
+      <div className="flex flex-col items-center min-w-0">
+        <button
+          type="button"
+          onClick={() => isAccessible && setCurrentStep(step.id)}
+          className={`flex items-center justify-center w-12 h-12 rounded-full border-2 mb-2 focus:outline-none transition-all duration-150
+            ${isCompleted ? "bg-green-500 border-green-500 text-white hover:brightness-110" :
+              isActive ? "bg-indigo-600 border-indigo-600 text-white hover:brightness-110" :
+              "bg-white border-gray-300 text-gray-400 hover:border-indigo-400 hover:text-indigo-600"}
+            cursor-pointer`}
+          aria-label={`Go to step ${step.id}: ${step.name}`}
+        >
+          <Icon className="w-5 h-5" />
+        </button>
+        <div className="text-center">
+          <p
+            className={`text-xs font-medium whitespace-nowrap ${isAccessible ? "text-gray-900" : "text-gray-400"}`}
+          >
+            {step.name}
+          </p>
         </div>
-        <div className="mt-4">
-          <h2 className="text-xl font-semibold text-gray-900">
-            Step {currentStep}: {steps[currentStep - 1].name}
-          </h2>
+      </div>
+      {index < steps.length - 1 && (
+        <div className={`w-8 h-0.5 mx-3 mt-[-20px] ${isCompleted ? "bg-green-500" : "bg-gray-300"}`} />
+      )}
+    </div>
+  );
+})}
+          </div>
         </div>
       </div>
 
@@ -336,17 +356,11 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
                   Key Definitions
                 </Label>
                 <Button
-                  onClick={() => handleGenerateAI(3)}
-                  disabled={isLoadingAI}
+                  onClick={handleCopyDefinitions}
                   variant="outline"
                   size="sm"
                 >
-                  {isLoadingAI ? (
-                    <Loader className="w-4 h-4 mr-2 animate-spin" />
-                  ) : (
-                    <Target className="w-4 h-4 mr-2" />
-                  )}
-                  {isLoadingAI ? "Generating..." : "AI Generate"}
+                  Copy Global Definitions
                 </Button>
               </div>
               <Textarea

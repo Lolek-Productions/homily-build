@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { MoreHorizontal, Edit, Trash2, Eye } from "lucide-react"
+import { MoreHorizontal, Edit, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
