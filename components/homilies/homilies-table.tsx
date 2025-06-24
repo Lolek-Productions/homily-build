@@ -39,10 +39,10 @@ interface Homily {
 interface HomiliesTableProps {
   homilies: Homily[]
   onDelete: (id: number) => void
-  onView: (homily: Homily) => void
+
 }
 
-export function HomiliesTable({ homilies, onDelete, onView }: HomiliesTableProps) {
+export function HomiliesTable({ homilies, onDelete }: HomiliesTableProps) {
 
   const getDraftStatus = (homily: Homily) => {
     if (homily.final_draft) return { status: "Final", variant: "default" as const }

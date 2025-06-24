@@ -21,7 +21,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useAppContext } from "@/contexts/AppContextProvider"
 import { updateHomily } from "@/lib/actions/homilies"
-import { generateAIContent } from "@/lib/actions/ai"
+import { generateAIResponse } from "@/lib/actions/ai"
 import { useApiToast } from "@/lib/utils"
 
 interface HomilyWizardProps {
@@ -114,48 +114,86 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
     }))
   }
 
-  const handleGenerateAI = async (step: number) => {
+  const handleFirstSetOfQuestionsAI = async () => {
     if (!user?.id) {
-      showErrorToast(new Error("You must be logged in to use AI features"))
-      return
+      showErrorToast(new Error("You must be logged in to use AI features"));
+      return;
     }
-
-    setIsLoadingAI(true)
+    setIsLoadingAI(true);
     try {
-      const result = await generateAIContent(step, homilyData, user.id)
-      
+      const prompt = `Here are the readings: ${homilyData.readings} and here is what makes an excellent homily: ${homilyData.definitions}. Generate thoughtful questions that explore the main themes and messages. These should be initial questions that help frame the homily's direction.  Do not generate any other response other than the questions for the user to answer.`
+      const result = await generateAIResponse(prompt, user.id);
       if (result.error) {
-        showErrorToast(new Error(result.error))
-        return
+        showErrorToast(new Error(result.error));
+        return;
       }
-
       if (!result.content) {
-        showErrorToast(new Error("No content generated"))
-        return
+        showErrorToast(new Error("No content generated"));
+        return;
       }
-      
-      // Update the appropriate field based on the step
-      switch (step) {
-        case 3:
-          handleInputChange('definitions', result.content)
-          break
-        case 4:
-          handleInputChange('first_set_of_questions', result.content)
-          break
-        case 5:
-          handleInputChange('second_set_of_questions', result.content)
-          break
-        case 6:
-          handleInputChange('final_draft', result.content)
-          break
-      }
+      handleInputChange('first_set_of_questions', result.content);
+      showResponseToast({ success: true, message: "First set of questions generated!" });
     } catch (error) {
-      console.error('Error generating AI content:', error)
-      showErrorToast(error)
+      console.error('Error generating AI content:', error);
+      showErrorToast(error);
     } finally {
-      setIsLoadingAI(false)
+      setIsLoadingAI(false);
     }
-  }
+  };
+
+  const handleSecondSetOfQuestionsAI = async () => {
+    if (!user?.id) {
+      showErrorToast(new Error("You must be logged in to use AI features"));
+      return;
+    }
+    setIsLoadingAI(true);
+    try {
+      const prompt = `Here are the responses to your first set of questions: ${homilyData.first_set_of_questions}. Generate one final set of questions before producing the final product.`
+      const result = await generateAIResponse(prompt, user.id);
+      if (result.error) {
+        showErrorToast(new Error(result.error));
+        return;
+      }
+      if (!result.content) {
+        showErrorToast(new Error("No content generated"));
+        return;
+      }
+      handleInputChange('second_set_of_questions', result.content);
+      showResponseToast({ success: true, message: "Second set of questions generated!" });
+    } catch (error) {
+      console.error('Error generating AI content:', error);
+      showErrorToast(error);
+    } finally {
+      setIsLoadingAI(false);
+    }
+  };
+
+  const handleFinalDraftAI = async () => {
+    if (!user?.id) {
+      showErrorToast(new Error("You must be logged in to use AI features"));
+      return;
+    }
+    setIsLoadingAI(true);
+    try {
+      const prompt = `Here are the final responses to your second set of questions: ${homilyData.second_set_of_questions}. Generate a final draft of the homily.`
+      const result = await generateAIResponse(prompt, user.id);
+      if (result.error) {
+        showErrorToast(new Error(result.error));
+        return;
+      }
+      if (!result.content) {
+        showErrorToast(new Error("No content generated"));
+        return;
+      }
+      handleInputChange('final_draft', result.content);
+      showResponseToast({ success: true, message: "Final draft generated!" });
+    } catch (error) {
+      console.error('Error generating AI content:', error);
+      showErrorToast(error);
+    } finally {
+      setIsLoadingAI(false);
+    }
+  };
 
   const handleCopyDefinitions = () => {
     if (userSettings?.definitions) {
@@ -259,40 +297,40 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
         <div className="overflow-x-auto pb-4">
           <div className="flex space-x-6 min-w-max px-1">
             {steps.map((step, index) => {
-  const Icon = step.icon;
-  const isActive = step.id === currentStep;
-  const isCompleted = step.id < currentStep;
-  const isAccessible = true; // Allow navigation to any step; restrict if needed
+              const Icon = step.icon;
+              const isActive = step.id === currentStep;
+              const isCompleted = step.id < currentStep;
+              const isAccessible = true; // Allow navigation to any step; restrict if needed
 
-  return (
-    <div key={step.id} className="flex items-center flex-shrink-0">
-      <div className="flex flex-col items-center min-w-0">
-        <button
-          type="button"
-          onClick={() => isAccessible && setCurrentStep(step.id)}
-          className={`flex items-center justify-center w-12 h-12 rounded-full border-2 mb-2 focus:outline-none transition-all duration-150
-            ${isCompleted ? "bg-green-500 border-green-500 text-white hover:brightness-110" :
-              isActive ? "bg-indigo-600 border-indigo-600 text-white hover:brightness-110" :
-              "bg-white border-gray-300 text-gray-400 hover:border-indigo-400 hover:text-indigo-600"}
-            cursor-pointer`}
-          aria-label={`Go to step ${step.id}: ${step.name}`}
-        >
-          <Icon className="w-5 h-5" />
-        </button>
-        <div className="text-center">
-          <p
-            className={`text-xs font-medium whitespace-nowrap ${isAccessible ? "text-gray-900" : "text-gray-400"}`}
-          >
-            {step.name}
-          </p>
-        </div>
-      </div>
-      {index < steps.length - 1 && (
-        <div className={`w-8 h-0.5 mx-3 mt-[-20px] ${isCompleted ? "bg-green-500" : "bg-gray-300"}`} />
-      )}
-    </div>
-  );
-})}
+              return (
+                <div key={step.id} className="flex items-center flex-shrink-0">
+                  <div className="flex flex-col items-center min-w-0">
+                    <button
+                      type="button"
+                      onClick={() => isAccessible && setCurrentStep(step.id)}
+                      className={`flex items-center justify-center w-12 h-12 rounded-full border-2 mb-2 focus:outline-none transition-all duration-150
+                        ${isCompleted ? "bg-green-500 border-green-500 text-white hover:brightness-110" :
+                          isActive ? "bg-indigo-600 border-indigo-600 text-white hover:brightness-110" :
+                          "bg-white border-gray-300 text-gray-400 hover:border-indigo-400 hover:text-indigo-600"}
+                        cursor-pointer`}
+                      aria-label={`Go to step ${step.id}: ${step.name}`}
+                    >
+                      <Icon className="w-5 h-5" />
+                    </button>
+                    <div className="text-center">
+                      <p
+                        className={`text-xs font-medium whitespace-nowrap ${isAccessible ? "text-gray-900" : "text-gray-400"}`}
+                      >
+                        {step.name}
+                      </p>
+                    </div>
+                  </div>
+                  {index < steps.length - 1 && (
+                    <div className={`w-8 h-0.5 mx-3 mt-[-20px] ${isCompleted ? "bg-green-500" : "bg-gray-300"}`} />
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -381,7 +419,7 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
                   First Set of Questions
                 </Label>
                 <Button
-                  onClick={() => handleGenerateAI(4)}
+                  onClick={handleFirstSetOfQuestionsAI}
                   disabled={isLoadingAI}
                   variant="outline"
                   size="sm"
@@ -412,7 +450,7 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
                   Second Set of Questions
                 </Label>
                 <Button
-                  onClick={() => handleGenerateAI(5)}
+                  onClick={handleSecondSetOfQuestionsAI}
                   disabled={isLoadingAI}
                   variant="outline"
                   size="sm"
@@ -443,7 +481,7 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
                   Final Draft
                 </Label>
                 <Button
-                  onClick={() => handleGenerateAI(6)}
+                  onClick={handleFinalDraftAI}
                   disabled={isLoadingAI}
                   variant="outline"
                   size="sm"

@@ -24,7 +24,7 @@ import {
 import { MainHeader } from "@/components/main-header"
 import { HomiliesTable } from "@/components/homilies/homilies-table"
 import { useAppContext } from "@/contexts/AppContextProvider"
-import { getHomilies, createHomily, updateHomily, deleteHomily } from "@/lib/actions/homilies"
+import { getHomilies, deleteHomily } from "@/lib/actions/homilies"
 import { useApiToast } from "@/lib/utils"
 import { useRouter } from "next/navigation"
 
@@ -64,10 +64,7 @@ export default function HomiliesPage() {
     error: null
   })
   const [isLoading, setIsLoading] = useState(false)
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [editingHomily, setEditingHomily] = useState<Homily | null>(null)
   const [deletingId, setDeletingId] = useState<number | null>(null)
-  const [isSaving, setIsSaving] = useState(false)
 
   // Filter and pagination state
   const [search, setSearch] = useState("")
@@ -184,39 +181,6 @@ export default function HomiliesPage() {
     }
   }
 
-  // Handle create/update homily
-  const handleSaveHomily = async (homilyData: Omit<Homily, 'id' | 'created_at' | 'user_id'>) => {
-    if (!user?.id || typeof user.id !== 'string' || user.id.trim() === '') {
-      console.log('Cannot save homily - invalid user ID:', user?.id)
-      return
-    }
-
-    setIsSaving(true)
-    try {
-      let result
-      if (editingHomily) {
-        result = await updateHomily(editingHomily.id, user.id, homilyData)
-      } else {
-        result = await createHomily(user.id, homilyData)
-      }
-
-      if (result.error) {
-        showResponseToast({ success: false, message: result.error })
-      } else {
-        showResponseToast({ 
-          success: true, 
-          message: editingHomily ? "Homily updated successfully" : "Homily created successfully" 
-        })
-        await loadHomilies()
-        setEditingHomily(null)
-      }
-    } catch (error) {
-      showErrorToast(error as Error)
-    } finally {
-      setIsSaving(false)
-    }
-  }
-
   // Handle delete homily
   const handleDeleteHomily = async (id: number) => {
     if (!user?.id || typeof user.id !== 'string' || user.id.trim() === '') {
@@ -249,13 +213,6 @@ export default function HomiliesPage() {
   const handleCreateNew = () => {
     // Navigate to the create page
     router.push('/homilies/create')
-  }
-
-  const handleView = (homily: Homily) => {
-    // For now, just open edit dialog in view mode
-    // Later this could navigate to a dedicated view page
-    setEditingHomily(homily)
-    setIsDialogOpen(true)
   }
 
   const handleDelete = (id: number) => {
@@ -385,7 +342,7 @@ export default function HomiliesPage() {
             <HomiliesTable
               homilies={homilies.data}
               onDelete={handleDelete}
-              onView={handleView}
+
             />
 
             {/* Pagination */}

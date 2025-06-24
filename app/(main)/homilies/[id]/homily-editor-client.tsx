@@ -53,7 +53,7 @@ export default function HomilyEditorClient({ homilyId }: HomilyEditorClientProps
     }
 
     loadHomily()
-  }, [user?.id, homilyId]) // Removed showErrorToast to prevent infinite loop
+  }, [user?.id, homilyId, showErrorToast]) // Added showErrorToast to dependencies per React hooks rules
 
   if (isLoading) {
     return (
