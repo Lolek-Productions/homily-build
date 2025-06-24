@@ -46,12 +46,8 @@ export const AppContextProvider = ({
 
   // Function to refresh settings - wrapped in useCallback to prevent re-renders
   const refreshSettings = useCallback(async (): Promise<void> => {
-    if (!user) {
-      setUserSettings(null);
-      setIsLoading(false);
-      return;
-    }
-
+    if (!user) return;
+    
     try {
       setIsLoading(true);
       const { data, error } = await getUserSettings(user.id);

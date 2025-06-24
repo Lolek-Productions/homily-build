@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { ArrowLeft, Save, RotateCcw, BookOpen, User, Church, MessageSquare } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -12,9 +12,60 @@ import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import { MainHeader } from "@/components/main-header"
 import { useAppContext } from "@/contexts/AppContextProvider"
+import { updateUserSettings } from "@/lib/actions/userSettings"
+import { useApiToast } from "@/lib/utils"
 
 export default function Definitions() {
-  const { user, userSettings, isLoading } = useAppContext()
+  const { user, userSettings, isLoading, refreshSettings } = useAppContext()
+  const { showResponseToast, showErrorToast } = useApiToast()
+  
+  // Local state for editing definitions
+  const [definitions, setDefinitions] = useState("")
+  const [isSaving, setIsSaving] = useState(false)
+  const [hasChanges, setHasChanges] = useState(false)
+
+  // Initialize local state when userSettings loads
+  useEffect(() => {
+    if (userSettings?.definitions !== undefined) {
+      setDefinitions(userSettings.definitions || "")
+      setHasChanges(false)
+    }
+  }, [userSettings?.definitions]) // Fix useEffect import usage
+
+  const handleDefinitionsChange = (value: string) => {
+    setDefinitions(value)
+    setHasChanges(value !== (userSettings?.definitions || ""))
+  }
+
+  const handleSave = async () => {
+    if (!user?.id) {
+      showErrorToast(new Error("User not found"))
+      return
+    }
+
+    try {
+      setIsSaving(true)
+      const result = await updateUserSettings(user.id, { definitions })
+      
+      if (result.error) {
+        showResponseToast({ success: false, message: result.error })
+      } else {
+        showResponseToast({ success: true, message: "Definitions saved successfully" })
+        setHasChanges(false)
+        // Refresh the settings to get the latest data
+        await refreshSettings()
+      }
+    } catch (error) {
+      showErrorToast(error)
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
+  const handleReset = () => {
+    setDefinitions(userSettings?.definitions || "")
+    setHasChanges(false)
+  }
 
   const [personalContext, setPersonalContext] = useState({
     name: "Father Michael Rodriguez",
@@ -88,16 +139,6 @@ Always maintain theological accuracy while being practical and accessible. Respe
 - Encourage practical application of faith principles`,
   })
 
-  const handleSave = () => {
-    // Save logic would go here
-    console.log("Saving prompts and context...")
-  }
-
-  const handleReset = () => {
-    // Reset to defaults logic would go here
-    console.log("Resetting to defaults...")
-  }
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <MainHeader 
@@ -123,13 +164,13 @@ Always maintain theological accuracy while being practical and accessible. Respe
               </div>
             </div>
             <div className="flex space-x-3">
-              <Button variant="outline" onClick={handleReset}>
+              <Button onClick={handleReset} variant="outline" disabled={!hasChanges}>
                 <RotateCcw className="w-4 h-4 mr-2" />
                 Reset to Defaults
               </Button>
-              <Button onClick={handleSave}>
+              <Button onClick={handleSave} disabled={!hasChanges || isSaving}>
                 <Save className="w-4 h-4 mr-2" />
-                Save Changes
+                {isSaving ? "Saving..." : "Save Changes"}
               </Button>
             </div>
           </div>
@@ -137,134 +178,10 @@ Always maintain theological accuracy while being practical and accessible. Respe
       </header>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Tabs defaultValue="personal" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="personal" className="flex items-center">
-              <User className="w-4 h-4 mr-2" />
-              Personal Context
-            </TabsTrigger>
-            <TabsTrigger value="definitions" className="flex items-center">
-              <BookOpen className="w-4 h-4 mr-2" />
-              Definitions
-            </TabsTrigger>
-            <TabsTrigger value="prompts" className="flex items-center">
-              <MessageSquare className="w-4 h-4 mr-2" />
-              Core Prompts
-            </TabsTrigger>
-            <TabsTrigger value="system" className="flex items-center">
-              <BookOpen className="w-4 h-4 mr-2" />
-              System Settings
-            </TabsTrigger>
-          </TabsList>
-
-          {/* Personal Context Tab */}
-          <TabsContent value="personal">
-            <div className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <User className="w-5 h-5 mr-2" />
-                    Personal Information
-                  </CardTitle>
-                  <CardDescription>
-                    This information helps personalize AI responses and homily suggestions
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <Label htmlFor="name">Full Name</Label>
-                      <Input
-                        id="name"
-                        value={personalContext.name}
-                        onChange={(e) => setPersonalContext({ ...personalContext, name: e.target.value })}
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="parish">Parish Name</Label>
-                      <Input
-                        id="parish"
-                        value={personalContext.parish}
-                        onChange={(e) => setPersonalContext({ ...personalContext, parish: e.target.value })}
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="location">Location</Label>
-                      <Input
-                        id="location"
-                        value={personalContext.location}
-                        onChange={(e) => setPersonalContext({ ...personalContext, location: e.target.value })}
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="years">Years Ordained</Label>
-                      <Input
-                        id="years"
-                        value={personalContext.yearsOrdained}
-                        onChange={(e) => setPersonalContext({ ...personalContext, yearsOrdained: e.target.value })}
-                      />
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <MessageSquare className="w-5 h-5 mr-2" />
-                    Preaching Style
-                  </CardTitle>
-                  <CardDescription>Describe your personal preaching approach and style preferences</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Textarea
-                    placeholder="Describe your preaching style, preferred approaches, and how you like to connect with your congregation..."
-                    value={personalContext.preachingStyle}
-                    onChange={(e) => setPersonalContext({ ...personalContext, preachingStyle: e.target.value })}
-                    className="min-h-32"
-                  />
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <Church className="w-5 h-5 mr-2" />
-                    Parish Context
-                  </CardTitle>
-                  <CardDescription>
-                    Describe your parish community, demographics, and unique characteristics
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Textarea
-                    placeholder="Describe your parish size, demographics, cultural makeup, special characteristics, community needs, etc..."
-                    value={personalContext.parishDescription}
-                    onChange={(e) => setPersonalContext({ ...personalContext, parishDescription: e.target.value })}
-                    className="min-h-32"
-                  />
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Theological Approach</CardTitle>
-                  <CardDescription>Describe your theological perspective and pastoral approach</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Textarea
-                    placeholder="Describe your theological approach, pastoral style, how you balance challenge and comfort, etc..."
-                    value={personalContext.theologicalApproach}
-                    onChange={(e) => setPersonalContext({ ...personalContext, theologicalApproach: e.target.value })}
-                    className="min-h-32"
-                  />
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
+        <div className="space-y-6">
+          
 
           {/* Definitions Tab */}
-          <TabsContent value="definitions">
             <div className="space-y-6">
               <Card>
                 <CardHeader>
@@ -284,12 +201,12 @@ Always maintain theological accuracy while being practical and accessible. Respe
                       <Label htmlFor="definitions">Definitions</Label>
                       <Textarea
                         id="definitions"
-                        value={userSettings?.definitions || ""}
+                        value={definitions}
+                        onChange={(e) => handleDefinitionsChange(e.target.value)}
                         placeholder="Enter your personal definitions, theological terms, and concepts that should guide your homily creation..."
                         className="min-h-[200px]"
-                        readOnly
                       />
-                      {!userSettings?.definitions && (
+                      {!definitions && (
                         <p className="text-sm text-muted-foreground">
                           No definitions found. You can add definitions through your settings.
                         </p>
@@ -299,133 +216,8 @@ Always maintain theological accuracy while being practical and accessible. Respe
                 </CardContent>
               </Card>
             </div>
-          </TabsContent>
-
-          {/* Core Prompts Tab */}
-          <TabsContent value="prompts">
-            <div className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Theme Generation Prompt</CardTitle>
-                  <CardDescription>Controls how AI generates homily themes from liturgical readings</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Textarea
-                    value={corePrompts.themeGeneration}
-                    onChange={(e) => setCorePrompts({ ...corePrompts, themeGeneration: e.target.value })}
-                    className="min-h-40 font-mono text-sm"
-                  />
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Point Development Prompt</CardTitle>
-                  <CardDescription>Guides AI in developing main points for homily structure</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Textarea
-                    value={corePrompts.pointDevelopment}
-                    onChange={(e) => setCorePrompts({ ...corePrompts, pointDevelopment: e.target.value })}
-                    className="min-h-40 font-mono text-sm"
-                  />
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Story Selection Prompt</CardTitle>
-                  <CardDescription>
-                    Controls how AI selects and suggests stories from the faith stories database
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Textarea
-                    value={corePrompts.storySelection}
-                    onChange={(e) => setCorePrompts({ ...corePrompts, storySelection: e.target.value })}
-                    className="min-h-40 font-mono text-sm"
-                  />
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Conclusion Generation Prompt</CardTitle>
-                  <CardDescription>Guides AI in creating compelling homily conclusions</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Textarea
-                    value={corePrompts.conclusionGeneration}
-                    onChange={(e) => setCorePrompts({ ...corePrompts, conclusionGeneration: e.target.value })}
-                    className="min-h-40 font-mono text-sm"
-                  />
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
-
-          {/* System Settings Tab */}
-          <TabsContent value="system">
-            <div className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>AI Personality</CardTitle>
-                  <CardDescription>Defines the overall personality and approach of the AI assistant</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Textarea
-                    value={systemPrompts.aiPersonality}
-                    onChange={(e) => setSystemPrompts({ ...systemPrompts, aiPersonality: e.target.value })}
-                    className="min-h-40 font-mono text-sm"
-                  />
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Content Guidelines</CardTitle>
-                  <CardDescription>General guidelines for all AI-generated content</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Textarea
-                    value={systemPrompts.contentGuidelines}
-                    onChange={(e) => setSystemPrompts({ ...systemPrompts, contentGuidelines: e.target.value })}
-                    className="min-h-40 font-mono text-sm"
-                  />
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Prompt Variables</CardTitle>
-                  <CardDescription>
-                    Variables automatically inserted into prompts based on your personal context
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Badge variant="secondary">{"${personalContext.preachingStyle}"}</Badge>
-                      <p className="text-sm text-gray-600">Your preaching style description</p>
-                    </div>
-                    <div className="space-y-2">
-                      <Badge variant="secondary">{"${personalContext.parishDescription}"}</Badge>
-                      <p className="text-sm text-gray-600">Your parish context and demographics</p>
-                    </div>
-                    <div className="space-y-2">
-                      <Badge variant="secondary">{"${personalContext.theologicalApproach}"}</Badge>
-                      <p className="text-sm text-gray-600">Your theological and pastoral approach</p>
-                    </div>
-                    <div className="space-y-2">
-                      <Badge variant="secondary">{"${personalContext.name}"}</Badge>
-                      <p className="text-sm text-gray-600">Your name for personalization</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
-        </Tabs>
+          
+        </div>
       </div>
     </div>
   )
