@@ -4,7 +4,9 @@ import type * as React from "react"
 import {
   BookOpen,
   LayoutDashboard,
-  SquarePlus,
+  NotebookText,
+  ScrollText,
+  LibraryBig,
 } from "lucide-react"
 import { NavUser } from "@/components/nav-user"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar"
@@ -38,7 +40,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
                 <a href={`/definitions`}>
-                  <SquarePlus />
+                <NotebookText />
                   <span>Definitions</span>
                 </a>
               </SidebarMenuButton>
@@ -46,8 +48,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <a href={`/create`}>
-                  <SquarePlus />
+                <a href={`/homilies/create`}>
+                <ScrollText />
                   <span>Build a Homily</span>
                 </a>
               </SidebarMenuButton>
@@ -56,8 +58,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
                 <a href={`/homilies`}>
-                  <SquarePlus />
-                  <span>Homilies</span>
+                  <LibraryBig />
+                  <span>My Homilies</span>
                 </a>
               </SidebarMenuButton>
             </SidebarMenuItem>

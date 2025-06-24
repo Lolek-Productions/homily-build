@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { MoreHorizontal, Edit, Trash2, Eye } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
@@ -37,17 +38,11 @@ interface Homily {
 
 interface HomiliesTableProps {
   homilies: Homily[]
-  onEdit: (homily: Homily) => void
   onDelete: (id: number) => void
   onView: (homily: Homily) => void
 }
 
-export function HomiliesTable({ homilies, onEdit, onDelete, onView }: HomiliesTableProps) {
-  console.log('=== HomiliesTable RENDER ===')
-  console.log('homilies prop:', homilies)
-  console.log('homilies type:', typeof homilies)
-  console.log('homilies length:', homilies?.length)
-  console.log('Array.isArray(homilies):', Array.isArray(homilies))
+export function HomiliesTable({ homilies, onDelete, onView }: HomiliesTableProps) {
 
   const getDraftStatus = (homily: Homily) => {
     if (homily.final_draft) return { status: "Final", variant: "default" as const }
@@ -118,13 +113,11 @@ export function HomiliesTable({ homilies, onEdit, onDelete, onView }: HomiliesTa
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem onClick={() => onView(homily)}>
-                          <Eye className="mr-2 h-4 w-4" />
-                          View
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => onEdit(homily)}>
-                          <Edit className="mr-2 h-4 w-4" />
-                          Edit
+                        <DropdownMenuItem asChild>
+                          <Link href={`/homilies/${homily.id}`}>
+                            <Edit className="mr-2 h-4 w-4" />
+                            Edit
+                          </Link>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem 

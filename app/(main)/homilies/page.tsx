@@ -23,7 +23,6 @@ import {
 } from "@/components/ui/alert-dialog"
 import { MainHeader } from "@/components/main-header"
 import { HomiliesTable } from "@/components/homilies/homilies-table"
-import { HomilyDialog } from "@/components/homilies/homily-dialog"
 import { useAppContext } from "@/contexts/AppContextProvider"
 import { getHomilies, createHomily, updateHomily, deleteHomily } from "@/lib/actions/homilies"
 import { useApiToast } from "@/lib/utils"
@@ -252,11 +251,6 @@ export default function HomiliesPage() {
     router.push('/homilies/create')
   }
 
-  const handleEdit = (homily: Homily) => {
-    // Navigate to the wizard for editing
-    router.push(`/homilies/${homily.id}`)
-  }
-
   const handleView = (homily: Homily) => {
     // For now, just open edit dialog in view mode
     // Later this could navigate to a dedicated view page
@@ -371,16 +365,6 @@ export default function HomiliesPage() {
         </div>
 
         {/* Table */}
-        {(() => {
-          console.log('🎯 RENDER DECISION:')
-          console.log('  - isLoading:', isLoading)
-          console.log('  - homilies.error:', homilies.error)
-          console.log('  - homilies.data:', homilies.data)
-          console.log('  - Will show loading?', isLoading)
-          console.log('  - Will show error?', !isLoading && homilies.error)
-          console.log('  - Will show table?', !isLoading && !homilies.error)
-          return null
-        })()}
         {isLoading ? (
           <div className="flex items-center justify-center h-64">
             <div className="text-center">Loading homilies...</div>
@@ -397,11 +381,9 @@ export default function HomiliesPage() {
             </div>
           </div>
         ) : (
-          <>
-            {console.log('🎉 Rendering table with homilies.data:', homilies.data, 'length:', homilies.data?.length)}
+          <div className="bg-white rounded-lg shadow-sm border p-6">
             <HomiliesTable
               homilies={homilies.data}
-              onEdit={handleEdit}
               onDelete={handleDelete}
               onView={handleView}
             />
@@ -445,18 +427,9 @@ export default function HomiliesPage() {
                 </div>
               </div>
             )}
-          </>
+          </div>
         )}
       </div>
-
-      {/* Create/Edit Dialog */}
-      <HomilyDialog
-        open={isDialogOpen}
-        onOpenChange={setIsDialogOpen}
-        homily={editingHomily}
-        onSave={handleSaveHomily}
-        isLoading={isSaving}
-      />
 
       {/* Delete Confirmation Dialog */}
       <AlertDialog open={deletingId !== null} onOpenChange={() => setDeletingId(null)}>
