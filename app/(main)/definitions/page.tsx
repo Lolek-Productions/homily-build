@@ -11,8 +11,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import { MainHeader } from "@/components/main-header"
+import { useAppContext } from "@/contexts/AppContextProvider"
 
 export default function Definitions() {
+  const { user, userSettings, isLoading } = useAppContext()
+
   const [personalContext, setPersonalContext] = useState({
     name: "Father Michael Rodriguez",
     parish: "St. Mary's Catholic Church",
@@ -135,10 +138,14 @@ Always maintain theological accuracy while being practical and accessible. Respe
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Tabs defaultValue="personal" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="personal" className="flex items-center">
               <User className="w-4 h-4 mr-2" />
               Personal Context
+            </TabsTrigger>
+            <TabsTrigger value="definitions" className="flex items-center">
+              <BookOpen className="w-4 h-4 mr-2" />
+              Definitions
             </TabsTrigger>
             <TabsTrigger value="prompts" className="flex items-center">
               <MessageSquare className="w-4 h-4 mr-2" />
@@ -251,6 +258,44 @@ Always maintain theological accuracy while being practical and accessible. Respe
                     onChange={(e) => setPersonalContext({ ...personalContext, theologicalApproach: e.target.value })}
                     className="min-h-32"
                   />
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          {/* Definitions Tab */}
+          <TabsContent value="definitions">
+            <div className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <BookOpen className="w-5 h-5 mr-2" />
+                    Personal Definitions
+                  </CardTitle>
+                  <CardDescription>
+                    Your personal definitions and theological terms that help guide homily creation
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {isLoading ? (
+                    <div className="text-center py-8">Loading definitions...</div>
+                  ) : (
+                    <div className="space-y-4">
+                      <Label htmlFor="definitions">Definitions</Label>
+                      <Textarea
+                        id="definitions"
+                        value={userSettings?.definitions || ""}
+                        placeholder="Enter your personal definitions, theological terms, and concepts that should guide your homily creation..."
+                        className="min-h-[200px]"
+                        readOnly
+                      />
+                      {!userSettings?.definitions && (
+                        <p className="text-sm text-muted-foreground">
+                          No definitions found. You can add definitions through your settings.
+                        </p>
+                      )}
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </div>

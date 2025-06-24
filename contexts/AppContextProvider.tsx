@@ -8,6 +8,7 @@ import { getUserSettings } from '@/lib/actions/userSettings';
 interface UserSettings {
   id: string; // This is the user's UUID from auth.users
   created_at: string;
+  definitions?: string | null;
 }
 
 interface AppContextProviderProps {
@@ -64,6 +65,7 @@ export const AppContextProvider = ({
       const completeUserSettings: UserSettings | null = data ? {
         id: (data as any).id || '',
         created_at: (data as any).created_at || null,
+        definitions: (data as any).definitions || null,
       } : null;
       
       setUserSettings(completeUserSettings);
@@ -116,11 +118,12 @@ export const AppContextProvider = ({
         try {
           setIsLoading(true);
           const { data, error } = await getUserSettings(newUser.id);
-          
+
           if (!error && data) {
             // Ensure we have a complete UserSettings object
             const completeUserSettings: UserSettings | null = data ? {
               id: (data as any).id || '',
+              definitions: (data as any).definitions || null,
               created_at: (data as any).created_at || null,
             } : null;
             

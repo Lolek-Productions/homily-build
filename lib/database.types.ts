@@ -12,14 +12,17 @@ export type Database = {
       user_settings: {
         Row: {
           created_at: string
+          definitions: string | null
           id: string
         }
         Insert: {
           created_at?: string
+          definitions?: string | null
           id?: string
         }
         Update: {
           created_at?: string
+          definitions?: string | null
           id?: string
         }
         Relationships: []
