@@ -53,7 +53,7 @@ export default function HomilyEditorClient({ homilyId }: HomilyEditorClientProps
     }
 
     loadHomily()
-  }, [user?.id, homilyId, showErrorToast]) // Added showErrorToast to dependencies per React hooks rules
+  }, [user?.id, homilyId])
 
   if (isLoading) {
     return (
