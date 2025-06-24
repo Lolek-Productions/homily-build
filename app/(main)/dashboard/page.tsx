@@ -17,15 +17,23 @@ export default function Dashboard() {
   // Initialize user settings with defaults for new users
   useEffect(() => {
     const initializeUserSettings = async () => {
-      // Only proceed if we have a user, settings are loaded, and no settings exist
+      // Only proceed if we have a user and no settings exist
+      // Wait a bit longer to ensure auth is fully established
       if (user?.id && !isLoading && userSettings === null) {
         try {
-          console.log('Creating default user settings for new user')
+          console.log('Creating default user settings for new user:', user.id)
+          
+          // Add a small delay to ensure auth session is established
+          await new Promise(resolve => setTimeout(resolve, 1000))
+          
           const result = await updateUserSettings(user.id, { 
             definitions: DEFAULT_USER_SETTINGS_DEFINITION 
           })
           
-          if (result.data) {
+          if (result.error) {
+            console.error('Error creating user settings:', result.error)
+          } else if (result.data) {
+            console.log('Successfully created user settings')
             // Refresh settings to get the newly created data
             await refreshSettings()
           }
@@ -35,7 +43,12 @@ export default function Dashboard() {
       }
     }
 
-    initializeUserSettings()
+    // Add a delay before attempting to initialize
+    const timeoutId = setTimeout(() => {
+      initializeUserSettings()
+    }, 2000) // Wait 2 seconds after component mount
+
+    return () => clearTimeout(timeoutId)
   }, [user?.id, userSettings, isLoading, refreshSettings])
 
   const upcomingWeekends = [

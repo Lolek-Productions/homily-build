@@ -54,6 +54,10 @@ export const AppContextProvider = ({
             
       if (error) {
         console.error('Failed to fetch user settings:', error);
+        // If it's an auth error, set userSettings to null so dashboard can create defaults
+        if (error.includes('Auth session missing')) {
+          setUserSettings(null);
+        }
         return;
       }
       
@@ -69,6 +73,10 @@ export const AppContextProvider = ({
       setIsLoading(false);
     } catch (error) {
       console.error('Failed to fetch user settings:', error);
+      // If it's an auth error, set userSettings to null so dashboard can create defaults
+      if (error instanceof Error && error.message.includes('Auth session missing')) {
+        setUserSettings(null);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -124,12 +132,20 @@ export const AppContextProvider = ({
             } : null;
             
             setUserSettings(completeUserSettings);
-            
-            setIsLoading(false);
+          } else if (error) {
+            console.error('Failed to fetch user settings on auth change:', error);
+            // Set to null so dashboard can create defaults if needed
+            setUserSettings(null);
+          } else {
+            // No data returned, user has no settings yet
+            setUserSettings(null);
           }
+          
+          setIsLoading(false);
         } catch (error) {
           console.error('Failed to fetch user settings on auth change:', error);
-        } finally {
+          // Set to null so dashboard can create defaults if needed
+          setUserSettings(null);
           setIsLoading(false);
         }
       } else {
