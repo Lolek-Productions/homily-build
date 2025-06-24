@@ -16,7 +16,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { REDIRECT_AFTER_SIGNUP } from "@/lib/constants";
-
 export function SignUpForm({
   className,
   ...props
@@ -47,7 +46,7 @@ export function SignUpForm({
       });
       if (error) throw error;
 
-      router.push("/dashboard");
+      router.push(REDIRECT_AFTER_SIGNUP);
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
     } finally {
