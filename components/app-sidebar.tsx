@@ -4,9 +4,7 @@ import type * as React from "react"
 import {
   BookOpen,
   LayoutDashboard,
-  Calendar,
   SquarePlus,
-  Bot,
 } from "lucide-react"
 import { NavUser } from "@/components/nav-user"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar"

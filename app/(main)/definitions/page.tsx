@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { ArrowLeft, Save, RotateCcw, BookOpen } from "lucide-react"
+import { ArrowLeft, Save, RotateCcw, BookOpen, RefreshCw } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
@@ -11,6 +11,7 @@ import { MainHeader } from "@/components/main-header"
 import { useAppContext } from "@/contexts/AppContextProvider"
 import { updateUserSettings } from "@/lib/actions/userSettings"
 import { useApiToast } from "@/lib/utils"
+import { DEFAULT_USER_SETTINGS_DEFINITION } from "@/lib/definition"
 
 export default function Definitions() {
   const { user, userSettings, isLoading, refreshSettings } = useAppContext()
@@ -64,6 +65,11 @@ export default function Definitions() {
     setHasChanges(false)
   }
 
+  const handleResetToDefault = () => {
+    setDefinitions(DEFAULT_USER_SETTINGS_DEFINITION)
+    setHasChanges(DEFAULT_USER_SETTINGS_DEFINITION !== (userSettings?.definitions || ""))
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <MainHeader 
@@ -93,6 +99,10 @@ export default function Definitions() {
               <Button onClick={handleReset} variant="outline" disabled={!hasChanges}>
                 <RotateCcw className="w-4 h-4 mr-2" />
                 Reset Changes
+              </Button>
+              <Button onClick={handleResetToDefault} variant="outline">
+                <RefreshCw className="w-4 h-4 mr-2" />
+                Reset to Default
               </Button>
               <Button onClick={handleSave} disabled={!hasChanges || isSaving}>
                 <Save className="w-4 h-4 mr-2" />

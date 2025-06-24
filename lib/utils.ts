@@ -13,7 +13,7 @@ export const hasEnvVars =
 
 // useApiToast hook for API feedback as per user rules
 export function useApiToast() {
-  const showResponseToast = (result: { success: boolean; message: string; data?: any }) => {
+  const showResponseToast = (result: { success: boolean; message: string; data?: unknown }) => {
     if (result.success) {
       toast({
         title: "Success",
@@ -29,8 +29,17 @@ export function useApiToast() {
     }
   };
 
-  const showErrorToast = (error: any) => {
-    const message = error?.message || error?.toString() || "An unexpected error occurred";
+  const showErrorToast = (error: Error | { message?: string } | string | unknown) => {
+    let message = "An unexpected error occurred";
+    
+    if (error instanceof Error) {
+      message = error.message;
+    } else if (typeof error === "string") {
+      message = error;
+    } else if (error && typeof error === "object" && "message" in error && typeof error.message === "string") {
+      message = error.message;
+    }
+    
     toast({
       title: "Error",
       description: message,

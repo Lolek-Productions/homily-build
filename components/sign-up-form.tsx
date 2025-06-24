@@ -16,6 +16,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { REDIRECT_AFTER_SIGNUP } from "@/lib/constants";
+import { DEFAULT_USER_SETTINGS_DEFINITION } from "@/lib/definition";
 
 export function SignUpForm({
   className,
@@ -41,7 +42,7 @@ export function SignUpForm({
     }
 
     try {
-      const { error } = await supabase.auth.signUp({
+      const { data: { user }, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -49,6 +50,14 @@ export function SignUpForm({
         },
       });
       if (error) throw error;
+
+      //Create the user settings table with this "definition" as the default
+      const { error: settingsError } = await supabase.from("user_settings").insert({
+        user_id: user?.id,
+        definition: DEFAULT_USER_SETTINGS_DEFINITION,
+      });
+      if (settingsError) throw settingsError;
+
       router.push("/auth/sign-up-success");
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
