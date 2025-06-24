@@ -53,7 +53,7 @@ export default function HomilyEditorClient({ homilyId }: HomilyEditorClientProps
     }
 
     loadHomily()
-  }, [user?.id, homilyId])
+  }, [user?.id, homilyId, showErrorToast])
 
   if (isLoading) {
     return (

@@ -123,6 +123,8 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
     try {
       const prompt = `Here are the readings: ${homilyData.readings} and here is what makes an excellent homily: ${homilyData.definitions}. Generate thoughtful questions that explore the main themes and messages. These should be initial questions that help frame the homily's direction.  Do not generate any other response other than the questions for the user to answer.`
       const result = await generateClaudeResponse(prompt, user.id);
+      console.log('Result:', result)
+      
       if (result.error) {
         showErrorToast(new Error(result.error));
         return;
@@ -151,6 +153,8 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
     setIsLoadingAI(true);
     try {
       const prompt = `Here are the responses to your first set of questions: ${homilyData.first_set_of_questions}. Generate one final set of questions before producing the final homily.`
+      // console.log('Prompt:', prompt)
+
       const result = await generateClaudeResponse(prompt, user.id);
       if (result.error) {
         showErrorToast(new Error(result.error));
@@ -160,6 +164,7 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
         showErrorToast(new Error("No content generated"));
         return;
       }
+      console.log('Result:', result)
       handleInputChange('second_set_of_questions', result.content);
       showResponseToast({ success: true, message: "Second set of questions generated!" });
     } catch (error) {

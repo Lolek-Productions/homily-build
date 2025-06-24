@@ -29,7 +29,7 @@ export async function generateClaudeResponse(prompt: string, userId: string) {
     })
 
     const response = await anthropic.messages.create({
-      model: "claude-3-sonnet-20240229", // Use Claude 3 Sonnet model
+      model: "claude-3-5-sonnet-20241022", 
       max_tokens: 1000,
       temperature: 0.7,
       system: "You are a helpful assistant for Catholic homily preparation. Provide thoughtful, theologically sound content that helps priests and deacons prepare meaningful homilies.",
@@ -41,7 +41,11 @@ export async function generateClaudeResponse(prompt: string, userId: string) {
       ]
     })
 
-    const content = response.content[0]?.text || ''
+    // Extract text content from the response
+    let content = ''
+    if (response.content && response.content.length > 0 && 'text' in response.content[0]) {
+      content = response.content[0].text
+    }
 
     if (!content) {
       return { error: "No content generated from AI" }
@@ -57,19 +61,20 @@ export async function generateClaudeResponse(prompt: string, userId: string) {
       }
     }
 
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const err = error as { status?: number, message?: string }
     console.error('Error generating AI content with Claude:', error)
     
     // Provide more specific error messages for Anthropic API
-    if (error.status === 429) {
+    if (err.status === 429) {
       return { error: 'Rate limit or quota exceeded. Please try again later.' }
     }
     
-    if (error.status === 401) {
+    if (err.status === 401) {
       return { error: 'Invalid Anthropic API key configured.' }
     }
     
-    if (error.status === 400) {
+    if (err.status === 400) {
       return { error: 'Bad request. Please check your prompt and try again.' }
     }
     
