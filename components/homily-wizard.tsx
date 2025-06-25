@@ -299,6 +299,31 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+      <div className="mb-8 flex justify-between items-start">
+        <div>
+          <h2 className="text-3xl font-bold text-gray-900 mb-2">Homily: {homilyData.title}</h2>
+          <p className="text-gray-600">Description: {homilyData.description}</p>
+        </div>
+        <Button
+          type="button"
+          onClick={handleSaveDraft}
+          variant="outline"
+          disabled={isSaving}
+          className="mt-1"
+        >
+          {isSaving ? (
+            <Loader className="w-4 h-4 mr-1 sm:mr-2 animate-spin" />
+          ) : justSaved ? (
+            <Check className="w-4 h-4 mr-1 sm:mr-2 text-green-500" />
+          ) : (
+            <Save className="w-4 h-4 mr-1 sm:mr-2" />
+          )}
+          <span className="hidden sm:inline">{isSaving ? "Saving..." : justSaved ? "Saved!" : "Save"}</span>
+          <span className="sm:hidden">{isSaving ? "..." : justSaved ? "!" : "Save"}</span>
+        </Button>
+      </div>
+
       {/* Progress Steps - Horizontally Scrollable */}
       <div className="mb-8">
         <div className="overflow-x-auto pb-4">
@@ -517,48 +542,30 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
       {/* Navigation */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          {currentStep > 1 && (
-            <Button onClick={handlePrevious} variant="outline">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Previous
-            </Button>
-          )}
-          <Link href="/homilies">
-            <Button variant="ghost">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Homilies
-            </Button>
-          </Link>
+          <Button 
+            onClick={handlePrevious} 
+            variant="outline" 
+            disabled={currentStep === 1}
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Previous
+          </Button>
         </div>
 
         <div className="flex items-center space-x-4">
-          <Button
-            type="button"
-            onClick={handleSaveDraft}
-            variant="outline"
-            disabled={isSaving}
+          <Button 
+            onClick={currentStep < steps.length ? handleNext : completeHomily}
+            disabled={currentStep === steps.length}
           >
-            {isSaving ? (
-              <Loader className="w-4 h-4 mr-1 sm:mr-2 animate-spin" />
-            ) : justSaved ? (
-              <Check className="w-4 h-4 mr-1 sm:mr-2 text-green-500" />
+            {currentStep < steps.length ? (
+              <>
+                Next
+                <ChevronRight className="w-4 h-4 ml-2" />
+              </>
             ) : (
-              <Save className="w-4 h-4 mr-1 sm:mr-2" />
+              "Complete Homily"
             )}
-            <span className="hidden sm:inline">{isSaving ? "Saving..." : justSaved ? "Saved!" : "Save"}</span>
-            <span className="sm:hidden">{isSaving ? "..." : justSaved ? "!" : "Save"}</span>
           </Button>
-
-          {currentStep < steps.length ? (
-            <Button onClick={handleNext}>
-              Next
-              <ChevronRight className="w-4 h-4 ml-2" />
-            </Button>
-          ) : (
-            <Button onClick={completeHomily}>
-              Complete Homily
-            </Button>
-          )}
         </div>
       </div>
     </div>

@@ -74,46 +74,17 @@ export default function Definitions() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <MainHeader 
         breadcrumbs={[
-          { label: "Settings", href: "/settings" },
           { label: "Definitions", active: true }
         ]}
       />
-      
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between py-4">
-            <div className="flex items-center space-x-4">
-              <Link href="/">
-                <Button variant="ghost" size="sm">
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back to Dashboard
-                </Button>
-              </Link>
-              <div>
-                <h1 className="text-xl font-bold text-gray-900">Personal Definitions</h1>
-                <p className="text-sm text-gray-600">Define your personal theological terms and concepts</p>
-              </div>
-            </div>
-            <div className="flex space-x-3">
-              <Button onClick={handleReset} variant="outline" disabled={!hasChanges}>
-                <RotateCcw className="w-4 h-4 mr-2" />
-                Reset Changes
-              </Button>
-              <Button onClick={handleResetToDefault} variant="outline">
-                <RefreshCw className="w-4 h-4 mr-2" />
-                Reset to Default
-              </Button>
-              <Button onClick={handleSave} disabled={!hasChanges || isSaving}>
-                <Save className="w-4 h-4 mr-2" />
-                {isSaving ? "Saving..." : "Save Changes"}
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <div className="mb-8">
+          <h2 className="text-3xl font-bold text-gray-900 mb-2">Definitions</h2>
+          <p className="text-gray-600">Your personal definitions and theological terms that help guide homily creation</p>
+        </div>
+
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center">

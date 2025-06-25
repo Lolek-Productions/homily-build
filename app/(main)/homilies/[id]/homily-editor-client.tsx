@@ -104,23 +104,6 @@ export default function HomilyEditorClient({ homilyId }: HomilyEditorClientProps
         ]}
       />
 
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-indigo-600 rounded-lg flex items-center justify-center">
-                <BookOpen className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
-              </div>
-              <div>
-                <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Homily.Build</h1>
-                <p className="text-xs sm:text-sm text-gray-600 hidden sm:block">Catholic Preaching Platform</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
-      
       <HomilyWizard homily={homily} />
     </div>
   )

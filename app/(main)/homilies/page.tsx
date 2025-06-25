@@ -249,35 +249,16 @@ export default function HomiliesPage() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <MainHeader 
         breadcrumbs={[
-          { label: "Homilies", active: true }
+          { label: "My Homilies", active: true }
         ]}
       />
 
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between py-4">
-            <div>
-              <h1 className="text-xl font-bold text-gray-900">Homilies</h1>
-              <p className="text-sm text-gray-600">
-                Manage your homily drafts and content ({homilies.count} total)
-              </p>
-            </div>
-            <div className="flex space-x-3">
-              <Button onClick={loadHomilies} variant="outline" size="sm">
-                <RefreshCw className="w-4 h-4 mr-2" />
-                Refresh
-              </Button>
-              <Button onClick={handleCreateNew}>
-                <Plus className="w-4 h-4 mr-2" />
-                New Homily
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-8">
+          <h2 className="text-3xl font-bold text-gray-900 mb-2">My Homilies</h2>
+          <p className="text-gray-600">Manage your homilies</p>
+        </div>
+
         {/* Filters and Search */}
         <div className="mb-6 flex flex-col sm:flex-row gap-4">
           <div className="flex-1">

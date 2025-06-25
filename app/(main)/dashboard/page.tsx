@@ -96,22 +96,19 @@ export default function Dashboard() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <MainHeader 
         breadcrumbs={[
-          { label: "Calendar", href: "/calendar" },
-          { label: "Daily View", active: true }
+          { label: "Dashboard", active: true }
         ]}
       />
-      {/* Header */}
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        {/* Welcome Section */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">Welcome back, Father</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-2">Dashboard</h2>
           <p className="text-gray-600">Create meaningful, contextual homilies for your diverse communities</p>
         </div>
 
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 lg:gap-8">
-          {/* Main Content */}
-          <div className="xl:col-span-2 space-y-6">
+        {/* <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 lg:gap-8"> */}
+          
+          <div>
             {/* Quick Actions */}
             <Card>
               <CardHeader>
@@ -122,19 +119,10 @@ export default function Dashboard() {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <Link href="/create">
+                  <Link href="/homilies/create">
                     <Button className="w-full h-16 sm:h-20 flex flex-col items-center justify-center space-y-1 sm:space-y-2 bg-indigo-600 hover:bg-indigo-700">
                       <BookOpen className="w-5 h-5 sm:w-6 sm:h-6" />
                       <span className="text-sm sm:text-base">Create New Homily</span>
-                    </Button>
-                  </Link>
-                  <Link href="/calendar">
-                    <Button
-                      variant="outline"
-                      className="w-full h-16 sm:h-20 flex flex-col items-center justify-center space-y-1 sm:space-y-2"
-                    >
-                      <Calendar className="w-5 h-5 sm:w-6 sm:h-6" />
-                      <span className="text-sm sm:text-base">View Calendar</span>
                     </Button>
                   </Link>
                 </div>
@@ -142,7 +130,7 @@ export default function Dashboard() {
             </Card>
 
             {/* Upcoming Weekends */}
-            <Card>
+            {/* <Card>
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
                   <span className="flex items-center">
@@ -199,10 +187,10 @@ export default function Dashboard() {
                   ))}
                 </div>
               </CardContent>
-            </Card>
+            </Card> */}
 
             {/* Recent Homilies */}
-            <Card>
+            {/* <Card>
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
                   <span className="flex items-center">
@@ -244,13 +232,13 @@ export default function Dashboard() {
                   ))}
                 </div>
               </CardContent>
-            </Card>
+            </Card> */}
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-6">
+          {/* <div className="space-y-6"> */}
             {/* Profile Summary */}
-            <Card>
+            {/* <Card>
               <CardHeader>
                 <CardTitle>Your Profile</CardTitle>
               </CardHeader>
@@ -277,10 +265,10 @@ export default function Dashboard() {
                   </div>
                 </div>
               </CardContent>
-            </Card>
+            </Card> */}
 
             {/* Quick Resources */}
-            <Card>
+            {/* <Card>
               <CardHeader>
                 <CardTitle>Quick Resources</CardTitle>
               </CardHeader>
@@ -306,10 +294,10 @@ export default function Dashboard() {
                   </Link>
                 </div>
               </CardContent>
-            </Card>
+            </Card> */}
 
             {/* Tips */}
-            <Card>
+            {/* <Card>
               <CardHeader>
                 <CardTitle>Today&apos;s Tip</CardTitle>
               </CardHeader>
@@ -322,10 +310,10 @@ export default function Dashboard() {
                   Learn more about contextual preaching →
                 </Button>
               </CardContent>
-            </Card>
-          </div>
+            </Card> */}
+          {/* </div> */}
         </div>
       </div>
-    </div>
+    // </div>
   )
 }
