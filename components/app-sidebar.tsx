@@ -11,11 +11,10 @@ import {
 import { NavUser } from "@/components/nav-user"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar"
 import { useAppContext } from "@/contexts/AppContextProvider"
-import { Button } from "@/components/ui/button" 
-import { Settings } from "lucide-react"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { user } = useAppContext()
+  // Removed unused user variable
+  useAppContext()
 
   return (
     <Sidebar collapsible="offcanvas" className="w-64" {...props}>

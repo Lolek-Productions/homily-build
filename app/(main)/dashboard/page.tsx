@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect } from "react"
-import { Calendar, BookOpen, Users, Settings, Plus, Clock, ChevronRight } from "lucide-react"
+import { Calendar, BookOpen, Users, Plus, Clock, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
