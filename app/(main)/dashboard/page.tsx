@@ -66,8 +66,6 @@ export default function Dashboard() {
           <p className="text-gray-600">Create meaningful, contextual homilies for your diverse communities</p>
         </div>
 
-        {/* <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 lg:gap-8"> */}
-          
           <div>
             {/* Quick Actions */}
             <Card>
@@ -85,6 +83,79 @@ export default function Dashboard() {
                       <span className="text-sm sm:text-base">Create New Homily</span>
                     </Button>
                   </Link>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* How It Works Section */}
+            <Card className="mt-6">
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <BookOpen className="w-5 h-5 mr-2" />
+                  How It Works
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <p className="text-gray-600">Create impactful homilies in 6 simple steps:</p>
+                  
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="border border-gray-100 bg-gray-50 rounded-lg p-4">
+                      <div className="flex items-center mb-2">
+                        <div className="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center font-semibold mr-2">1</div>
+                        <h3 className="font-medium">Select Weekend & Readings</h3>
+                      </div>
+                      <p className="text-sm text-gray-600">Choose from our integrated liturgical calendar.</p>
+                    </div>
+                    
+                    <div className="border border-gray-100 bg-gray-50 rounded-lg p-4">
+                      <div className="flex items-center mb-2">
+                        <div className="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center font-semibold mr-2">2</div>
+                        <h3 className="font-medium">AI Theme Generation</h3>
+                      </div>
+                      <p className="text-sm text-gray-600">Get AI-suggested themes connecting scripture passages.</p>
+                    </div>
+                    
+                    <div className="border border-gray-100 bg-gray-50 rounded-lg p-4">
+                      <div className="flex items-center mb-2">
+                        <div className="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center font-semibold mr-2">3</div>
+                        <h3 className="font-medium">Customize Content</h3>
+                      </div>
+                      <p className="text-sm text-gray-600">Tailor your homily to different audiences.</p>
+                    </div>
+                    
+                    <div className="border border-gray-100 bg-gray-50 rounded-lg p-4">
+                      <div className="flex items-center mb-2">
+                        <div className="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center font-semibold mr-2">4</div>
+                        <h3 className="font-medium">Structure Development</h3>
+                      </div>
+                      <p className="text-sm text-gray-600">Organize your homily with clear introduction and conclusion.</p>
+                    </div>
+                    
+                    <div className="border border-gray-100 bg-gray-50 rounded-lg p-4">
+                      <div className="flex items-center mb-2">
+                        <div className="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center font-semibold mr-2">5</div>
+                        <h3 className="font-medium">Review & Edit</h3>
+                      </div>
+                      <p className="text-sm text-gray-600">Refine your homily with our intuitive editor.</p>
+                    </div>
+                    
+                    <div className="border border-gray-100 bg-gray-50 rounded-lg p-4">
+                      <div className="flex items-center mb-2">
+                        <div className="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center font-semibold mr-2">6</div>
+                        <h3 className="font-medium">Final Preparation</h3>
+                      </div>
+                      <p className="text-sm text-gray-600">Practice and prepare for delivery at Mass.</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex justify-center mt-2">
+                    <Link href="/homilies/create">
+                      <Button variant="outline" className="text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50">
+                        Start Creating
+                      </Button>
+                    </Link>
+                  </div>
                 </div>
               </CardContent>
             </Card>

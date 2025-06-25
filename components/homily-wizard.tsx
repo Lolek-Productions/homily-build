@@ -375,25 +375,27 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
                 <Label htmlFor="title" className="text-base font-medium">
                   Homily Title
                 </Label>
+                <p className="text-sm text-gray-500 mb-2">Create a memorable title that captures the main theme of your homily. You might include the date or the name of a person, in the case of a funeral.</p>
                 <Input
                   id="title"
                   type="text"
                   placeholder="Enter a title for your homily..."
                   value={homilyData.title}
                   onChange={(e) => handleInputChange('title', e.target.value)}
-                  className="mt-2"
+                  className="mt-1"
                 />
               </div>
               <div>
                 <Label htmlFor="description" className="text-base font-medium">
                   Description
                 </Label>
+                <p className="text-sm text-gray-500 mb-2">The description can be used to describe any context or special items that are relevant to the homily.</p>
                 <Textarea
                   id="description"
                   placeholder="Provide a brief description of your homily..."
                   value={homilyData.description}
                   onChange={(e) => handleInputChange('description', e.target.value)}
-                  className="mt-2"
+                  className="mt-1"
                   rows={4}
                 />
               </div>
@@ -406,12 +408,13 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
                 <Label htmlFor="readings" className="text-base font-medium">
                   Scripture Readings
                 </Label>
+                <p className="text-sm text-gray-500 mb-2">Enter the scripture readings for this homily. You can paste the whole reading or the pericope (the verses that are being read). This will be used to send to the AI to generate the homily.</p>
                 <Textarea
                   id="readings"
                   placeholder="Enter the scripture readings for this homily..."
                   value={homilyData.readings}
                   onChange={(e) => handleInputChange('readings', e.target.value)}
-                  className="mt-2"
+                  className="mt-1"
                   rows={6}
                 />
               </div>
@@ -429,15 +432,16 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
                   variant="outline"
                   size="sm"
                 >
-                  Copy Global Definitions
+                  Copy Global Definitions from your Settings to use for this homily
                 </Button>
               </div>
+              <p className="text-sm text-gray-500 mb-2">Define key terms and concepts that will be important for your homily. These will be used to send to the AI to generate the homily.</p>
               <Textarea
                 id="definitions"
                 placeholder="Define key terms and concepts that will be important for your homily..."
                 value={homilyData.definitions}
                 onChange={(e) => handleInputChange('definitions', e.target.value)}
-                className="mt-2"
+                className="mt-1"
                 rows={8}
               />
             </div>
@@ -460,15 +464,16 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
                   ) : (
                     <Target className="w-4 h-4 mr-2" />
                   )}
-                  {isLoadingAI ? "Generating..." : "AI Generate"}
+                  {isLoadingAI ? "Generating..." : "AI Generate First Set of Questions"}
                 </Button>
               </div>
+              <p className="text-sm text-gray-500 mb-2">Explore initial questions and themes for your homily. These will be used to send to the AI to generate the homily.  Click the button above to generate.</p>
               <Textarea
                 id="first_questions"
                 placeholder="Explore initial questions and themes for your homily..."
                 value={homilyData.first_set_of_questions}
                 onChange={(e) => handleInputChange('first_set_of_questions', e.target.value)}
-                className="mt-2"
+                className="mt-1"
                 rows={10}
               />
             </div>
@@ -491,15 +496,16 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
                   ) : (
                     <Target className="w-4 h-4 mr-2" />
                   )}
-                  {isLoadingAI ? "Generating..." : "AI Generate"}
+                  {isLoadingAI ? "Generating..." : "AI Generate Second Set of Questions"}
                 </Button>
               </div>
+              <p className="text-sm text-gray-500 mb-2">Dive deeper with follow-up questions and refined themes. Click the button above to generate.</p>
               <Textarea
                 id="second_questions"
                 placeholder="Dive deeper with follow-up questions and refined themes..."
                 value={homilyData.second_set_of_questions}
                 onChange={(e) => handleInputChange('second_set_of_questions', e.target.value)}
-                className="mt-2"
+                className="mt-1"
                 rows={10}
               />
             </div>
@@ -522,15 +528,16 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
                   ) : (
                     <Target className="w-4 h-4 mr-2" />
                   )}
-                  {isLoadingAI ? "Generating..." : "AI Generate"}
+                  {isLoadingAI ? "Generating..." : "AI Generate Final Draft"}
                 </Button>
               </div>
+              <p className="text-sm text-gray-500 mb-2">Write your complete homily here. Click the button above to generate.</p>
               <Textarea
                 id="final_draft"
                 placeholder="Write your complete homily here..."
                 value={homilyData.final_draft}
                 onChange={(e) => handleInputChange('final_draft', e.target.value)}
-                className="mt-2"
+                className="mt-1"
                 rows={15}
               />
             </div>
