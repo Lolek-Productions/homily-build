@@ -38,7 +38,7 @@ interface HomilyWizardProps {
 }
 
 export default function HomilyWizard({ homily }: HomilyWizardProps) {
-  const { user, userSettings, refreshSettings } = useAppContext()
+  const { user, userSettings } = useAppContext()
   const router = useRouter()
   const searchParams = useSearchParams()
   const { showResponseToast, showErrorToast } = useApiToast()
@@ -316,39 +316,7 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
     }
   }
 
-  const completeHomily = async () => {
-    if (!user?.id) {
-      showErrorToast(new Error("You must be logged in to complete homily"))
-      return
-    }
-
-    try {
-      // Determine status based on completion
-      const status = homilyData.final_draft.trim() ? "Complete" : 
-                    homilyData.second_set_of_questions.trim() ? "Second Draft" : 
-                    homilyData.first_set_of_questions.trim() ? "Rough Draft" : "Not Started"
-      
-      const result = await updateHomily(homily.id, user.id, {
-        title: homilyData.title || "New Homily",
-        description: homilyData.description || "Homily in progress",
-        definitions: homilyData.definitions,
-        readings: homilyData.readings,
-        first_set_of_questions: homilyData.first_set_of_questions,
-        second_set_of_questions: homilyData.second_set_of_questions,
-        final_draft: homilyData.final_draft,
-        status: status,
-      })
-      
-      if (result.error) {
-        showErrorToast(new Error(result.error))
-      } else {
-        showResponseToast({ success: true, message: "Homily completed successfully!" })
-        router.push('/homilies')
-      }
-    } catch (error) {
-      showErrorToast(error)
-    }
-  }
+  // Function removed - now using auto-save on step navigation instead
 
   const handleSaveDraft = async () => {
     if (!user?.id) {
