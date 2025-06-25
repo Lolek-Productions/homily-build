@@ -123,23 +123,24 @@ export default function HowItWorks() {
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl font-bold text-center mb-12">Benefits for Catholic Preachers</h2>
             
-            <div className="grid md:grid-cols-3 gap-6">
-              <div className="bg-white p-6 rounded-lg shadow-sm">
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="bg-white p-8 rounded-lg shadow-sm">
                 <div className="flex items-center mb-4 text-indigo-600">
                   <CheckCircle className="w-6 h-6 mr-2" />
                   <h3 className="text-lg font-semibold">Save Preparation Time</h3>
                 </div>
-                <p className="text-gray-600">Reduce homily preparation time by 3-5 hours each week with our streamlined process.</p>
+                <p className="text-gray-600">Reduce homily preparation time by 3-5 hours each week with our streamlined process. Focus on your message while we help with the research and structure, giving you more time for pastoral care and prayer.</p>
               </div>
 
-              <div className="bg-white p-6 rounded-lg shadow-sm">
+              <div className="bg-white p-8 rounded-lg shadow-sm">
                 <div className="flex items-center mb-4 text-indigo-600">
                   <CheckCircle className="w-6 h-6 mr-2" />
                   <h3 className="text-lg font-semibold">Contextual Preaching</h3>
                 </div>
-                <p className="text-gray-600">Create homilies tailored to different audiences while maintaining theological depth.</p>
+                <p className="text-gray-600">Create homilies tailored to different audiences while maintaining theological depth. Whether you're speaking to families, youth, or multicultural congregations, adapt your message while staying true to Catholic teaching and the liturgical calendar.</p>
               </div>
 
+              {/* Catholic Resources Section - Commented Out
               <div className="bg-white p-6 rounded-lg shadow-sm">
                 <div className="flex items-center mb-4 text-indigo-600">
                   <CheckCircle className="w-6 h-6 mr-2" />
@@ -147,6 +148,7 @@ export default function HowItWorks() {
                 </div>
                 <p className="text-gray-600">Access integrated Magisterium teachings and faith stories from Catholic tradition.</p>
               </div>
+              */}
             </div>
           </div>
         </section>

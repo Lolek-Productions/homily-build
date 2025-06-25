@@ -35,10 +35,10 @@ export function PublicFooter() {
   ];
 
   return (
-    <footer className="bg-gray-900 text-white py-12">
+    <footer className="bg-gray-900 text-white py-6">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Brand Column */}
+        {/* Main Footer Content - Commented Out
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div>
             <div className="flex items-center space-x-3 mb-4">
               <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
@@ -51,7 +51,6 @@ export function PublicFooter() {
             </p>
           </div>
           
-          {/* Dynamic Footer Sections */}
           {footerSections.map((section, index) => (
             <div key={index}>
               <h3 className="font-semibold mb-4">{section.title}</h3>
@@ -67,6 +66,7 @@ export function PublicFooter() {
             </div>
           ))}
         </div>
+        */}
         
         {/* Copyright Section */}
         <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-400">
