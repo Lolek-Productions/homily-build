@@ -1,6 +1,7 @@
 "use client"
 
 import type * as React from "react"
+import Link from "next/link"
 import {
   BookOpen,
   LayoutDashboard,
@@ -19,17 +20,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="offcanvas" className="w-64" {...props}>
       <SidebarHeader>
+
         <div className="flex justify-between items-center py-4 px-2">
-          <div className="flex items-center space-x-3">
+          <Link href="/dashboard" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
             <div className="w-8 h-8 sm:w-10 sm:h-10 bg-indigo-600 rounded-lg flex items-center justify-center">
-              <BookOpen className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
+              <BookOpen className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Homily.Build</h1>
-              <p className="text-xs sm:text-sm text-gray-600 hidden sm:block">Catholic Preaching Platform</p>
+              <h1 className="text-lg sm:text-xl font-bold text-gray-900">Homily.Build</h1>
+              <p className="text-xs text-gray-600 hidden sm:block">Catholic Preaching Platform</p>
             </div>
-          </div>
+          </Link>
         </div>
+        
       </SidebarHeader>
       <SidebarContent>
 
