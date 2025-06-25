@@ -38,7 +38,7 @@ interface HomilyWizardProps {
 }
 
 export default function HomilyWizard({ homily }: HomilyWizardProps) {
-  const { user, userSettings } = useAppContext()
+  const { user, userSettings, refreshSettings } = useAppContext()
   const router = useRouter()
   const searchParams = useSearchParams()
   const { showResponseToast, showErrorToast } = useApiToast()
@@ -62,15 +62,82 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
     status: homily.status || "Not Started"
   })
 
-  // Auto-populate definitions from user settings when reaching step 3
-  useEffect(() => {
-    if (currentStep === 3 && userSettings?.definitions) {
+  // Handle step navigation with auto-save
+  const handleStepChange = async (newStep: number) => {
+    // If moving forward, save the current progress first
+    if (newStep > currentStep) {
+      await saveCurrentProgress()
+    }
+    
+    // Update URL with new step
+    const params = new URLSearchParams(window.location.search)
+    params.set('step', newStep.toString())
+    router.push(`/homilies/${homily.id}?${params.toString()}`)
+    
+    // Set the current step state
+    setCurrentStep(newStep)
+    
+    // If navigating to step 3, pre-load definitions
+    if (newStep === 3 && !homilyData.definitions && userSettings?.definitions) {
       setHomilyData(prev => ({
         ...prev,
-        definitions: userSettings?.definitions || ""
+        definitions: userSettings.definitions || ""
       }))
     }
-  }, [currentStep, userSettings?.definitions])
+  }
+  
+  // Helper function to save current progress
+  const saveCurrentProgress = async () => {
+    // Don't save if user isn't logged in
+    if (!user?.id) {
+      console.log('User not logged in, skipping auto-save')
+      return
+    }
+    
+    // Prevent rapid successive saves
+    if (saveInProgressRef.current) {
+      console.log('Save already in progress, skipping')
+      return
+    }
+    
+    console.log('Auto-saving homily progress...')
+    saveInProgressRef.current = true
+    setIsSaving(true)
+    
+    try {
+      // Determine status based on current progress
+      const status = homilyData.final_draft.trim() ? "Complete" : 
+                    homilyData.second_set_of_questions.trim() ? "Second Draft" : 
+                    homilyData.first_set_of_questions.trim() ? "Rough Draft" : "Not Started"
+      
+      const result = await updateHomily(homily.id, user.id, {
+        title: homilyData.title || "Draft Homily",
+        description: homilyData.description || "Homily in progress",
+        definitions: homilyData.definitions,
+        readings: homilyData.readings,
+        first_set_of_questions: homilyData.first_set_of_questions,
+        second_set_of_questions: homilyData.second_set_of_questions,
+        final_draft: homilyData.final_draft,
+        status: status,
+      })
+      
+      if (result.error) {
+        console.error('Auto-save error:', result.error)
+        // Don't show error toast for auto-save to avoid disrupting user experience
+      } else {
+        console.log('Auto-save successful')
+        setJustSaved(true)
+        // Reset saved state after 2 seconds
+        setTimeout(() => setJustSaved(false), 2000)
+      }
+    } catch (error) {
+      console.error("Auto-save error:", error)
+      // Don't show error toast for auto-save to avoid disrupting user experience
+    } finally {
+      saveInProgressRef.current = false
+      setIsSaving(false)
+    }
+  }
 
   // Sync URL step parameter when currentStep changes and initialize step from URL on mount
   useEffect(() => {
@@ -96,13 +163,13 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
 
   const handleNext = () => {
     if (currentStep < steps.length) {
-      setCurrentStep(currentStep + 1)
+      handleStepChange(currentStep + 1)
     }
   }
 
   const handlePrevious = () => {
     if (currentStep > 1) {
-      setCurrentStep(currentStep - 1)
+      handleStepChange(currentStep - 1)
     }
   }
 
@@ -201,17 +268,51 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
     }
   };
 
-  const handleCopyDefinitions = () => {
-    if (userSettings?.definitions) {
-      console.log('Copying definitions from user settings...')
-      setHomilyData(prev => ({
-        ...prev,
-        definitions: userSettings?.definitions || ""
-      }))
-      showResponseToast({ success: true, message: "Definitions copied successfully!" })
-    } else {
-      console.log('No definitions found in user settings.')
-      showErrorToast(new Error("No definitions found in user settings"))
+  // Function to copy global definitions from user settings to the current homily
+  const handleCopyDefinitions = async () => {
+    try {
+      // Check if user is logged in
+      if (!user?.id) {
+        showErrorToast(new Error("You must be logged in to copy definitions"))
+        return
+      }
+      
+      // First try to use definitions from context if available
+      if (userSettings?.definitions) {
+        console.log('Using definitions from context')
+        setHomilyData(prev => ({
+          ...prev,
+          definitions: userSettings.definitions || ""
+        }))
+        showResponseToast({ success: true, message: "Definitions copied successfully!" })
+        return
+      }
+      
+      // If not in context, fetch directly from the server
+      console.log('Fetching definitions from server')
+      const { getUserSettings } = await import('@/lib/actions/userSettings')
+      const { data, error } = await getUserSettings(user.id)
+      
+      if (error) {
+        console.error('Error fetching user settings:', error)
+        showErrorToast(new Error("Failed to fetch user settings"))
+        return
+      }
+      
+      if (data?.definitions) {
+        console.log('Copying definitions from server')
+        setHomilyData(prev => ({
+          ...prev,
+          definitions: data.definitions || ""
+        }))
+        showResponseToast({ success: true, message: "Definitions copied successfully!" })
+      } else {
+        console.log('No definitions found in user settings')
+        showErrorToast(new Error("No definitions found in user settings"))
+      }
+    } catch (error) {
+      console.error('Error fetching user settings:', error)
+      showErrorToast(new Error("Failed to fetch user settings"))
     }
   }
 
@@ -418,6 +519,7 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
                   rows={6}
                 />
               </div>
+              {/* Navigation handled by main navigation buttons */}
             </div>
           )}
 
@@ -427,13 +529,15 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
                 <Label htmlFor="definitions" className="text-base font-medium">
                   Key Definitions
                 </Label>
-                <Button
-                  onClick={handleCopyDefinitions}
-                  variant="outline"
-                  size="sm"
-                >
-                  Copy Global Definitions from your Settings to use for this homily
-                </Button>
+                <div className="flex gap-2">
+                  <Button
+                    onClick={handleCopyDefinitions}
+                    variant="outline"
+                    size="sm"
+                  >
+                    Copy Global Definitions
+                  </Button>
+                </div>
               </div>
               <p className="text-sm text-gray-500 mb-2">Define key terms and concepts that will be important for your homily. These will be used to send to the AI to generate the homily.</p>
               <Textarea
@@ -467,7 +571,7 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
                   {isLoadingAI ? "Generating..." : "AI Generate First Set of Questions"}
                 </Button>
               </div>
-              <p className="text-sm text-gray-500 mb-2">Explore initial questions and themes for your homily. These will be used to send to the AI to generate the homily.  Click the button above to generate.</p>
+              <p className="text-sm text-gray-500 mb-2">Explore initial questions and themes for your homily. These will be used to send to the AI to generate the homily. Click the button above to generate. Fill out your answers to the questions in the textarea below. If you don&apos;t want to answer a question, then don&apos;t. If you want to add more information, or delete something, then do it. When you are finished, click the Next button to move to the next step.</p>
               <Textarea
                 id="first_questions"
                 placeholder="Explore initial questions and themes for your homily..."
@@ -499,7 +603,7 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
                   {isLoadingAI ? "Generating..." : "AI Generate Second Set of Questions"}
                 </Button>
               </div>
-              <p className="text-sm text-gray-500 mb-2">Dive deeper with follow-up questions and refined themes. Click the button above to generate.</p>
+              <p className="text-sm text-gray-500 mb-2">Dive deeper with follow-up questions and refined themes. Click the button above to generate. Fill out your answers to the questions in the textarea below. If you don&apos;t want to answer a question, then don&apos;t. If you want to add more information, or delete something, then do it. When you are finished, click the Next button to move to the next step.</p>
               <Textarea
                 id="second_questions"
                 placeholder="Dive deeper with follow-up questions and refined themes..."
@@ -531,7 +635,7 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
                   {isLoadingAI ? "Generating..." : "AI Generate Final Draft"}
                 </Button>
               </div>
-              <p className="text-sm text-gray-500 mb-2">Write your complete homily here. Click the button above to generate.</p>
+              <p className="text-sm text-gray-500 mb-2">Click the button above to generate.  Finish your edits and then click save.  Your homily is finished.</p>
               <Textarea
                 id="final_draft"
                 placeholder="Write your complete homily here..."
@@ -548,30 +652,26 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
       {/* Navigation */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          <Button 
-            onClick={handlePrevious} 
-            variant="outline" 
-            disabled={currentStep === 1}
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Previous
-          </Button>
+          {currentStep > 1 && (
+            <Button
+              onClick={handlePrevious}
+              variant="outline"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Previous
+            </Button>
+          )}
         </div>
 
         <div className="flex items-center space-x-4">
-          <Button 
-            onClick={currentStep < steps.length ? handleNext : completeHomily}
-            disabled={currentStep === steps.length}
-          >
-            {currentStep < steps.length ? (
-              <>
-                Next
-                <ChevronRight className="w-4 h-4 ml-2" />
-              </>
-            ) : (
-              "Complete Homily"
-            )}
-          </Button>
+          {currentStep < steps.length ? (
+            <Button 
+              onClick={handleNext}
+            >
+              Next
+              <ChevronRight className="w-4 h-4 ml-2" />
+            </Button>
+          ) : null}
         </div>
       </div>
     </div>
