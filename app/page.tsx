@@ -1,5 +1,5 @@
-import { AuthButton } from "@/components/auth-button";
-import { ThemeSwitcher } from "@/components/theme-switcher";
+import { PublicHeader } from "@/components/public-header";
+import { PublicFooter } from "@/components/public-footer";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -102,14 +102,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen flex flex-col ">
-        <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
-          <div className="w-full max-w-5xl flex justify-between items-center p-3 px-5 text-sm">
-            <div className="flex gap-5 items-center font-semibold">
-              <Link href={"/"}>Liturgical Schedule</Link>
-            </div>
-            <AuthButton />
-          </div>
-        </nav>
+        <PublicHeader currentPath="/" />
 
         <div className="flex flex-col">
 
@@ -341,87 +334,7 @@ export default function Home() {
           </section>
 
           {/* Footer */}
-          <footer className="bg-gray-900 text-white py-12">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div>
-                  <div className="flex items-center space-x-3 mb-4">
-                    <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-                      <BookOpen className="w-5 h-5 text-white" />
-                    </div>
-                    <span className="text-xl font-bold">Homily.Build</span>
-                  </div>
-                  <p className="text-gray-400">
-                    Empowering Catholic priests with AI-powered tools for meaningful, contextual homily creation.
-                  </p>
-                </div>
-                <div>
-                  <h3 className="font-semibold mb-4">Product</h3>
-                  <ul className="space-y-2 text-gray-400">
-                    <li>
-                      <Link href="#" className="hover:text-white">
-                        Features
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="#" className="hover:text-white">
-                        Pricing
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="#" className="hover:text-white">
-                        Demo
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="font-semibold mb-4">Resources</h3>
-                  <ul className="space-y-2 text-gray-400">
-                    <li>
-                      <Link href="#" className="hover:text-white">
-                        Help Center
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="#" className="hover:text-white">
-                        Faith Stories
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="#" className="hover:text-white">
-                        Liturgical Calendar
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="font-semibold mb-4">Organization</h3>
-                  <ul className="space-y-2 text-gray-400">
-                    <li>
-                      <Link href="#" className="hover:text-white">
-                        About Lolek Productions
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="#" className="hover:text-white">
-                        Catholic Tech Partnership
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="#" className="hover:text-white">
-                        Contact
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-                <p>&copy; {new Date().getFullYear()} Lolek Productions. All rights reserved. Built with ❤️ for the Catholic Church.</p>
-              </div>
-            </div>
-            <ThemeSwitcher />
-          </footer>
+          <PublicFooter />
         </div>
     </main>
   );

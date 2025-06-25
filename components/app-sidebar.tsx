@@ -11,6 +11,8 @@ import {
 import { NavUser } from "@/components/nav-user"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar"
 import { useAppContext } from "@/contexts/AppContextProvider"
+import { Button } from "@/components/ui/button" 
+import { Settings } from "lucide-react"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { user } = useAppContext()
@@ -18,8 +20,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="offcanvas" className="w-64" {...props}>
       <SidebarHeader>
-        <div className="flex flex-col gap-1 p-2">
-          <div className="text-sm font-semibold">{user?.email}</div>
+        <div className="flex justify-between items-center py-4 px-2">
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-indigo-600 rounded-lg flex items-center justify-center">
+              <BookOpen className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
+            </div>
+            <div>
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Homily.Build</h1>
+              <p className="text-xs sm:text-sm text-gray-600 hidden sm:block">Catholic Preaching Platform</p>
+            </div>
+          </div>
         </div>
       </SidebarHeader>
       <SidebarContent>

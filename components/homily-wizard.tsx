@@ -545,7 +545,7 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
             ) : (
               <Save className="w-4 h-4 mr-1 sm:mr-2" />
             )}
-            <span className="hidden sm:inline">{isSaving ? "Saving..." : justSaved ? "Saved!" : "Save Draft"}</span>
+            <span className="hidden sm:inline">{isSaving ? "Saving..." : justSaved ? "Saved!" : "Save"}</span>
             <span className="sm:hidden">{isSaving ? "..." : justSaved ? "!" : "Save"}</span>
           </Button>
 

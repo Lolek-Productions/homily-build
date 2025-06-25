@@ -101,32 +101,8 @@ export default function Dashboard() {
         ]}
       />
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-indigo-600 rounded-lg flex items-center justify-center">
-                <BookOpen className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
-              </div>
-              <div>
-                <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Homily.Build</h1>
-                <p className="text-xs sm:text-sm text-gray-600 hidden sm:block">Catholic Preaching Platform</p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-2 sm:space-x-4">
-              <Button variant="outline" size="sm" className="hidden sm:flex">
-                <Settings className="w-4 h-4 mr-2" />
-                Settings
-              </Button>
-              <Button variant="outline" size="sm" className="sm:hidden">
-                <Settings className="w-4 h-4" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         {/* Welcome Section */}
         <div className="mb-8">
           <h2 className="text-3xl font-bold text-gray-900 mb-2">Welcome back, Father</h2>
