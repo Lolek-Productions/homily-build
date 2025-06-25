@@ -11,6 +11,7 @@ import {
   Edit,
   Loader,
   Check,
+  RefreshCw,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -153,7 +154,7 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
   }, [currentStep, router])
 
   const steps = [
-    { id: 1, name: "Name and Description", icon: FileText },
+    { id: 1, name: "Title and Description", icon: FileText },
     { id: 2, name: "Scripture Readings", icon: BookOpen },
     { id: 3, name: "Definitions", icon: Target },
     { id: 4, name: "First Questions", icon: Edit },
@@ -367,7 +368,6 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-
       <div className="mb-8 flex justify-between items-start">
         <div>
           <h2 className="text-3xl font-bold text-gray-900 mb-2">Homily: {homilyData.title}</h2>
@@ -475,7 +475,7 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
             <div className="space-y-6">
               <div>
                 <Label htmlFor="readings" className="text-base font-medium">
-                  Scripture Readings
+                  Insert Scripture Readings
                 </Label>
                 <p className="text-sm text-gray-500 mb-2">Enter the scripture readings for this homily. You can paste the whole reading or the pericope (the verses that are being read). This will be used to send to the AI to generate the homily.</p>
                 <Textarea
@@ -495,7 +495,7 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <Label htmlFor="definitions" className="text-base font-medium">
-                  Key Definitions
+                  Refine Key Definitions
                 </Label>
                 <div className="flex gap-2">
                   <Button
@@ -503,7 +503,8 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
                     variant="outline"
                     size="sm"
                   >
-                    Copy Global Definitions
+                    <RefreshCw className="w-4 h-4 mr-2" />
+                    Refresh Global Definitions
                   </Button>
                 </div>
               </div>
@@ -522,13 +523,13 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
           {currentStep === 4 && (
             <div className="space-y-6">
               <div className="flex items-center justify-between">
-                <Label htmlFor="first_questions" className="text-base font-medium">
-                  First Set of Questions
+                <Label htmlFor="first_questions" className="text-base font-medium flex items-center">
+                  Generate and Answer First Set of Questions
                 </Label>
                 <Button
                   onClick={handleFirstSetOfQuestionsAI}
                   disabled={isLoadingAI}
-                  variant="outline"
+                  variant="default"
                   size="sm"
                 >
                   {isLoadingAI ? (
@@ -536,13 +537,13 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
                   ) : (
                     <Target className="w-4 h-4 mr-2" />
                   )}
-                  {isLoadingAI ? "Generating..." : "AI Generate First Set of Questions"}
+                  {isLoadingAI ? "Generating..." : "Generate First Set of Questions"}
                 </Button>
               </div>
               <p className="text-sm text-gray-500 mb-2">Explore initial questions and themes for your homily. These will be used to send to the AI to generate the homily. Click the button above to generate. Fill out your answers to the questions in the textarea below. If you don&apos;t want to answer a question, then don&apos;t. If you want to add more information, or delete something, then do it. When you are finished, click the Next button to move to the next step.</p>
               <Textarea
                 id="first_questions"
-                placeholder="Explore initial questions and themes for your homily..."
+                placeholder="Click the button above to generate and then answer the questions here..."
                 value={homilyData.first_set_of_questions}
                 onChange={(e) => handleInputChange('first_set_of_questions', e.target.value)}
                 className="mt-1"
@@ -554,13 +555,13 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
           {currentStep === 5 && (
             <div className="space-y-6">
               <div className="flex items-center justify-between">
-                <Label htmlFor="second_questions" className="text-base font-medium">
-                  Second Set of Questions
+                <Label htmlFor="second_questions" className="text-base font-medium flex items-center">
+                  Generate and Answer Second Set of Questions
                 </Label>
                 <Button
                   onClick={handleSecondSetOfQuestionsAI}
                   disabled={isLoadingAI}
-                  variant="outline"
+                  variant="default"
                   size="sm"
                 >
                   {isLoadingAI ? (
@@ -568,13 +569,13 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
                   ) : (
                     <Target className="w-4 h-4 mr-2" />
                   )}
-                  {isLoadingAI ? "Generating..." : "AI Generate Second Set of Questions"}
+                  {isLoadingAI ? "Generating..." : "Generate Second Set of Questions"}
                 </Button>
               </div>
               <p className="text-sm text-gray-500 mb-2">Dive deeper with follow-up questions and refined themes. Click the button above to generate. Fill out your answers to the questions in the textarea below. If you don&apos;t want to answer a question, then don&apos;t. If you want to add more information, or delete something, then do it. When you are finished, click the Next button to move to the next step.</p>
               <Textarea
                 id="second_questions"
-                placeholder="Dive deeper with follow-up questions and refined themes..."
+                placeholder="Click the button above to generate and then answer the questions here..."
                 value={homilyData.second_set_of_questions}
                 onChange={(e) => handleInputChange('second_set_of_questions', e.target.value)}
                 className="mt-1"
@@ -586,13 +587,13 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
           {currentStep === 6 && (
             <div className="space-y-6">
               <div className="flex items-center justify-between">
-                <Label htmlFor="final_draft" className="text-base font-medium">
-                  Final Draft
+                <Label htmlFor="final_draft" className="text-base font-medium flex items-center">
+                  Generate and Refine Final Draft
                 </Label>
                 <Button
                   onClick={handleFinalDraftAI}
                   disabled={isLoadingAI}
-                  variant="outline"
+                  variant="default"
                   size="sm"
                 >
                   {isLoadingAI ? (
@@ -600,13 +601,13 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
                   ) : (
                     <Target className="w-4 h-4 mr-2" />
                   )}
-                  {isLoadingAI ? "Generating..." : "AI Generate Final Draft"}
+                  {isLoadingAI ? "Generating..." : "Generate Final Draft"}
                 </Button>
               </div>
               <p className="text-sm text-gray-500 mb-2">Click the button above to generate.  Finish your edits and then click save.  Your homily is finished.</p>
               <Textarea
                 id="final_draft"
-                placeholder="Write your complete homily here..."
+                placeholder="Click the button above to generate and then finish your edits here..."
                 value={homilyData.final_draft}
                 onChange={(e) => handleInputChange('final_draft', e.target.value)}
                 className="mt-1"
