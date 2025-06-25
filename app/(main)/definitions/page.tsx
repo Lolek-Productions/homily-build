@@ -1,74 +1,34 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { ArrowLeft, Save, RotateCcw, BookOpen, RefreshCw } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { BookOpen } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
-import Link from "next/link"
 import { MainHeader } from "@/components/main-header"
 import { useAppContext } from "@/contexts/AppContextProvider"
-import { updateUserSettings } from "@/lib/actions/userSettings"
-import { useApiToast } from "@/lib/utils"
-import { DEFAULT_USER_SETTINGS_DEFINITION } from "@/lib/definition"
+// Removed unused imports
 
 export default function Definitions() {
-  const { user, userSettings, isLoading, refreshSettings } = useAppContext()
-  const { showResponseToast, showErrorToast } = useApiToast()
+  const { userSettings, isLoading } = useAppContext()
   
   // Local state for editing definitions
   const [definitions, setDefinitions] = useState("")
-  const [isSaving, setIsSaving] = useState(false)
-  const [hasChanges, setHasChanges] = useState(false)
 
   // Initialize local state when userSettings loads
   useEffect(() => {
     if (userSettings?.definitions !== undefined) {
       setDefinitions(userSettings.definitions || "")
-      setHasChanges(false)
     }
   }, [userSettings?.definitions])
 
   const handleDefinitionsChange = (value: string) => {
     setDefinitions(value)
-    setHasChanges(value !== (userSettings?.definitions || ""))
   }
 
-  const handleSave = async () => {
-    if (!user?.id) {
-      showErrorToast(new Error("User not found"))
-      return
-    }
+  // Removed unused handleSave function
 
-    try {
-      setIsSaving(true)
-      const result = await updateUserSettings(user.id, { definitions })
-      
-      if (result.error) {
-        showResponseToast({ success: false, message: result.error })
-      } else {
-        showResponseToast({ success: true, message: "Definitions saved successfully" })
-        setHasChanges(false)
-        // Refresh the settings to get the latest data
-        await refreshSettings()
-      }
-    } catch (error) {
-      showErrorToast(error)
-    } finally {
-      setIsSaving(false)
-    }
-  }
-
-  const handleReset = () => {
-    setDefinitions(userSettings?.definitions || "")
-    setHasChanges(false)
-  }
-
-  const handleResetToDefault = () => {
-    setDefinitions(DEFAULT_USER_SETTINGS_DEFINITION)
-    setHasChanges(DEFAULT_USER_SETTINGS_DEFINITION !== (userSettings?.definitions || ""))
-  }
+  // Removed unused functions
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">

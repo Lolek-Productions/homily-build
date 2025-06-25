@@ -1,10 +1,9 @@
 "use client"
 
 import { useEffect } from "react"
-import { Calendar, BookOpen, Users, Plus, Clock, ChevronRight } from "lucide-react"
+import { BookOpen, Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
 import { MainHeader } from "@/components/main-header"
 import { useAppContext } from "@/contexts/AppContextProvider"
@@ -51,46 +50,7 @@ export default function Dashboard() {
     return () => clearTimeout(timeoutId)
   }, [user?.id, userSettings, isLoading, refreshSettings])
 
-  const upcomingWeekends = [
-    {
-      date: "December 22, 2024",
-      season: "Advent",
-      readings: "4th Sunday of Advent",
-      homilies: 2,
-      contexts: ["English Parish", "Spanish Community"],
-    },
-    {
-      date: "December 29, 2024",
-      season: "Christmas",
-      readings: "Holy Family",
-      homilies: 1,
-      contexts: ["Student Mass"],
-    },
-    {
-      date: "January 5, 2025",
-      season: "Christmas",
-      readings: "Epiphany of the Lord",
-      homilies: 0,
-      contexts: [],
-    },
-  ]
-
-  const recentHomilies = [
-    {
-      title: "The Light in Our Darkness",
-      date: "December 15, 2024",
-      context: "English Parish",
-      theme: "Hope in Advent",
-      status: "completed",
-    },
-    {
-      title: "Esperanza en el Adviento",
-      date: "December 15, 2024",
-      context: "Spanish Community",
-      theme: "Hope in Advent",
-      status: "draft",
-    },
-  ]
+  // Removed unused variables
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">

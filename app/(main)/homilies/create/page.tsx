@@ -11,7 +11,7 @@ import { useAppContext } from "@/contexts/AppContextProvider"
 import { createHomily } from "@/lib/actions/homilies"
 import { useApiToast } from "@/lib/utils"
 import { MainHeader } from "@/components/main-header"
-import { BookOpen, Loader, Plus } from "lucide-react"
+import { Loader, Plus } from "lucide-react"
 
 export default function CreateHomily() {
   const { user } = useAppContext()

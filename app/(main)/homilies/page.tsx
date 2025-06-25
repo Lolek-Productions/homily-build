@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Plus, Search, RefreshCw } from "lucide-react"
+import { Search, RefreshCw } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -26,7 +26,6 @@ import { HomiliesTable } from "@/components/homilies/homilies-table"
 import { useAppContext } from "@/contexts/AppContextProvider"
 import { getHomilies, deleteHomily } from "@/lib/actions/homilies"
 import { useApiToast } from "@/lib/utils"
-import { useRouter } from "next/navigation"
 
 interface Homily {
   id: number
@@ -53,7 +52,6 @@ interface PaginationData {
 export default function HomiliesPage() {
   const { user, isLoading: userLoading } = useAppContext()
   const { showResponseToast, showErrorToast } = useApiToast()
-  const router = useRouter()
 
   // State management
   const [homilies, setHomilies] = useState<PaginationData>({
@@ -214,10 +212,6 @@ export default function HomiliesPage() {
   }
 
   // Handle dialog actions
-  const handleCreateNew = () => {
-    // Navigate to the create page
-    router.push('/homilies/create')
-  }
 
   const handleDelete = (id: number) => {
     setDeletingId(id)

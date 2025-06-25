@@ -7,7 +7,7 @@ import { getHomily } from "@/lib/actions/homilies"
 import { useApiToast } from "@/lib/utils"
 import { MainHeader } from "@/components/main-header"
 import HomilyWizard from "@/components/homily-wizard"
-import { BookOpen, Loader } from "lucide-react"
+import { Loader } from "lucide-react"
 
 interface Homily {
   id: number
@@ -53,7 +53,7 @@ export default function HomilyEditorClient({ homilyId }: HomilyEditorClientProps
     }
 
     loadHomily()
-  }, [user?.id, homilyId])
+  }, [user?.id, homilyId, showErrorToast])
 
   if (isLoading) {
     return (
