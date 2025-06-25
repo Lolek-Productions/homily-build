@@ -8,6 +8,7 @@ import {
   NotebookText,
   ScrollText,
   LibraryBig,
+  Mail,
 } from "lucide-react"
 import { NavUser } from "@/components/nav-user"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar"
@@ -70,6 +71,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <a href={`/homilies`}>
                   <LibraryBig />
                   <span>My Homilies</span>
+                </a>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <a href={`/contact-us`}>
+                  <Mail />
+                  <span>Contact Us</span>
                 </a>
               </SidebarMenuButton>
             </SidebarMenuItem>
