@@ -1,7 +1,8 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Search, RefreshCw } from "lucide-react"
+import { Search, RefreshCw, Plus } from "lucide-react"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -248,59 +249,20 @@ export default function HomiliesPage() {
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">My Homilies</h2>
-          <p className="text-gray-600">Manage your homilies</p>
+        <div className="mb-8 flex justify-between items-start">
+          <div>
+            <h2 className="text-3xl font-bold text-gray-900 mb-2">My Homilies</h2>
+            <p className="text-gray-600">Manage your homilies</p>
+          </div>
+          <Button asChild className="flex items-center gap-1">
+            <Link href="/homilies/create">
+              <Plus className="w-4 h-4" />
+              Create New Homily
+            </Link>
+          </Button>
         </div>
 
-        {/* Filters and Search */}
-        <div className="mb-6 flex flex-col sm:flex-row gap-4">
-          <div className="flex-1">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-              <Input
-                placeholder="Search homilies by title or description..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-          </div>
-          <div className="flex gap-2">
-            <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-[140px]">
-                <SelectValue placeholder="Sort by" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="created_at">Created Date</SelectItem>
-                <SelectItem value="title">Title</SelectItem>
-                <SelectItem value="description">Description</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select value={sortOrder} onValueChange={(value: "asc" | "desc") => setSortOrder(value)}>
-              <SelectTrigger className="w-[100px]">
-                <SelectValue placeholder="Order" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="desc">Newest</SelectItem>
-                <SelectItem value="asc">Oldest</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select value={pageSize.toString()} onValueChange={(value) => setPageSize(Number(value))}>
-              <SelectTrigger className="w-[80px]">
-                <SelectValue placeholder="Per page" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="5">5</SelectItem>
-                <SelectItem value="10">10</SelectItem>
-                <SelectItem value="20">20</SelectItem>
-                <SelectItem value="50">50</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-
-        {/* Table */}
+        {/* Content Card */}
         {isLoading ? (
           <div className="flex items-center justify-center h-64">
             <div className="text-center">Loading homilies...</div>
@@ -318,6 +280,54 @@ export default function HomiliesPage() {
           </div>
         ) : (
           <div className="bg-white rounded-lg shadow-sm border p-6">
+            {/* Filters and Search */}
+            <div className="mb-6 flex flex-col sm:flex-row gap-4">
+              <div className="flex-1">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                  <Input
+                    placeholder="Search homilies by title or description..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    className="pl-10"
+                  />
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <Select value={sortBy} onValueChange={setSortBy}>
+                  <SelectTrigger className="w-[140px]">
+                    <SelectValue placeholder="Sort by" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="created_at">Created Date</SelectItem>
+                    <SelectItem value="title">Title</SelectItem>
+                    <SelectItem value="description">Description</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Select value={sortOrder} onValueChange={(value: "asc" | "desc") => setSortOrder(value)}>
+                  <SelectTrigger className="w-[100px]">
+                    <SelectValue placeholder="Order" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="desc">Newest</SelectItem>
+                    <SelectItem value="asc">Oldest</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Select value={pageSize.toString()} onValueChange={(value) => setPageSize(Number(value))}>
+                  <SelectTrigger className="w-[80px]">
+                    <SelectValue placeholder="Per page" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="5">5</SelectItem>
+                    <SelectItem value="10">10</SelectItem>
+                    <SelectItem value="20">20</SelectItem>
+                    <SelectItem value="50">50</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            {/* Table */}
             <HomiliesTable
               homilies={homilies.data}
               onDelete={handleDelete}
