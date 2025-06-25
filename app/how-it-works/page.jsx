@@ -111,7 +111,7 @@ export default function HowItWorks() {
 
             <div className="text-center mt-12">
               <Button size="lg" className="bg-indigo-600 hover:bg-indigo-700">
-                <Link href="/auth/login" className="flex items-center">
+                <Link href="/auth/sign-up" className="flex items-center">
                   Get Started
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Link>

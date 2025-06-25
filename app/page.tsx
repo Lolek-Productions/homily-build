@@ -36,9 +36,9 @@ export default function Home() {
                   across different audiences and settings.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Link href="/auth/login">
+                  <Link href="/auth/sign-up">
                     <Button size="lg" className="w-full sm:w-auto">
-                      Sign In to Get Started
+                      Create Your Free Account
                       <ArrowRight className="w-5 h-5 ml-2" />
                     </Button>
                   </Link>
