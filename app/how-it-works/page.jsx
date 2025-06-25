@@ -1,8 +1,10 @@
 import { PublicHeader } from "@/components/public-header";
 import { PublicFooter } from "@/components/public-footer";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, BookOpen, Calendar, CheckCircle, FileText, Target, Edit } from "lucide-react";
+import { ArrowRight, BookOpen, CheckCircle, FileText, Target, Edit } from "lucide-react";
 import Link from "next/link";
+
+export const dynamic = 'force-dynamic';
 
 export default function HowItWorks() {
   return (
