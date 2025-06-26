@@ -17,7 +17,7 @@ export default function HowItWorks() {
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Build Great Homilies</h1>
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              Our platform streamlines homily preparation with a proven 6-step process, using AI as a guide, designed especially for Catholic priests.
+              Our platform streamlines homily preparation with a proven 6-step process, using a digital assistant, designed especially for Catholic priests.
             </p>
           </div>
         </section>
