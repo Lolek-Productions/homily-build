@@ -22,14 +22,14 @@ interface AppContextType {
   user: User | null;
   userSettings: UserSettings | null;
   isLoading: boolean;
-  refreshSettings: () => Promise<void>;
+  refreshSettings: () => Promise<UserSettings | null>;
 }
 
 const AppContext = createContext<AppContextType>({
   user: null,
   userSettings: null,
   isLoading: true,
-  refreshSettings: async () => {}
+  refreshSettings: async () => null
 });
 
 export const AppContextProvider = ({ 
@@ -45,20 +45,27 @@ export const AppContextProvider = ({
   const supabase = createClient();
 
   // Function to refresh settings - wrapped in useCallback to prevent re-renders
-  const refreshSettings = useCallback(async (): Promise<void> => {
-    if (!user) return;
+  const refreshSettings = useCallback(async (): Promise<UserSettings | null> => {
+    const currentUser = user;
+    if (!currentUser) {
+      console.log('No user found, cannot refresh settings');
+      return null;
+    }
+    
+    console.log(`Refreshing settings for user ${currentUser.id}`);
+    setIsLoading(true);
     
     try {
-      setIsLoading(true);
-      const { data, error } = await getUserSettings(user.id);
+      const { data, error } = await getUserSettings(currentUser.id);
             
       if (error) {
         console.error('Failed to fetch user settings:', error);
         // If it's an auth error, set userSettings to null so dashboard can create defaults
-        if (error.includes('Auth session missing')) {
+        if (typeof error === 'string' && error.includes('Auth session missing')) {
           setUserSettings(null);
         }
-        return;
+        setIsLoading(false);
+        return null;
       }
       
       // Ensure we have a complete UserSettings object
@@ -68,45 +75,58 @@ export const AppContextProvider = ({
         definitions: (data as any).definitions || null,
       } : null;
       
+      console.log('User settings refreshed successfully:', completeUserSettings);
       setUserSettings(completeUserSettings);
-      
       setIsLoading(false);
+      return completeUserSettings;
     } catch (error) {
       console.error('Failed to fetch user settings:', error);
       // If it's an auth error, set userSettings to null so dashboard can create defaults
       if (error instanceof Error && error.message.includes('Auth session missing')) {
         setUserSettings(null);
       }
-    } finally {
       setIsLoading(false);
+      return null;
     }
   }, [user]);
 
+  // Load settings when user changes and we don't have initial settings
+  useEffect(() => {
+    if (user && !userSettings && !initialUserSettings) {
+      console.log('User changed, loading settings...');
+      refreshSettings();
+    } else if (!user) {
+      // User logged out, clear settings
+      setUserSettings(null);
+      setIsLoading(false);
+    } else if (user && initialUserSettings) {
+      // We have initial settings, stop loading
+      setIsLoading(false);
+    }
+  }, [user, initialUserSettings]); // Removed userSettings and refreshSettings from deps to avoid cycles
+
   // Set up auth state listener
   useEffect(() => {
-    // Only set up auth listener if we don't have initial user data
-    // or if we need to listen for changes
     const setupAuth = async () => {
       // Get initial user if not provided
       if (!initialUser) {
         const { data: { user: currentUser } } = await supabase.auth.getUser();
+        console.log('Initial user fetch:', currentUser);
         setUser(currentUser);
-        if (currentUser && !initialUserSettings) {
-          // Only fetch settings if we don't have initial data
-          // Note: refreshSettings will be called via the user state change
-        } else if (!currentUser) {
+        
+        if (!currentUser) {
           setIsLoading(false);
         }
       } else {
-        // We have initial user, make sure it's set in state
+        // We have initial user data
+        console.log('Using initial user:', initialUser);
         setUser(initialUser);
-        if (!initialUserSettings) {
-          // We have initial user but no settings data
-          // Note: refreshSettings will be called via the user state change
-        } else {
-          // We have both initial user and settings data
+        
+        if (initialUserSettings) {
+          // We have both user and settings
           setIsLoading(false);
         }
+        // If we don't have initial settings, the other useEffect will handle loading them
       }
     };
 
@@ -114,56 +134,22 @@ export const AppContextProvider = ({
 
     // Set up auth state change listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log('Auth state changed:', event, session?.user?.id);
       const newUser = session?.user ?? null;
       setUser(newUser);
       
-      if (newUser) {
-        // Fetch fresh settings when user logs in
-        try {
-          setIsLoading(true);
-          const { data, error } = await getUserSettings(newUser.id);
-
-          if (!error && data) {
-            // Ensure we have a complete UserSettings object
-            const completeUserSettings: UserSettings | null = data ? {
-              id: (data as any).id || '',
-              definitions: (data as any).definitions || null,
-              created_at: (data as any).created_at || null,
-            } : null;
-            
-            setUserSettings(completeUserSettings);
-          } else if (error) {
-            console.error('Failed to fetch user settings on auth change:', error);
-            // Set to null so dashboard can create defaults if needed
-            setUserSettings(null);
-          } else {
-            // No data returned, user has no settings yet
-            setUserSettings(null);
-          }
-          
-          setIsLoading(false);
-        } catch (error) {
-          console.error('Failed to fetch user settings on auth change:', error);
-          // Set to null so dashboard can create defaults if needed
-          setUserSettings(null);
-          setIsLoading(false);
-        }
-      } else {
+      if (!newUser) {
+        // User logged out
         setUserSettings(null);
         setIsLoading(false);
       }
+      // If user logged in, the useEffect above will handle loading settings
     });
 
     return () => {
       subscription?.unsubscribe();
     };
-  }, [supabase, initialUser, initialUserSettings]);
-
-  useEffect(() => {
-    if (user && !userSettings && !initialUserSettings) {
-      refreshSettings();
-    }
-  }, [user, userSettings, initialUserSettings]);
+  }, []); // Empty dependency array to avoid re-running
 
   return (
     <AppContext.Provider 

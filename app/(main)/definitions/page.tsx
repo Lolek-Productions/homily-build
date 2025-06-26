@@ -19,11 +19,9 @@ export default function Definitions() {
   const [isSaving, setIsSaving] = useState(false)
   const { showResponseToast, showErrorToast } = useApiToast()
 
-  // Load definitions when userSettings changes or on component mount
   useEffect(() => {
     console.log("userSettings", userSettings)
     if (userSettings) {
-      // Use the definitions from userSettings or fall back to default if not available
       const definitionsValue = userSettings.definitions || DEFAULT_USER_SETTINGS_DEFINITION || ""
       setDefinitions(definitionsValue)
     }
@@ -34,25 +32,37 @@ export default function Definitions() {
   }
   
   const handleResetToDefault = async () => {
-    if (!userSettings?.id) return
+    if (!userSettings?.id) {
+      showErrorToast(new Error("User settings not found. Please try refreshing the page."))
+      return
+    }
     
     setIsResetting(true)
     try {
+      // Reset to default definitions in the database
       const result = await updateUserSettings(
         userSettings.id,
         { definitions: DEFAULT_USER_SETTINGS_DEFINITION }
       )
       
       if (!result.error) {
+        // Update local state immediately for better UX
+        setDefinitions(DEFAULT_USER_SETTINGS_DEFINITION)
+        
+        // Show success message
         showResponseToast({
           success: true,
           message: "Definitions reset to system defaults"
         })
-        await refreshSettings()
+        
+        // Refresh settings to ensure consistency with the database
+        const updatedSettings = await refreshSettings()
+        console.log("Settings after reset:", updatedSettings)
       } else {
-        showErrorToast(new Error("Failed to reset definitions"))
+        showErrorToast(new Error(`Failed to reset definitions: ${result.error}`))
       }
     } catch (error) {
+      console.error("Error resetting definitions:", error)
       showErrorToast(error as Error)
     } finally {
       setIsResetting(false)
@@ -60,7 +70,10 @@ export default function Definitions() {
   }
   
   const handleSaveDefinitions = async () => {
-    if (!userSettings?.id) return
+    if (!userSettings?.id) {
+      showErrorToast(new Error("User settings not found. Please try refreshing the page."))
+      return
+    }
     
     setIsSaving(true)
     try {
@@ -70,15 +83,23 @@ export default function Definitions() {
       )
       
       if (!result.error) {
+        // Update the local state immediately for better UX
+        setDefinitions(definitions)
+        
+        // Show success message
         showResponseToast({
           success: true,
           message: "Definitions saved successfully"
         })
-        await refreshSettings()
+        
+        // Refresh settings to ensure consistency with the database
+        const updatedSettings = await refreshSettings()
+        console.log("Settings after save:", updatedSettings)
       } else {
-        showErrorToast(new Error("Failed to save definitions"))
+        showErrorToast(new Error(`Failed to save definitions: ${result.error}`))
       }
     } catch (error) {
+      console.error("Error saving definitions:", error)
       showErrorToast(error as Error)
     } finally {
       setIsSaving(false)
