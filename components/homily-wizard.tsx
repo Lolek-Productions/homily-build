@@ -23,6 +23,7 @@ import { useAppContext } from "@/contexts/AppContextProvider"
 import { updateHomily } from "@/lib/actions/homilies"
 import { generateClaudeResponse } from "@/lib/actions/ai-claude"
 import { useApiToast } from "@/lib/utils"
+import { getFinalDraftPrompt, getFirstSetOfQuestionsPrompt, getSecondSetOfQuestionsPrompt } from "@/lib/prompts"
 
 interface HomilyWizardProps {
   homily: {
@@ -188,7 +189,7 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
     }
     setIsLoadingAI(true);
     try {
-      const prompt = `Here are the readings: ${homilyData.readings} and here is what makes an excellent homily: ${homilyData.definitions}. Generate thoughtful questions that explore the main themes and messages. These should be initial questions that help frame the homily's direction.  Do not generate any other response other than the questions for the user to answer.`
+      const prompt = getFirstSetOfQuestionsPrompt(homilyData);
       const result = await generateClaudeResponse(prompt, user.id);
       console.log('Result:', result)
       
@@ -219,7 +220,7 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
 
     setIsLoadingAI(true);
     try {
-      const prompt = `Here are the responses to your first set of questions: ${homilyData.first_set_of_questions}. Generate one final set of questions before producing the final homily.`
+      const prompt = getSecondSetOfQuestionsPrompt(homilyData);
       // console.log('Prompt:', prompt)
 
       const result = await generateClaudeResponse(prompt, user.id);
@@ -249,7 +250,7 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
     }
     setIsLoadingAI(true);
     try {
-      const prompt = `Here are the final responses to your second set of questions: ${homilyData.second_set_of_questions}. Generate a final draft of the homily.`
+      const prompt = getFinalDraftPrompt(homilyData);
       const result = await generateClaudeResponse(prompt, user.id);
       if (result.error) {
         showErrorToast(new Error(result.error));
@@ -478,6 +479,18 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
                   Insert Scripture Readings
                 </Label>
                 <p className="text-sm text-gray-500 mb-2">Enter the scripture readings for this homily. You can paste the whole reading or the pericope (the verses that are being read). This will be used to send to the AI to generate the homily.</p>
+                <div className="flex space-x-2 mb-4">
+                  <Button asChild variant="outline" size="sm" className="text-xs">
+                    <a href="https://bible.usccb.org" target="_blank" rel="noopener noreferrer">
+                      USCCB Bible (English)
+                    </a>
+                  </Button>
+                  <Button asChild variant="outline" size="sm" className="text-xs">
+                    <a href="https://bible.usccb.org/es" target="_blank" rel="noopener noreferrer">
+                      USCCB Bible (Spanish)
+                    </a>
+                  </Button>
+                </div>
                 <Textarea
                   id="readings"
                   placeholder="Enter the scripture readings for this homily..."
