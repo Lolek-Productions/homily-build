@@ -131,25 +131,24 @@ export default function Definitions() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {isLoading ? (
-              <div className="text-center py-8 text-foreground">Loading definitions...</div>
-            ) : (
-              <div className="space-y-4">
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
                 <Label htmlFor="definitions">Definitions</Label>
-                <Textarea
-                  id="definitions"
-                  value={definitions}
-                  onChange={(e) => handleDefinitionsChange(e.target.value)}
-                  placeholder="Your personal definitions and homily guidelines will appear here. Click 'Reset to Default' to load comprehensive guidelines, or start writing your own..."
-                  className="min-h-[200px]"
-                />
-                {!definitions && (
-                  <p className="text-sm text-muted-foreground">
-                    No definitions found. Add your personal definitions above.
-                  </p>
+                {isLoading && (
+                  <span className="text-sm text-muted-foreground animate-pulse">
+                    Loading...
+                  </span>
                 )}
               </div>
-            )}
+              <Textarea
+                id="definitions"
+                value={definitions}
+                onChange={(e) => handleDefinitionsChange(e.target.value)}
+                placeholder="Your personal definitions and homily guidelines will appear here. Click 'Reset to Default' to load comprehensive guidelines, or start writing your own..."
+                className="min-h-[200px]"
+                disabled={isLoading}
+              />
+            </div>
           </CardContent>
           <CardFooter className="flex justify-between">
             <Button 
