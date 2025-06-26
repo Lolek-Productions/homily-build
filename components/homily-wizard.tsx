@@ -55,7 +55,7 @@ interface HomilyWizardProps {
 }
 
 export default function HomilyWizard({ homily }: HomilyWizardProps) {
-  const { user, userSettings } = useAppContext()
+  const { user } = useAppContext()
   const router = useRouter()
   const searchParams = useSearchParams()
   const { showResponseToast, showErrorToast } = useApiToast()
