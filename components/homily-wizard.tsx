@@ -171,6 +171,23 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
     const url = new URL(window.location.href)
     url.searchParams.set('step', currentStep.toString())
     router.replace(url.pathname + url.search)
+    
+    // Center the active step in the viewport
+    setTimeout(() => {
+      const container = document.getElementById('steps-container') as HTMLElement | null
+      const activeStep = document.querySelector(`[data-step="${currentStep}"]`) as HTMLElement | null
+      
+      if (container && activeStep) {
+        const containerWidth = container.offsetWidth
+        const stepLeft = activeStep.getBoundingClientRect().left
+        const containerLeft = container.getBoundingClientRect().left
+        const stepWidth = activeStep.offsetWidth
+        
+        // Calculate scroll position to center the active step
+        const scrollPosition = (stepLeft - containerLeft) - (containerWidth / 2) + (stepWidth / 2)
+        container.scrollTo({ left: container.scrollLeft + scrollPosition, behavior: 'smooth' })
+      }
+    }, 100)
   }, [currentStep, router])
 
   const steps = [
@@ -415,32 +432,33 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
 
       {/* Progress Steps - Horizontally Scrollable */}
       <div className="mb-8">
-        <div className="overflow-x-auto pb-4">
+        <div className="overflow-x-auto pb-4" id="steps-container">
           <div className="flex space-x-6 min-w-max px-1">
             {steps.map((step, index) => {
               const Icon = step.icon;
               const isActive = step.id === currentStep;
               const isCompleted = step.id < currentStep;
-              const isAccessible = true; // Allow navigation to any step; restrict if needed
+              // Only allow navigation to completed steps or current step (disable skipping ahead)
+              const isAccessible = step.id <= currentStep;
 
               return (
-                <div key={step.id} className="flex items-center flex-shrink-0">
+                <div key={step.id} className="flex items-center flex-shrink-0" data-step={step.id}>
                   <div className="flex flex-col items-center min-w-0">
                     <button
                       type="button"
-                      onClick={() => isAccessible && setCurrentStep(step.id)}
+                      onClick={() => isAccessible ? handleStepChange(step.id) : null}
                       className={`flex items-center justify-center w-12 h-12 rounded-full border-2 mb-2 focus:outline-none transition-all duration-150
                         ${isCompleted ? "bg-green-500 border-green-500 text-white hover:brightness-110" :
                           isActive ? "bg-indigo-600 border-indigo-600 text-white hover:brightness-110" :
                           "bg-white border-gray-300 text-gray-400 hover:border-indigo-400 hover:text-indigo-600"}
-                        cursor-pointer`}
+                        ${isAccessible ? 'cursor-pointer' : 'cursor-not-allowed'}`}
                       aria-label={`Go to step ${step.id}: ${step.name}`}
                     >
                       <Icon className="w-5 h-5" />
                     </button>
                     <div className="text-center">
                       <p
-                        className={`text-xs font-medium whitespace-nowrap ${isAccessible ? "text-gray-900" : "text-gray-400"}`}
+                        className={`text-xs font-medium whitespace-nowrap ${isActive ? "text-indigo-600 font-semibold" : isAccessible ? "text-gray-900" : "text-gray-400"}`}
                       >
                         {step.name}
                       </p>
