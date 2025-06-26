@@ -97,55 +97,63 @@ export default function Dashboard() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <p className="text-gray-600">Create impactful homilies in 6 simple steps:</p>
+                  <p className="text-gray-600">Create impactful homilies in 7 simple steps:</p>
                   
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="border border-gray-100 bg-gray-50 rounded-lg p-4">
                       <div className="flex items-center mb-2">
                         <div className="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center font-semibold mr-2">1</div>
-                        <h3 className="font-medium">Select Weekend & Readings</h3>
+                        <h3 className="font-medium">Title and Description</h3>
                       </div>
-                      <p className="text-sm text-gray-600">Choose from our integrated liturgical calendar.</p>
+                      <p className="text-sm text-gray-600">Create a memorable title and brief description for your homily.</p>
                     </div>
                     
                     <div className="border border-gray-100 bg-gray-50 rounded-lg p-4">
                       <div className="flex items-center mb-2">
                         <div className="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center font-semibold mr-2">2</div>
-                        <h3 className="font-medium">AI Theme Generation</h3>
+                        <h3 className="font-medium">Context</h3>
                       </div>
-                      <p className="text-sm text-gray-600">Get AI-suggested themes connecting scripture passages.</p>
+                      <p className="text-sm text-gray-600">Select or create a context to provide theological framework.</p>
                     </div>
                     
                     <div className="border border-gray-100 bg-gray-50 rounded-lg p-4">
                       <div className="flex items-center mb-2">
                         <div className="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center font-semibold mr-2">3</div>
-                        <h3 className="font-medium">Customize Content</h3>
+                        <h3 className="font-medium">Scripture Readings</h3>
                       </div>
-                      <p className="text-sm text-gray-600">Tailor your homily to different audiences.</p>
+                      <p className="text-sm text-gray-600">Enter scripture readings or pericopes for your homily.</p>
                     </div>
                     
                     <div className="border border-gray-100 bg-gray-50 rounded-lg p-4">
                       <div className="flex items-center mb-2">
                         <div className="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center font-semibold mr-2">4</div>
-                        <h3 className="font-medium">Structure Development</h3>
+                        <h3 className="font-medium">Definitions</h3>
                       </div>
-                      <p className="text-sm text-gray-600">Organize your homily with clear introduction and conclusion.</p>
+                      <p className="text-sm text-gray-600">Define key terms and concepts for your homily.</p>
                     </div>
                     
                     <div className="border border-gray-100 bg-gray-50 rounded-lg p-4">
                       <div className="flex items-center mb-2">
                         <div className="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center font-semibold mr-2">5</div>
-                        <h3 className="font-medium">Review & Edit</h3>
+                        <h3 className="font-medium">First Questions</h3>
                       </div>
-                      <p className="text-sm text-gray-600">Refine your homily with our intuitive editor.</p>
+                      <p className="text-sm text-gray-600">Generate and answer initial questions about your homily theme.</p>
                     </div>
                     
                     <div className="border border-gray-100 bg-gray-50 rounded-lg p-4">
                       <div className="flex items-center mb-2">
                         <div className="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center font-semibold mr-2">6</div>
-                        <h3 className="font-medium">Final Preparation</h3>
+                        <h3 className="font-medium">Second Questions</h3>
                       </div>
-                      <p className="text-sm text-gray-600">Practice and prepare for delivery at Mass.</p>
+                      <p className="text-sm text-gray-600">Dive deeper with follow-up questions and refined themes.</p>
+                    </div>
+                    
+                    <div className="border border-gray-100 bg-gray-50 rounded-lg p-4">
+                      <div className="flex items-center mb-2">
+                        <div className="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center font-semibold mr-2">7</div>
+                        <h3 className="font-medium">Final Draft</h3>
+                      </div>
+                      <p className="text-sm text-gray-600">Generate and refine the final draft of your homily.</p>
                     </div>
                   </div>
                   

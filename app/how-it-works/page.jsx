@@ -17,7 +17,7 @@ export default function HowItWorks() {
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Build Great Homilies</h1>
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              Our platform streamlines homily preparation with a proven 6-step process, using a digital assistant, designed especially for Catholic priests.
+              Our platform streamlines homily preparation with a proven 7-step process, using a digital assistant, designed especially for Catholic preachers.
             </p>
           </div>
         </section>
@@ -25,16 +25,16 @@ export default function HowItWorks() {
         {/* Process Steps */}
         <section className="py-16 bg-white">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl font-bold text-center mb-12">Our 6-Step Homily Creation Process</h2>
+            <h2 className="text-3xl font-bold text-center mb-12">Our 7-Step Homily Creation Process</h2>
             
             <div className="grid md:grid-cols-2 gap-8">
               {/* Step 1 */}
               <div className="bg-gray-50 p-6 rounded-lg border border-gray-100">
                 <div className="flex items-center mb-4">
                   <div className="bg-indigo-100 text-indigo-700 rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3">1</div>
-                  <h3 className="text-xl font-semibold">Name and Description</h3>
+                  <h3 className="text-xl font-semibold">Title and Description</h3>
                 </div>
-                <p className="text-gray-600 mb-4">Start by giving your homily a title and a brief description to outline its focus and purpose.</p>
+                <p className="text-gray-600 mb-4">Create a memorable title and brief description for your homily.</p>
                 <div className="flex items-center text-indigo-600">
                   <FileText className="w-5 h-5 mr-2" />
                   <span className="text-sm font-medium">Clear Focus</span>
@@ -45,12 +45,12 @@ export default function HowItWorks() {
               <div className="bg-gray-50 p-6 rounded-lg border border-gray-100">
                 <div className="flex items-center mb-4">
                   <div className="bg-indigo-100 text-indigo-700 rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3">2</div>
-                  <h3 className="text-xl font-semibold">Scripture Readings</h3>
+                  <h3 className="text-xl font-semibold">Context</h3>
                 </div>
-                <p className="text-gray-600 mb-4">Input the scripture readings for your homily.</p>
+                <p className="text-gray-600 mb-4">Select or create a context to provide theological framework.</p>
                 <div className="flex items-center text-indigo-600">
                   <BookOpen className="w-5 h-5 mr-2" />
-                  <span className="text-sm font-medium">Liturgical Integration</span>
+                  <span className="text-sm font-medium">Theological Framework</span>
                 </div>
               </div>
 
@@ -58,12 +58,12 @@ export default function HowItWorks() {
               <div className="bg-gray-50 p-6 rounded-lg border border-gray-100">
                 <div className="flex items-center mb-4">
                   <div className="bg-indigo-100 text-indigo-700 rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3">3</div>
-                  <h3 className="text-xl font-semibold">Key Definitions</h3>
+                  <h3 className="text-xl font-semibold">Scripture Readings</h3>
                 </div>
-                <p className="text-gray-600 mb-4">Define important theological terms and concepts to guide your homily's message.</p>
+                <p className="text-gray-600 mb-4">Enter scripture readings or pericopes for your homily.</p>
                 <div className="flex items-center text-indigo-600">
-                  <Target className="w-5 h-5 mr-2" />
-                  <span className="text-sm font-medium">Theological Clarity</span>
+                  <BookOpen className="w-5 h-5 mr-2" />
+                  <span className="text-sm font-medium">Liturgical Integration</span>
                 </div>
               </div>
 
@@ -71,12 +71,12 @@ export default function HowItWorks() {
               <div className="bg-gray-50 p-6 rounded-lg border border-gray-100">
                 <div className="flex items-center mb-4">
                   <div className="bg-indigo-100 text-indigo-700 rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3">4</div>
-                  <h3 className="text-xl font-semibold">First Set of Questions</h3>
+                  <h3 className="text-xl font-semibold">Definitions</h3>
                 </div>
-                <p className="text-gray-600 mb-4">Explore the main themes and messages with guided questions about the readings.</p>
+                <p className="text-gray-600 mb-4">Define key terms and concepts for your homily.</p>
                 <div className="flex items-center text-indigo-600">
-                  <Edit className="w-5 h-5 mr-2" />
-                  <span className="text-sm font-medium">Thematic Exploration</span>
+                  <Target className="w-5 h-5 mr-2" />
+                  <span className="text-sm font-medium">Theological Clarity</span>
                 </div>
               </div>
 
@@ -84,12 +84,12 @@ export default function HowItWorks() {
               <div className="bg-gray-50 p-6 rounded-lg border border-gray-100">
                 <div className="flex items-center mb-4">
                   <div className="bg-indigo-100 text-indigo-700 rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3">5</div>
-                  <h3 className="text-xl font-semibold">Second Set of Questions</h3>
+                  <h3 className="text-xl font-semibold">First Questions</h3>
                 </div>
-                <p className="text-gray-600 mb-4">Dive deeper with follow-up questions that refine your homily's direction and application.</p>
+                <p className="text-gray-600 mb-4">Generate and answer initial questions about your homily theme.</p>
                 <div className="flex items-center text-indigo-600">
                   <Edit className="w-5 h-5 mr-2" />
-                  <span className="text-sm font-medium">Deeper Reflection</span>
+                  <span className="text-sm font-medium">Thematic Exploration</span>
                 </div>
               </div>
 
@@ -97,9 +97,22 @@ export default function HowItWorks() {
               <div className="bg-gray-50 p-6 rounded-lg border border-gray-100">
                 <div className="flex items-center mb-4">
                   <div className="bg-indigo-100 text-indigo-700 rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3">6</div>
+                  <h3 className="text-xl font-semibold">Second Questions</h3>
+                </div>
+                <p className="text-gray-600 mb-4">Dive deeper with follow-up questions and refined themes.</p>
+                <div className="flex items-center text-indigo-600">
+                  <Edit className="w-5 h-5 mr-2" />
+                  <span className="text-sm font-medium">Deeper Reflection</span>
+                </div>
+              </div>
+
+              {/* Step 7 */}
+              <div className="bg-gray-50 p-6 rounded-lg border border-gray-100">
+                <div className="flex items-center mb-4">
+                  <div className="bg-indigo-100 text-indigo-700 rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3">7</div>
                   <h3 className="text-xl font-semibold">Final Draft</h3>
                 </div>
-                <p className="text-gray-600 mb-4">Compile your insights into a cohesive, inspiring homily ready for delivery.</p>
+                <p className="text-gray-600 mb-4">Generate and refine the final draft of your homily.</p>
                 <div className="flex items-center text-indigo-600">
                   <FileText className="w-5 h-5 mr-2" />
                   <span className="text-sm font-medium">Complete Homily</span>

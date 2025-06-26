@@ -157,12 +157,32 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
     // Set the current step state
     setCurrentStep(newStep)
     
-    // If navigating to step 3, pre-load definitions
-    if (newStep === 3 && !homilyData.definitions && userSettings?.definitions) {
-      setHomilyData(prev => ({
-        ...prev,
-        definitions: userSettings.definitions || ""
-      }))
+    // If navigating to step 3 or 4, refresh user settings and pre-load definitions
+    if ((newStep === 3 || newStep === 4) && !homilyData.definitions) {
+      console.log(`Refreshing user settings and pre-loading definitions for step ${newStep}`)
+      
+      try {
+        // Use the server action to get fresh user settings
+        const { getUserSettings } = await import('@/lib/actions/userSettings')
+        const { data, error } = await getUserSettings(user?.id)
+        
+        if (error) {
+          console.error('Error refreshing user settings:', error)
+          return
+        }
+        
+        if (data?.definitions) {
+          setHomilyData(prev => ({
+            ...prev,
+            definitions: data.definitions || ""
+          }))
+          console.log('Successfully loaded fresh definitions from user settings')
+        } else {
+          console.log('No definitions found in refreshed user settings')
+        }
+      } catch (error) {
+        console.error('Error refreshing user settings:', error)
+      }
     }
   }
   
