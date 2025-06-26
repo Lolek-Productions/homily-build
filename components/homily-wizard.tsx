@@ -403,7 +403,7 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
       console.log('Refreshing definitions from server')
       const { getUserSettings } = await import('@/lib/actions/userSettings')
       const { data, error } = await getUserSettings(user.id)
-      console.log('User settings:', data)
+      console.log('User settings:', data, error)
       
       if (error) {
         console.error('Error fetching user settings:', error)
