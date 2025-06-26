@@ -12,6 +12,7 @@ import {
   Container
 } from "lucide-react"
 import { NavUser } from "@/components/nav-user"
+import { ThemeSwitcher } from "@/components/theme-switcher"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -138,7 +139,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
       </SidebarContent>
       <SidebarFooter>
-        <NavUser />
+        <div className="flex items-center justify-between px-4 py-2">
+          <NavUser />
+          <ThemeSwitcher />
+        </div>
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

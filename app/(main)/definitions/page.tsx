@@ -19,11 +19,14 @@ export default function Definitions() {
   const [isSaving, setIsSaving] = useState(false)
   const { showResponseToast, showErrorToast } = useApiToast()
 
+  // Load definitions when userSettings changes or on component mount
   useEffect(() => {
-    if (userSettings?.definitions !== undefined) {
-      setDefinitions(userSettings.definitions || "")
+    if (userSettings) {
+      // Use the definitions from userSettings or fall back to default if not available
+      const definitionsValue = userSettings.definitions || DEFAULT_USER_SETTINGS_DEFINITION || ""
+      setDefinitions(definitionsValue)
     }
-  }, [userSettings?.definitions])
+  }, [userSettings])
 
   const handleDefinitionsChange = (value: string) => {
     setDefinitions(value)
@@ -82,7 +85,7 @@ export default function Definitions() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-background">
       <MainHeader 
         breadcrumbs={[
           { label: "Definitions", active: true }
@@ -91,8 +94,8 @@ export default function Definitions() {
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">Definitions</h2>
-          <p className="text-gray-600">Your personal definitions and theological terms that help guide homily creation</p>
+          <h2 className="text-3xl font-bold text-foreground mb-2">Definitions</h2>
+          <p className="text-muted-foreground">Your personal definitions and theological terms that help guide homily creation</p>
         </div>
 
         <Card>
@@ -107,7 +110,7 @@ export default function Definitions() {
           </CardHeader>
           <CardContent>
             {isLoading ? (
-              <div className="text-center py-8">Loading definitions...</div>
+              <div className="text-center py-8 text-foreground">Loading definitions...</div>
             ) : (
               <div className="space-y-4">
                 <Label htmlFor="definitions">Definitions</Label>

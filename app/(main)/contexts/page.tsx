@@ -172,7 +172,7 @@ export default function Contexts() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-background">
       <MainHeader 
         breadcrumbs={[
           { label: "Contexts", active: true }
@@ -182,8 +182,8 @@ export default function Contexts() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">Contexts</h2>
-            <p className="text-gray-600">Create and manage preaching contexts for your homilies</p>
+            <h2 className="text-3xl font-bold text-foreground mb-2">Contexts</h2>
+            <p className="text-muted-foreground">Create and manage preaching contexts for your homilies</p>
           </div>
           <Button onClick={handleAddContext} className="flex items-center gap-2">
             <Plus className="h-4 w-4" />
@@ -203,14 +203,14 @@ export default function Contexts() {
           </CardHeader>
           <CardContent>
             {isLoadingContexts && hasAttemptedLoad ? (
-              <div className="text-center py-8">Loading contexts...</div>
+              <div className="text-center py-8 text-foreground">Loading contexts...</div>
             ) : !user ? (
               <div className="text-center py-8">
-                <p className="text-gray-500 mb-4">Please log in to manage your contexts</p>
+                <p className="text-muted-foreground mb-4">Please log in to manage your contexts</p>
               </div>
             ) : contexts.length === 0 ? (
               <div className="text-center py-8">
-                <p className="text-gray-500 mb-4">You haven&apos;t created any contexts yet</p>
+                <p className="text-muted-foreground mb-4">You haven&apos;t created any contexts yet</p>
                 <Button onClick={handleAddContext} variant="outline" className="flex items-center gap-2 mx-auto">
                   <Plus className="h-4 w-4" />
                   Create Your First Context

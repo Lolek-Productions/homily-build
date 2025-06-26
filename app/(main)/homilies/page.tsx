@@ -221,9 +221,9 @@ export default function HomiliesPage() {
   // Only show loading/login if we definitely don't have a user
   if (!user && !userLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="min-h-screen bg-background">
         <div className="flex items-center justify-center h-64">
-          <div className="text-center">Please log in to view homilies.</div>
+          <div className="text-center text-foreground">Please log in to view homilies.</div>
         </div>
       </div>
     )
@@ -232,16 +232,16 @@ export default function HomiliesPage() {
   // If we have a user, show the main content regardless of userLoading state
   if (!user) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="min-h-screen bg-background">
         <div className="flex items-center justify-center h-64">
-          <div className="text-center">Loading...</div>
+          <div className="text-center text-foreground">Loading...</div>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-background">
       <MainHeader 
         breadcrumbs={[
           { label: "My Homilies", active: true }
@@ -251,8 +251,8 @@ export default function HomiliesPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8 flex justify-between items-start">
           <div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">My Homilies</h2>
-            <p className="text-gray-600">Manage your homilies</p>
+            <h2 className="text-3xl font-bold text-foreground mb-2">My Homilies</h2>
+            <p className="text-muted-foreground">Manage your homilies</p>
           </div>
           <Button asChild className="flex items-center gap-1">
             <Link href="/homilies/create">
@@ -265,13 +265,13 @@ export default function HomiliesPage() {
         {/* Content Card */}
         {isLoading ? (
           <div className="flex items-center justify-center h-64">
-            <div className="text-center">Loading homilies...</div>
+            <div className="text-center text-foreground">Loading homilies...</div>
           </div>
         ) : homilies.error ? (
           <div className="flex items-center justify-center h-64">
             <div className="text-center">
-              <p className="text-red-600 mb-2">Error loading homilies</p>
-              <p className="text-sm text-gray-600 mb-4">{homilies.error}</p>
+              <p className="text-destructive mb-2">Error loading homilies</p>
+              <p className="text-sm text-muted-foreground mb-4">{homilies.error}</p>
               <Button onClick={loadHomilies} variant="outline">
                 <RefreshCw className="w-4 h-4 mr-2" />
                 Try Again
@@ -279,12 +279,12 @@ export default function HomiliesPage() {
             </div>
           </div>
         ) : (
-          <div className="bg-white rounded-lg shadow-sm border p-6">
+          <div className="bg-card rounded-lg shadow-sm border border-border p-6">
             {/* Filters and Search */}
             <div className="mb-6 flex flex-col sm:flex-row gap-4">
               <div className="flex-1">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                   <Input
                     placeholder="Search homilies by title or description..."
                     value={search}
@@ -337,7 +337,7 @@ export default function HomiliesPage() {
             {/* Pagination */}
             {homilies.totalPages > 1 && (
               <div className="mt-6 flex items-center justify-between">
-                <div className="text-sm text-gray-700">
+                <div className="text-sm text-muted-foreground">
                   Showing {((currentPage - 1) * pageSize) + 1} to {Math.min(currentPage * pageSize, homilies.count)} of {homilies.count} results
                 </div>
                 <div className="flex space-x-2">

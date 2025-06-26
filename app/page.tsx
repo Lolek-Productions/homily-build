@@ -30,16 +30,25 @@ export default function Home() {
                   The comprehensive platform for Catholic preachers to create contextual, high-quality homilies efficiently
                   across different audiences and settings.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <div className="w-full max-w-2xl mx-auto mb-8">
+                  <div className="relative pb-[56.25%] h-0 overflow-hidden rounded-lg shadow-lg">
+                    <iframe 
+                      className="absolute top-0 left-0 w-full h-full border-0"
+                      src="https://www.youtube.com/embed/Dvzzds2S7wY" 
+                      title="Homily Builder Demo"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                      allowFullScreen
+                    ></iframe>
+                  </div>
+                </div>
+                
+                <div className="flex justify-center mt-6">
                   <Link href="/auth/sign-up">
-                    <Button size="lg" className="w-full sm:w-auto">
+                    <Button size="lg" className="w-full">
                       Create Your Free Account
                       <ArrowRight className="w-5 h-5 ml-2" />
                     </Button>
                   </Link>
-                  {/* <Button variant="outline" size="lg" className="w-full sm:w-auto">
-                    Watch Demo
-                  </Button> */}
                 </div>
                 {/* <p className="text-sm text-gray-500 mt-4">Free trial • No credit card required</p> */}
               </div>
@@ -61,7 +70,6 @@ export default function Home() {
                   </Button>
                 </Link>
               </div>           
-
             </div>
           </section>
 

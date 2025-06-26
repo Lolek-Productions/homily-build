@@ -11,10 +11,7 @@ import { BookOpen } from "lucide-react";
  */
 export function PublicHeader({ currentPath = "/" }) {
   const navItems = [
-    // { label: "Home", href: "/" },
     { label: "How It Works", href: "/how-it-works" },
-    // { label: "Features", href: "/features" },
-    // { label: "Pricing", href: "/pricing" },
   ];
 
   return (

@@ -14,13 +14,6 @@ interface MainHeaderProps {
   showSidebarTrigger?: boolean;
 }
 
-/**
- * MainHeader displays the main page header with breadcrumbs.
- * @param {MainHeaderProps} props - Component props
- * @param {BreadcrumbItem[]} [props.breadcrumbs=[]] - Array of breadcrumb items
- * @param {boolean} [props.showSidebarTrigger=false] - Whether to show the sidebar trigger
- * @returns {JSX.Element}
- */
 export function MainHeader({ 
   breadcrumbs = [],
   showSidebarTrigger = true
