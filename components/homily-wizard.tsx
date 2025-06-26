@@ -158,7 +158,7 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
     setCurrentStep(newStep)
     
     // If navigating to step 3 or 4, refresh user settings and pre-load definitions
-    if ((newStep === 3 || newStep === 4) && !homilyData.definitions) {
+    if (newStep === 3 || newStep === 4) {
       console.log(`Refreshing user settings and pre-loading definitions for step ${newStep}`)
       
       try {
@@ -390,7 +390,7 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
     }
   };
 
-  // Function to copy global definitions from user settings to the current homily
+  // Function to refresh and copy global definitions from user settings to the current homily
   const handleCopyDefinitions = async () => {
     try {
       // Check if user is logged in
@@ -399,19 +399,8 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
         return
       }
       
-      // First try to use definitions from context if available
-      if (userSettings?.definitions) {
-        console.log('Using definitions from context')
-        setHomilyData(prev => ({
-          ...prev,
-          definitions: userSettings.definitions || ""
-        }))
-        showResponseToast({ success: true, message: "Definitions copied successfully!" })
-        return
-      }
-      
-      // If not in context, fetch directly from the server
-      console.log('Fetching definitions from server')
+      // Always fetch fresh definitions from the server
+      console.log('Refreshing definitions from server')
       const { getUserSettings } = await import('@/lib/actions/userSettings')
       const { data, error } = await getUserSettings(user.id)
       
@@ -422,12 +411,12 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
       }
       
       if (data?.definitions) {
-        console.log('Copying definitions from server')
+        console.log('Copying refreshed definitions from server')
         setHomilyData(prev => ({
           ...prev,
           definitions: data.definitions || ""
         }))
-        showResponseToast({ success: true, message: "Definitions copied successfully!" })
+        showResponseToast({ success: true, message: "Definitions refreshed and copied successfully!" })
       } else {
         console.log('No definitions found in user settings')
         showErrorToast(new Error("No definitions found in user settings"))
