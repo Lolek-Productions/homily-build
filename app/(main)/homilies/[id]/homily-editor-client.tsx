@@ -57,7 +57,7 @@ export default function HomilyEditorClient({ homilyId }: HomilyEditorClientProps
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="min-h-screen bg-background">
         <MainHeader 
           breadcrumbs={[
             { label: "Homilies", href: "/homilies" },
@@ -66,8 +66,8 @@ export default function HomilyEditorClient({ homilyId }: HomilyEditorClientProps
         />
         <div className="flex items-center justify-center py-20">
           <div className="text-center">
-            <Loader className="w-8 h-8 animate-spin mx-auto mb-4 text-blue-600" />
-            <p className="text-gray-600">Loading homily...</p>
+            <Loader className="w-8 h-8 animate-spin mx-auto mb-4 text-primary" />
+            <p className="text-muted-foreground">Loading homily...</p>
           </div>
         </div>
       </div>
@@ -76,7 +76,7 @@ export default function HomilyEditorClient({ homilyId }: HomilyEditorClientProps
 
   if (!homily) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="min-h-screen bg-background">
         <MainHeader 
           breadcrumbs={[
             { label: "Homilies", href: "/homilies" },
@@ -85,8 +85,8 @@ export default function HomilyEditorClient({ homilyId }: HomilyEditorClientProps
         />
         <div className="flex items-center justify-center py-20">
           <div className="text-center">
-            <p className="text-red-600 mb-4">Failed to load homily</p>
-            <Link href="/homilies" className="text-blue-600 hover:underline">
+            <p className="text-destructive mb-4">Failed to load homily</p>
+            <Link href="/homilies" className="text-primary hover:underline">
               Return to Homilies
             </Link>
           </div>
@@ -96,7 +96,7 @@ export default function HomilyEditorClient({ homilyId }: HomilyEditorClientProps
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-background">
       <MainHeader 
         breadcrumbs={[
           { label: "Homilies", href: "/homilies" },

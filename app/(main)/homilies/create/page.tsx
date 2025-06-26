@@ -66,7 +66,7 @@ export default function CreateHomily() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-background">
       <MainHeader 
         breadcrumbs={[
           { label: "Homilies", href: "/homilies" },
@@ -77,17 +77,17 @@ export default function CreateHomily() {
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
         <div className="mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">Create New Homily</h2>
-          <p className="text-gray-600">Create a new homily</p>
+          <h2 className="text-3xl font-bold text-foreground mb-2">Create New Homily</h2>
+          <p className="text-muted-foreground">Create a new homily</p>
         </div>
 
         
-        <Card className="shadow-lg">
+        <Card className="shadow-lg border-border">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-bold text-gray-900">
+            <CardTitle className="text-2xl font-bold text-foreground">
               Create New Homily
             </CardTitle>
-            <p className="text-gray-600 mt-2">
+            <p className="text-muted-foreground mt-2">
               Start by giving your homily a title, then we&apos;ll guide you through the creation process.
             </p>
           </CardHeader>
@@ -137,7 +137,7 @@ export default function CreateHomily() {
                 {isCreating ? "Creating Homily..." : "Create Homily & Continue"}
               </Button>
               
-              <p className="text-sm text-gray-500 text-center mt-2">
+              <p className="text-sm text-muted-foreground text-center mt-2">
                 Press ⌘+Enter to create quickly
               </p>
             </div>

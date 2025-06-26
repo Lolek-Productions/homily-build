@@ -505,8 +505,8 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8 flex justify-between items-start">
         <div>
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">Homily: {homilyData.title}</h2>
-          <p className="text-gray-600">Description: {homilyData.description}</p>
+          <h2 className="text-3xl font-bold text-foreground mb-2">Homily: {homilyData.title}</h2>
+          <p className="text-muted-foreground">Description: {homilyData.description}</p>
         </div>
         <Button
           type="button"
@@ -555,7 +555,7 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
                     </button>
                     <div className="text-center">
                       <p
-                        className={`text-xs font-medium whitespace-nowrap ${isActive ? "text-indigo-600 font-semibold" : isAccessible ? "text-gray-900" : "text-gray-400"}`}
+                        className={`text-xs font-medium whitespace-nowrap ${isActive ? "text-foreground font-semibold" : isAccessible ? "text-foreground" : "text-muted-foreground"}`}
                       >
                         {step.name}
                       </p>
@@ -918,27 +918,27 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
                 <ChevronRight className="w-4 h-4 ml-2" />
               </Button>
               {currentStep === 2 && !homilyData.context.trim() && (
-                <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-popover text-popover-foreground text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
                   Please enter or select a context to continue
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-4 border-t-gray-800"></div>
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-4 border-t-popover"></div>
                 </div>
               )}
               {currentStep === 3 && !homilyData.readings.trim() && (
-                <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-popover text-popover-foreground text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
                   Please enter scripture readings to continue
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-4 border-t-gray-800"></div>
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-4 border-t-popover"></div>
                 </div>
               )}
               {currentStep === 5 && !homilyData.first_set_of_questions.trim() && (
-                <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-popover text-popover-foreground text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
                   Please complete the first set of questions to continue
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-4 border-t-gray-800"></div>
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-4 border-t-popover"></div>
                 </div>
               )}
               {currentStep === 6 && !homilyData.second_set_of_questions.trim() && (
-                <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-popover text-popover-foreground text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
                   Please complete the second set of questions to continue
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-4 border-t-gray-800"></div>
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-4 border-t-popover"></div>
                 </div>
               )}
             </div>
