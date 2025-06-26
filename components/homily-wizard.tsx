@@ -66,6 +66,12 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
 
   // Handle step navigation with auto-save
   const handleStepChange = async (newStep: number) => {
+    // If moving forward from step 2, validate that readings are provided
+    if (newStep > currentStep && currentStep === 2 && !homilyData.readings.trim()) {
+      showErrorToast(new Error('Please enter the scripture readings before proceeding'))
+      return
+    }
+
     // If moving forward, save the current progress first
     if (newStep > currentStep) {
       await saveCurrentProgress()
@@ -251,6 +257,7 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
     setIsLoadingAI(true);
     try {
       const prompt = getFinalDraftPrompt(homilyData);
+      console.log('Prompt:', prompt)
       const result = await generateClaudeResponse(prompt, user.id);
       if (result.error) {
         showErrorToast(new Error(result.error));
@@ -647,12 +654,22 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
 
         <div className="flex items-center space-x-4">
           {currentStep < steps.length ? (
-            <Button 
-              onClick={handleNext}
-            >
-              Next
-              <ChevronRight className="w-4 h-4 ml-2" />
-            </Button>
+            <div className="relative group">
+              <Button 
+                onClick={handleNext}
+                disabled={currentStep === 2 && !homilyData.readings.trim()}
+                className={currentStep === 2 && !homilyData.readings.trim() ? "opacity-70" : ""}
+              >
+                Next
+                <ChevronRight className="w-4 h-4 ml-2" />
+              </Button>
+              {currentStep === 2 && !homilyData.readings.trim() && (
+                <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+                  Please enter scripture readings to continue
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-4 border-t-gray-800"></div>
+                </div>
+              )}
+            </div>
           ) : null}
         </div>
       </div>
