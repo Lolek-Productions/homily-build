@@ -1,4 +1,4 @@
-# Homily.Build
+# Homily.build
 
 > AI-powered homily creation platform for Catholic priests
 
@@ -8,7 +8,7 @@
 
 ## 📖 About
 
-Homily.Build is a comprehensive platform designed to help Catholic priests create meaningful, contextual homilies efficiently. The application integrates liturgical resources, AI-powered theme generation, and Catholic teaching materials to streamline the homily preparation process.
+Homily.build is a comprehensive platform designed to help Catholic priests create meaningful, contextual homilies efficiently. The application integrates liturgical resources, AI-powered theme generation, and Catholic teaching materials to streamline the homily preparation process.
 
 **📋 Full Project Documentation:** [Google Docs](https://docs.google.com/document/d/151xe6_dxZ1lHEBj-XKYCtUtzzmK9vIfWSyWGG5NNMVM/edit?tab=t.0)
 

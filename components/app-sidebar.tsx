@@ -33,7 +33,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               />
             </div>
             <div>
-              <h1 className="text-lg sm:text-xl font-bold text-sidebar-foreground">Homily.Build</h1>
+              <h1 className="text-lg sm:text-xl font-bold text-sidebar-foreground">Homily.build</h1>
               <p className="text-xs text-sidebar-foreground/60 hidden sm:block">Catholic Preaching Platform</p>
             </div>
           </Link>
