@@ -195,7 +195,7 @@ export default function Contexts() {
           <CardHeader>
             <CardTitle className="flex items-center">
               <Container className="w-5 h-5 mr-2" />
-              Your Contexts
+              My Contexts
             </CardTitle>
             <CardDescription>
               Define different preaching contexts to use when creating homilies
