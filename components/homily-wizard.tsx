@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef, useCallback } from "react"
 import {
   ArrowLeft,
   BookOpen,
@@ -93,7 +93,7 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
   }, [currentStep, user?.id, contexts.length])
 
   // Function to load contexts from the database
-  const loadContexts = async () => {
+  const loadContexts = useCallback(async () => {
     if (!user?.id) return
     
     setIsLoadingContexts(true)
@@ -110,7 +110,7 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
     } finally {
       setIsLoadingContexts(false)
     }
-  }
+  }, [user?.id])
 
   // Handle step navigation with auto-save
   const handleStepChange = async (newStep: number) => {

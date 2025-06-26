@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import { Container, Plus, Pencil, Trash2, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -35,20 +35,8 @@ export default function Contexts() {
   const [contextName, setContextName] = useState("")
   const [hasAttemptedLoad, setHasAttemptedLoad] = useState(false)
   
-  // Load contexts when component mounts or user changes
-  useEffect(() => {
-    if (user?.id) {
-      loadContexts()
-      setHasAttemptedLoad(true)
-    } else if (!isLoading) {
-      // If user is not loading and we don't have a user ID, set loading to false
-      setIsLoadingContexts(false)
-      setHasAttemptedLoad(true)
-    }
-  }, [user?.id, isLoading])
-  
   // Load contexts from the server
-  const loadContexts = async () => {
+  const loadContexts = useCallback(async () => {
     if (!user?.id) {
       console.log("No user ID available, skipping context load")
       setIsLoadingContexts(false)
@@ -75,7 +63,19 @@ export default function Contexts() {
     } finally {
       setIsLoadingContexts(false)
     }
-  }
+  }, [user?.id])
+  
+  // Load contexts when component mounts or user changes
+  useEffect(() => {
+    if (user?.id) {
+      loadContexts()
+      setHasAttemptedLoad(true)
+    } else if (!isLoading) {
+      // If user is not loading and we don't have a user ID, set loading to false
+      setIsLoadingContexts(false)
+      setHasAttemptedLoad(true)
+    }
+  }, [user?.id, isLoading, loadContexts])
   
   // Open dialog for creating a new context
   const handleAddContext = () => {
@@ -210,7 +210,7 @@ export default function Contexts() {
               </div>
             ) : contexts.length === 0 ? (
               <div className="text-center py-8">
-                <p className="text-gray-500 mb-4">You haven't created any contexts yet</p>
+                <p className="text-gray-500 mb-4">You haven&apos;t created any contexts yet</p>
                 <Button onClick={handleAddContext} variant="outline" className="flex items-center gap-2 mx-auto">
                   <Plus className="h-4 w-4" />
                   Create Your First Context
