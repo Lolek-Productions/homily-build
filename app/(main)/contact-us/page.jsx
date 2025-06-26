@@ -4,15 +4,15 @@ export default function ContactPage() {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Contact Us</h1>
-        <p className="text-gray-500">Get in touch with the Homily Builder team</p>
+        <h1 className="text-3xl font-bold text-foreground mb-2">Contact Us</h1>
+        <p className="text-muted-foreground">Get in touch with the Homily Builder team</p>
       </div>
       
-      <div className="bg-white rounded-lg shadow-sm border p-6">
+      <div className="bg-card rounded-lg shadow-sm border p-6">
         <div className="space-y-6">
           <div>
-            <h2 className="text-xl font-semibold mb-4">Contact Information</h2>
-            <p className="mb-6">Have questions, feedback, or need assistance with Homily Builder? We're here to help!</p>
+            <h2 className="text-xl font-semibold mb-4 text-foreground">Contact Information</h2>
+            <p className="mb-6 text-card-foreground">Have questions, feedback, or need assistance with Homily Builder? We're here to help!</p>
           </div>
           
           <div className="flex items-center py-3 border-b">
@@ -20,16 +20,16 @@ export default function ContactPage() {
               <Mail className="w-4 h-4 text-primary" />
             </div>
             <div>
-              <p className="text-sm text-gray-500">Email</p>
-              <a href="mailto:fr.josh@lolekproductions.org" className="font-medium hover:underline">
+              <p className="text-sm text-muted-foreground">Email</p>
+              <a href="mailto:fr.josh@lolekproductions.org" className="font-medium hover:underline text-foreground">
                 fr.josh@lolekproductions.org
               </a>
             </div>
           </div>
           
           <div className="pt-6">
-            <h3 className="font-medium mb-2">About Homily Builder</h3>
-            <p className="text-gray-600">
+            <h3 className="font-medium mb-2 text-foreground">About Homily Builder</h3>
+            <p className="text-card-foreground/80">
               Homily Builder is a tool designed to help preachers create meaningful and impactful homilies.
               We're dedicated to supporting your ministry through technology.
             </p>

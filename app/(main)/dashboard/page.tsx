@@ -53,7 +53,7 @@ export default function Dashboard() {
   // Removed unused variables
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-background">
       <MainHeader 
         breadcrumbs={[
           { label: "Dashboard", active: true }
@@ -62,8 +62,8 @@ export default function Dashboard() {
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">Dashboard</h2>
-          <p className="text-gray-600">Create meaningful, contextual homilies for your diverse communities</p>
+          <h2 className="text-3xl font-bold text-foreground mb-2">Dashboard</h2>
+          <p className="text-muted-foreground">Create meaningful, contextual homilies for your diverse communities</p>
         </div>
 
           <div>
@@ -78,7 +78,7 @@ export default function Dashboard() {
               <CardContent>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <Link href="/homilies/create">
-                    <Button className="w-full h-16 sm:h-20 flex flex-col items-center justify-center space-y-1 sm:space-y-2 bg-indigo-600 hover:bg-indigo-700">
+                    <Button className="w-full h-16 sm:h-20 flex flex-col items-center justify-center space-y-1 sm:space-y-2 bg-primary hover:bg-primary/90">
                       <BookOpen className="w-5 h-5 sm:w-6 sm:h-6" />
                       <span className="text-sm sm:text-base">Create New Homily</span>
                     </Button>
@@ -97,63 +97,63 @@ export default function Dashboard() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <p className="text-gray-600">Create impactful homilies in 7 simple steps:</p>
+                  <p className="text-card-foreground">Create impactful homilies in 7 simple steps:</p>
                   
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="border border-gray-100 bg-gray-50 rounded-lg p-4">
+                    <div className="border border-border bg-card/50 rounded-lg p-4">
                       <div className="flex items-center mb-2">
-                        <div className="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center font-semibold mr-2">1</div>
-                        <h3 className="font-medium">Title and Description</h3>
+                        <div className="bg-primary/10 text-primary rounded-full w-6 h-6 flex items-center justify-center font-semibold mr-2">1</div>
+                        <h3 className="font-medium text-foreground">Title and Description</h3>
                       </div>
-                      <p className="text-sm text-gray-600">Create a memorable title and brief description for your homily.</p>
+                      <p className="text-sm text-muted-foreground">Create a memorable title and brief description for your homily.</p>
                     </div>
                     
-                    <div className="border border-gray-100 bg-gray-50 rounded-lg p-4">
+                    <div className="border border-border bg-card/50 rounded-lg p-4">
                       <div className="flex items-center mb-2">
-                        <div className="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center font-semibold mr-2">2</div>
-                        <h3 className="font-medium">Context</h3>
+                        <div className="bg-primary/10 text-primary rounded-full w-6 h-6 flex items-center justify-center font-semibold mr-2">2</div>
+                        <h3 className="font-medium text-foreground">Context</h3>
                       </div>
-                      <p className="text-sm text-gray-600">Select or create a context to provide theological framework.</p>
+                      <p className="text-sm text-muted-foreground">Select or create a context to provide theological framework.</p>
                     </div>
                     
-                    <div className="border border-gray-100 bg-gray-50 rounded-lg p-4">
+                    <div className="border border-border bg-card/50 rounded-lg p-4">
                       <div className="flex items-center mb-2">
-                        <div className="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center font-semibold mr-2">3</div>
-                        <h3 className="font-medium">Scripture Readings</h3>
+                        <div className="bg-primary/10 text-primary rounded-full w-6 h-6 flex items-center justify-center font-semibold mr-2">3</div>
+                        <h3 className="font-medium text-foreground">Scripture Readings</h3>
                       </div>
-                      <p className="text-sm text-gray-600">Enter scripture readings or pericopes for your homily.</p>
+                      <p className="text-sm text-muted-foreground">Enter scripture readings or pericopes for your homily.</p>
                     </div>
                     
-                    <div className="border border-gray-100 bg-gray-50 rounded-lg p-4">
+                    <div className="border border-border bg-card/50 rounded-lg p-4">
                       <div className="flex items-center mb-2">
-                        <div className="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center font-semibold mr-2">4</div>
-                        <h3 className="font-medium">Definitions</h3>
+                        <div className="bg-primary/10 text-primary rounded-full w-6 h-6 flex items-center justify-center font-semibold mr-2">4</div>
+                        <h3 className="font-medium text-foreground">Definitions</h3>
                       </div>
-                      <p className="text-sm text-gray-600">Define key terms and concepts for your homily.</p>
+                      <p className="text-sm text-muted-foreground">Define key terms and concepts for your homily.</p>
                     </div>
                     
-                    <div className="border border-gray-100 bg-gray-50 rounded-lg p-4">
+                    <div className="border border-border bg-card/50 rounded-lg p-4">
                       <div className="flex items-center mb-2">
-                        <div className="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center font-semibold mr-2">5</div>
-                        <h3 className="font-medium">First Questions</h3>
+                        <div className="bg-primary/10 text-primary rounded-full w-6 h-6 flex items-center justify-center font-semibold mr-2">5</div>
+                        <h3 className="font-medium text-foreground">First Questions</h3>
                       </div>
-                      <p className="text-sm text-gray-600">Generate and answer initial questions about your homily theme.</p>
+                      <p className="text-sm text-muted-foreground">Generate and answer initial questions about your homily theme.</p>
                     </div>
                     
-                    <div className="border border-gray-100 bg-gray-50 rounded-lg p-4">
+                    <div className="border border-border bg-card/50 rounded-lg p-4">
                       <div className="flex items-center mb-2">
-                        <div className="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center font-semibold mr-2">6</div>
-                        <h3 className="font-medium">Second Questions</h3>
+                        <div className="bg-primary/10 text-primary rounded-full w-6 h-6 flex items-center justify-center font-semibold mr-2">6</div>
+                        <h3 className="font-medium text-foreground">Second Questions</h3>
                       </div>
-                      <p className="text-sm text-gray-600">Dive deeper with follow-up questions and refined themes.</p>
+                      <p className="text-sm text-muted-foreground">Dive deeper with follow-up questions and refined themes.</p>
                     </div>
                     
-                    <div className="border border-gray-100 bg-gray-50 rounded-lg p-4">
+                    <div className="border border-border bg-card/50 rounded-lg p-4">
                       <div className="flex items-center mb-2">
-                        <div className="bg-indigo-100 text-indigo-700 rounded-full w-6 h-6 flex items-center justify-center font-semibold mr-2">7</div>
-                        <h3 className="font-medium">Final Draft</h3>
+                        <div className="bg-primary/10 text-primary rounded-full w-6 h-6 flex items-center justify-center font-semibold mr-2">7</div>
+                        <h3 className="font-medium text-foreground">Final Draft</h3>
                       </div>
-                      <p className="text-sm text-gray-600">Generate and refine the final draft of your homily.</p>
+                      <p className="text-sm text-muted-foreground">Generate and refine the final draft of your homily.</p>
                     </div>
                   </div>
                   
