@@ -36,7 +36,7 @@ export default function CreateHomily() {
     try {
       const result = await createHomily(user.id, {
         title: title.trim(),
-        description: description.trim() || "New homily in progress",
+        description: description.trim(),
         definitions: "",
         readings: "",
         first_set_of_questions: "",
