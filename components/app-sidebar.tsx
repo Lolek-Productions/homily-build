@@ -11,6 +11,7 @@ import {
   Mail,
   Container
 } from "lucide-react"
+import Image from "next/image"
 import { NavUser } from "@/components/nav-user"
 import { ThemeSwitcher } from "@/components/theme-switcher"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar"
@@ -22,8 +23,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <div className="flex justify-between items-center py-4 px-2">
           <Link href="/dashboard" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
-            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-indigo-600 rounded-lg flex items-center justify-center">
-              <BookOpen className="w-5 h-5 text-white" />
+            <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center">
+              <Image 
+                src="/homily-build-logo.svg" 
+                alt="Homily.build Logo" 
+                width={40} 
+                height={40} 
+                priority
+              />
             </div>
             <div>
               <h1 className="text-lg sm:text-xl font-bold text-sidebar-foreground">Homily.Build</h1>
