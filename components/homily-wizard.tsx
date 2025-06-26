@@ -397,28 +397,56 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
     }
   };
 
-  const copyUserSettingsDefinitionsToHomily = () => {
+  const copyUserSettingsDefinitionsToHomily = async () => {
     console.log("COPY FUNCTION CALLED", { 
       hasUserSettings: !!userSettings,
       definitionsExist: !!userSettings?.definitions,
       definitionsValue: userSettings?.definitions
     })
     
-    // Only update if we actually have definitions
+    // If userSettings is available in context, use it
     if (userSettings?.definitions) {
-      setHomilyData(prev => {
-        console.log("Updating homily data with definitions", {
-          prevDefinitions: prev.definitions,
-          newDefinitions: userSettings?.definitions
-        })
-        return {
-          ...prev,
-          definitions: userSettings?.definitions || ""
-        }
-      })
+      console.log("Using definitions from context")
+      setHomilyData(prev => ({
+        ...prev,
+        definitions: userSettings.definitions || ""
+      }))
       showResponseToast({ success: true, message: "Definitions copied successfully!" })
-    } else {
-      console.log("No definitions found in user settings, not updating homily data")
+      return
+    }
+    
+    // Otherwise, fetch directly from server
+    console.log("Fetching definitions directly from server")
+    
+    try {
+      if (!user?.id) {
+        showErrorToast(new Error("You must be logged in to copy definitions"))
+        return
+      }
+      
+      // Import and call the server action directly
+      const { getUserSettingsServer } = await import('@/lib/actions/userSettingsServer')
+      const { data, error } = await getUserSettingsServer(user.id)
+      
+      console.log("Server response:", { data, error })
+      
+      if (error) {
+        showErrorToast(new Error("Failed to fetch user settings"))
+        return
+      }
+      
+      if (data?.definitions) {
+        setHomilyData(prev => ({
+          ...prev,
+          definitions: data.definitions || ""
+        }))
+        showResponseToast({ success: true, message: "Definitions refreshed and copied successfully!" })
+      } else {
+        showErrorToast(new Error("No definitions found in user settings"))
+      }
+    } catch (error) {
+      console.error("Error fetching definitions:", error)
+      showErrorToast(new Error("Failed to fetch user settings"))
     }
   }
   
