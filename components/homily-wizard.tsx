@@ -162,23 +162,28 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
       console.log(`Refreshing user settings and pre-loading definitions for step ${newStep}`)
       
       try {
-        // Use the server action to get fresh user settings
-        const { getUserSettings } = await import('@/lib/actions/userSettings')
-        const { data, error } = await getUserSettings(user?.id)
+        // Only load definitions if they're not already set or if we're going to step 3
+        // This prevents overwriting existing definitions when going from step 3 to 4
+        if (newStep === 3 || !homilyData.definitions.trim()) {
+          // Use the server action to get fresh user settings
+          const { getUserSettings } = await import('@/lib/actions/userSettings')
+          const { data, error } = await getUserSettings(user?.id)
 
-        if (error) {
-          console.error('Error refreshing user settings:', error)
-          return
-        }
-        
-        if (data?.definitions) {
-          setHomilyData(prev => ({
-            ...prev,
-            definitions: data.definitions || ""
-          }))
-          console.log('Successfully loaded fresh definitions from user settings')
+          if (error) {
+            console.error('Error refreshing user settings:', error)
+            return
+          }
+          if (data?.definitions) {
+            setHomilyData(prev => ({
+              ...prev,
+              definitions: data.definitions || ""
+            }))
+            console.log('Successfully loaded fresh definitions from user settings')
+          } else {
+            console.log('No definitions found in refreshed user settings')
+          }
         } else {
-          console.log('No definitions found in refreshed user settings')
+          console.log('Definitions already set, skipping refresh when advancing to step 4')
         }
       } catch (error) {
         console.error('Error refreshing user settings:', error)
@@ -401,8 +406,8 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
       
       // Always fetch fresh definitions from the server
       console.log('Refreshing definitions from server')
-      const { getUserSettings } = await import('@/lib/actions/userSettings')
-      const { data, error } = await getUserSettings(user.id)
+      const { getUserSettingsServer } = await import('@/lib/actions/userSettingsServer')
+      const { data, error } = await getUserSettingsServer(user.id)
       console.log('User settings:', data, error)
       
       if (error) {
