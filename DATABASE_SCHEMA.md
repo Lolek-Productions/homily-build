@@ -1,6 +1,15 @@
 -- WARNING: This schema is for context only and is not meant to be run.
 -- Table order and constraints may not be valid for execution.
 
+CREATE TABLE public.contexts (
+  id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
+  user_id uuid DEFAULT gen_random_uuid(),
+  context text NOT NULL,
+  created_at timestamp with time zone NOT NULL DEFAULT now(),
+  name text NOT NULL,
+  CONSTRAINT contexts_pkey PRIMARY KEY (id),
+  CONSTRAINT contexts_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id)
+);
 CREATE TABLE public.homilies (
   id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
   title text NOT NULL,
@@ -13,6 +22,7 @@ CREATE TABLE public.homilies (
   user_id uuid NOT NULL,
   status text,
   readings text,
+  context text,
   CONSTRAINT homilies_pkey PRIMARY KEY (id),
   CONSTRAINT homilies_user_id_fkey FOREIGN KEY (user_id) REFERENCES auth.users(id)
 );
