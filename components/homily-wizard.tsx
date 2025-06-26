@@ -676,16 +676,16 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <Label htmlFor="definitions" className="text-base font-medium">
-                  Refine Key Definitions
+                  Apply and Refine Key Definitions
                 </Label>
                 <div className="flex gap-2">
                   <Button
                     onClick={handleCopyDefinitions}
-                    variant="outline"
+                    variant="default"
                     size="sm"
                   >
                     <RefreshCw className="w-4 h-4 mr-2" />
-                    Refresh Global Definitions
+                    Apply Global Definitions
                   </Button>
                 </div>
               </div>
