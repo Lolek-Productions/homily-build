@@ -55,7 +55,7 @@ interface HomilyWizardProps {
 }
 
 export default function HomilyWizard({ homily }: HomilyWizardProps) {
-  const { user } = useAppContext()
+  const { user, userSettings } = useAppContext()
   const router = useRouter()
   const searchParams = useSearchParams()
   const { showResponseToast, showErrorToast } = useApiToast()
@@ -157,37 +157,8 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
     // Set the current step state
     setCurrentStep(newStep)
     
-    // If navigating to step 3 or 4, refresh user settings and pre-load definitions
-    if (newStep === 3 || newStep === 4) {
-      console.log(`Refreshing user settings and pre-loading definitions for step ${newStep}`)
-      
-      try {
-        // Only load definitions if they're not already set or if we're going to step 3
-        // This prevents overwriting existing definitions when going from step 3 to 4
-        if (newStep === 3 || !homilyData.definitions.trim()) {
-          // Use the server action to get fresh user settings
-          const { getUserSettings } = await import('@/lib/actions/userSettings')
-          const { data, error } = await getUserSettings(user?.id)
-
-          if (error) {
-            console.error('Error refreshing user settings:', error)
-            return
-          }
-          if (data?.definitions) {
-            setHomilyData(prev => ({
-              ...prev,
-              definitions: data.definitions || ""
-            }))
-            console.log('Successfully loaded fresh definitions from user settings')
-          } else {
-            console.log('No definitions found in refreshed user settings')
-          }
-        } else {
-          console.log('Definitions already set, skipping refresh when advancing to step 4')
-        }
-      } catch (error) {
-        console.error('Error refreshing user settings:', error)
-      }
+    if (newStep === 4 && !homilyData.definitions.trim()) {
+      copyUserSettingsDefinitionsToHomily()
     }
   }
   
@@ -395,45 +366,17 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
     }
   };
 
-  // Function to refresh and copy global definitions from user settings to the current homily
-  const handleCopyDefinitions = async () => {
-    try {
-      // Check if user is logged in
-      if (!user?.id) {
-        showErrorToast(new Error("You must be logged in to copy definitions"))
-        return
-      }
-      
-      // Always fetch fresh definitions from the server
-      console.log('Refreshing definitions from server')
-      const { getUserSettingsServer } = await import('@/lib/actions/userSettingsServer')
-      const { data, error } = await getUserSettingsServer(user.id)
-      console.log('User settings:', data, error)
-      
-      if (error) {
-        console.error('Error fetching user settings:', error)
-        showErrorToast(new Error("Failed to fetch user settings"))
-        return
-      }
-      
-      if (data?.definitions) {
-        console.log('Copying refreshed definitions from server')
-        setHomilyData(prev => ({
-          ...prev,
-          definitions: data.definitions || ""
-        }))
-        showResponseToast({ success: true, message: "Definitions refreshed and copied successfully!" })
-      } else {
-        console.log('No definitions found in user settings')
-        showErrorToast(new Error("No definitions found in user settings"))
-      }
-    } catch (error) {
-      console.error('Error fetching user settings:', error)
-      showErrorToast(new Error("Failed to fetch user settings"))
-    }
+  const copyUserSettingsDefinitionsToHomily = () => {
+    setHomilyData(prev => ({
+      ...prev,
+      definitions: userSettings?.definitions || ""
+    }))
+    showResponseToast({ success: true, message: "Definitions copied successfully!" })
   }
-
-  // Function removed - now using auto-save on step navigation instead
+  
+  const handleCopyDefinitions = async () => {
+    copyUserSettingsDefinitionsToHomily()
+  }
 
   const handleSaveDraft = async () => {
     if (!user?.id) {
