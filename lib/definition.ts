@@ -5,8 +5,9 @@ Page Limit: 3 pages (16-point font)
 Structure: Story + Main Point + Application
 Sentence Style: Short, punchy sentences for oral delivery
 Language Level: 6th grade accessibility
+Parish Saint: St. Leo
 
-Homilist Parameters
+##Homilist Parameters
 Role: Priest
 Languages: English, secondary-Spanish
 Education Level: Master of Divinity
