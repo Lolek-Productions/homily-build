@@ -66,14 +66,27 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
 
   // Handle step navigation with auto-save
   const handleStepChange = async (newStep: number) => {
-    // If moving forward from step 2, validate that readings are provided
-    if (newStep > currentStep && currentStep === 2 && !homilyData.readings.trim()) {
-      showErrorToast(new Error('Please enter the scripture readings before proceeding'))
-      return
-    }
-
-    // If moving forward, save the current progress first
+    // If moving forward, validate current step requirements
     if (newStep > currentStep) {
+      // Validate step 2 (readings)
+      if (currentStep === 2 && !homilyData.readings.trim()) {
+        showErrorToast(new Error('Please enter the scripture readings before proceeding'))
+        return
+      }
+      
+      // Validate step 4 (first set of questions)
+      if (currentStep === 4 && !homilyData.first_set_of_questions.trim()) {
+        showErrorToast(new Error('Please complete the first set of questions before proceeding'))
+        return
+      }
+      
+      // Validate step 5 (second set of questions)
+      if (currentStep === 5 && !homilyData.second_set_of_questions.trim()) {
+        showErrorToast(new Error('Please complete the second set of questions before proceeding'))
+        return
+      }
+      
+      // Save progress if all validations pass
       await saveCurrentProgress()
     }
     
@@ -657,8 +670,17 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
             <div className="relative group">
               <Button 
                 onClick={handleNext}
-                disabled={currentStep === 2 && !homilyData.readings.trim()}
-                className={currentStep === 2 && !homilyData.readings.trim() ? "opacity-70" : ""}
+                disabled={
+                  (currentStep === 2 && !homilyData.readings.trim()) ||
+                  (currentStep === 4 && !homilyData.first_set_of_questions.trim()) ||
+                  (currentStep === 5 && !homilyData.second_set_of_questions.trim())
+                }
+                className={
+                  (currentStep === 2 && !homilyData.readings.trim()) ||
+                  (currentStep === 4 && !homilyData.first_set_of_questions.trim()) ||
+                  (currentStep === 5 && !homilyData.second_set_of_questions.trim())
+                    ? "opacity-70" : ""
+                }
               >
                 Next
                 <ChevronRight className="w-4 h-4 ml-2" />
@@ -666,6 +688,18 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
               {currentStep === 2 && !homilyData.readings.trim() && (
                 <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
                   Please enter scripture readings to continue
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-4 border-t-gray-800"></div>
+                </div>
+              )}
+              {currentStep === 4 && !homilyData.first_set_of_questions.trim() && (
+                <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+                  Please complete the first set of questions to continue
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-4 border-t-gray-800"></div>
+                </div>
+              )}
+              {currentStep === 5 && !homilyData.second_set_of_questions.trim() && (
+                <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+                  Please complete the second set of questions to continue
                   <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-l-transparent border-r-4 border-r-transparent border-t-4 border-t-gray-800"></div>
                 </div>
               )}
