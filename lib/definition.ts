@@ -1,9 +1,6 @@
 export const DEFAULT_USER_SETTINGS_DEFINITION = `**Key Definitions**
 Word count: 850 words.
 Patron Saint of the parish or organization: St. Leo the Great and St. John Henry Newman
-Rite: Roman Catholic
-Language: English
-Background of the audience: University Students
 
 **The Preacher:**
 What language or languages do you speak: English and Spanish

@@ -51,18 +51,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <a href={`/definitions`}>
-                <NotebookText />
-                  <span>Definitions</span>
+                <a href={`/contexts`}>
+                  <Container />
+                  <span>Contexts</span>
                 </a>
               </SidebarMenuButton>
             </SidebarMenuItem>
 
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <a href={`/contexts`}>
-                  <Container />
-                  <span>Contexts</span>
+                <a href={`/definitions`}>
+                <NotebookText />
+                  <span>Definitions</span>
                 </a>
               </SidebarMenuButton>
             </SidebarMenuItem>

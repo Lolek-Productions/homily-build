@@ -59,7 +59,7 @@ export default function CreateHomily() {
     }
   }
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && e.metaKey) {
       handleCreateHomily()
     }
@@ -102,7 +102,7 @@ export default function CreateHomily() {
                 placeholder="Enter a title for your homily..."
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                onKeyPress={handleKeyPress}
+                onKeyDown={handleKeyDown}
                 className="mt-1"
                 autoFocus
               />
