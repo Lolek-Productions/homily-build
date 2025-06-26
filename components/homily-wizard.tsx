@@ -165,7 +165,7 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
         // Use the server action to get fresh user settings
         const { getUserSettings } = await import('@/lib/actions/userSettings')
         const { data, error } = await getUserSettings(user?.id)
-        
+
         if (error) {
           console.error('Error refreshing user settings:', error)
           return
@@ -403,6 +403,7 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
       console.log('Refreshing definitions from server')
       const { getUserSettings } = await import('@/lib/actions/userSettings')
       const { data, error } = await getUserSettings(user.id)
+      console.log('User settings:', data)
       
       if (error) {
         console.error('Error fetching user settings:', error)
