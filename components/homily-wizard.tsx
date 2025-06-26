@@ -646,7 +646,7 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
                 <Label htmlFor="readings" className="text-base font-medium">
                   Insert Scripture Readings
                 </Label>
-                <p className="text-sm text-gray-500 mb-2">Enter the scripture readings for this homily. You can paste the whole reading or the pericope (the verses that are being read). This will be used to send to the AI to generate the homily.</p>
+                <p className="text-sm text-gray-500 mb-2">Enter the scripture readings for this homily. You can paste the whole reading or the pericope (the verses that are being read). This will be used to send to your Digital Assistant to generate the homily.</p>
                 <div className="flex space-x-2 mb-4">
                   <Button asChild variant="outline" size="sm" className="text-xs">
                     <a href="https://bible.usccb.org" target="_blank" rel="noopener noreferrer">
@@ -689,7 +689,7 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
                   </Button>
                 </div>
               </div>
-              <p className="text-sm text-gray-500 mb-2">Define key terms and concepts that will be important for your homily. These will be used to send to the AI to generate the homily.</p>
+              <p className="text-sm text-gray-500 mb-2">Define key terms and concepts that will be important for your homily. These will be used to send to your Digital Assistant to generate the homily.</p>
               <Textarea
                 id="definitions"
                 placeholder="Define key terms and concepts that will be important for your homily..."
@@ -721,7 +721,7 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
                   {isLoadingAI ? "Generating..." : "Generate First Set of Questions"}
                 </Button>
               </div>
-              <p className="text-sm text-gray-500 mb-2">Explore initial questions and themes for your homily. These will be used to send to the AI to generate the homily. Click the button above to generate. Fill out your answers to the questions in the textarea below. If you don&apos;t want to answer a question, then don&apos;t. If you want to add more information, or delete something, then do it. When you are finished, click the Next button to move to the next step.</p>
+              <p className="text-sm text-gray-500 mb-2">Explore initial questions and themes for your homily. These will be used to send to your Digital Assistant to generate the homily. Click the button above to generate. Fill out your answers to the questions in the textarea below. If you don&apos;t want to answer a question, then don&apos;t. If you want to add more information, or delete something, then do it. When you are finished, click the Next button to move to the next step.</p>
               <Textarea
                 id="first_questions"
                 placeholder="Click the button above to generate and then answer the questions here..."
