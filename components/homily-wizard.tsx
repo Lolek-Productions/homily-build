@@ -84,6 +84,7 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
   const [isLoadingContexts, setIsLoadingContexts] = useState(false)
   const [isContextDialogOpen, setIsContextDialogOpen] = useState(false)
   const [contextSearchQuery, setContextSearchQuery] = useState("")
+  const [isDefinitionsCopied, setIsDefinitionsCopied] = useState(false)
 
   // Load contexts when needed
   useEffect(() => {
@@ -91,6 +92,22 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
       loadContexts()
     }
   }, [currentStep, user?.id, contexts.length])
+  
+  // Handle copying definitions when user settings become available
+  useEffect(() => {
+    // Only attempt to copy definitions when on step 4, definitions are empty, and userSettings are available
+    if (currentStep === 4 && !homilyData.definitions.trim() && userSettings?.definitions && !isDefinitionsCopied) {
+      console.log("useEffect: User settings available, copying definitions to homily", {
+        currentStep,
+        hasDefinitions: !!homilyData.definitions.trim(),
+        userSettingsAvailable: !!userSettings,
+        definitionsAvailable: !!userSettings?.definitions,
+      })
+      
+      copyUserSettingsDefinitionsToHomily()
+      setIsDefinitionsCopied(true) // Mark as copied to prevent repeated copying
+    }
+  }, [currentStep, homilyData.definitions, userSettings, isDefinitionsCopied])
 
   // Function to load contexts from the database
   const loadContexts = useCallback(async () => {
@@ -157,8 +174,22 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
     // Set the current step state
     setCurrentStep(newStep)
     
-    if (newStep === 4 && !homilyData.definitions.trim()) {
-      copyUserSettingsDefinitionsToHomily()
+    if (newStep === 4) {
+      // Reset the copied flag when navigating to step 4
+      setIsDefinitionsCopied(false)
+      
+      // Only try to copy immediately if we have user settings available
+      if (!homilyData.definitions.trim() && userSettings?.definitions) {
+        console.log("handleStepChange: User settings available, copying definitions to homily")
+        copyUserSettingsDefinitionsToHomily()
+        setIsDefinitionsCopied(true)
+      } else {
+        console.log("handleStepChange: Waiting for user settings to become available", {
+          hasDefinitions: !!homilyData.definitions.trim(),
+          userSettingsAvailable: !!userSettings,
+          definitionsAvailable: !!userSettings?.definitions
+        })
+      }
     }
   }
   
@@ -367,11 +398,28 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
   };
 
   const copyUserSettingsDefinitionsToHomily = () => {
-    setHomilyData(prev => ({
-      ...prev,
-      definitions: userSettings?.definitions || ""
-    }))
-    showResponseToast({ success: true, message: "Definitions copied successfully!" })
+    console.log("COPY FUNCTION CALLED", { 
+      hasUserSettings: !!userSettings,
+      definitionsExist: !!userSettings?.definitions,
+      definitionsValue: userSettings?.definitions
+    })
+    
+    // Only update if we actually have definitions
+    if (userSettings?.definitions) {
+      setHomilyData(prev => {
+        console.log("Updating homily data with definitions", {
+          prevDefinitions: prev.definitions,
+          newDefinitions: userSettings?.definitions
+        })
+        return {
+          ...prev,
+          definitions: userSettings?.definitions || ""
+        }
+      })
+      showResponseToast({ success: true, message: "Definitions copied successfully!" })
+    } else {
+      console.log("No definitions found in user settings, not updating homily data")
+    }
   }
   
   const handleCopyDefinitions = async () => {
