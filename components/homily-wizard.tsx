@@ -30,6 +30,7 @@ import { generateClaudeResponse } from "@/lib/actions/ai-claude"
 import { getContexts } from "@/lib/actions/contexts"
 import { useApiToast } from "@/lib/utils"
 import { getFinalDraftPrompt, getFirstSetOfQuestionsPrompt, getSecondSetOfQuestionsPrompt } from "@/lib/prompts"
+import { DEFAULT_CONTEXT } from "@/lib/context"
 
 interface Context {
   id: number
@@ -454,6 +455,21 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
     copyUserSettingsDefinitionsToHomily()
   }
 
+  const handleCopyFinalDraft = () => {
+    if (navigator.clipboard && homilyData.final_draft) {
+      navigator.clipboard.writeText(homilyData.final_draft)
+        .then(() => {
+          showResponseToast({ success: true, message: "Final draft copied to clipboard" })
+        })
+        .catch((error) => {
+          console.error("Failed to copy text: ", error)
+          showErrorToast(new Error("Failed to copy text to clipboard"))
+        })
+    } else {
+      showErrorToast(new Error("No content to copy or clipboard access not available"))
+    }
+  }
+
   const handleSaveDraft = async () => {
     if (!user?.id) {
       showErrorToast(new Error("You must be logged in to save draft"))
@@ -613,17 +629,27 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
                   <Label htmlFor="context" className="text-base font-medium">
                     Select Context
                   </Label>
-                  <Button 
-                    onClick={() => {
-                      loadContexts()
-                      setIsContextDialogOpen(true)
-                    }}
-                    variant="default"
-                    size="sm"
-                  >
-                    <Search className="w-4 h-4 mr-2" />
-                    Browse Contexts
-                  </Button>
+                  <div className="flex space-x-2">
+                    <Button 
+                      onClick={() => handleInputChange('context', DEFAULT_CONTEXT)}
+                      variant="outline"
+                      size="sm"
+                    >
+                      <RefreshCw className="w-4 h-4 mr-2" />
+                      Insert Default
+                    </Button>
+                    <Button 
+                      onClick={() => {
+                        loadContexts()
+                        setIsContextDialogOpen(true)
+                      }}
+                      variant="default"
+                      size="sm"
+                    >
+                      <Search className="w-4 h-4 mr-2" />
+                      Browse Contexts
+                    </Button>
+                  </div>
                 </div>
                 <p className="text-sm text-gray-500 mb-2">
                   The context helps provide background information and theological framework for your homily.
@@ -771,19 +797,30 @@ export default function HomilyWizard({ homily }: HomilyWizardProps) {
                 <Label htmlFor="final_draft" className="text-base font-medium flex items-center">
                   Generate and Refine Final Draft
                 </Label>
-                <Button
-                  onClick={handleFinalDraftAI}
-                  disabled={isLoadingAI}
-                  variant="default"
-                  size="sm"
-                >
-                  {isLoadingAI ? (
-                    <Loader className="w-4 h-4 mr-2 animate-spin" />
-                  ) : (
-                    <Target className="w-4 h-4 mr-2" />
-                  )}
-                  {isLoadingAI ? "Generating..." : "Generate Final Draft"}
-                </Button>
+                <div className="flex space-x-2">
+                  <Button
+                    onClick={handleCopyFinalDraft}
+                    disabled={!homilyData.final_draft.trim()}
+                    variant="outline"
+                    size="sm"
+                  >
+                    <FileText className="w-4 h-4 mr-2" />
+                    Copy Text
+                  </Button>
+                  <Button
+                    onClick={handleFinalDraftAI}
+                    disabled={isLoadingAI}
+                    variant="default"
+                    size="sm"
+                  >
+                    {isLoadingAI ? (
+                      <Loader className="w-4 h-4 mr-2 animate-spin" />
+                    ) : (
+                      <Target className="w-4 h-4 mr-2" />
+                    )}
+                    {isLoadingAI ? "Generating..." : "Generate Final Draft"}
+                  </Button>
+                </div>
               </div>
               <p className="text-sm text-gray-500 mb-2">Click the button above to generate.  Finish your edits and then click save.  Your homily is finished.</p>
               <Textarea
