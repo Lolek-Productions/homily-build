@@ -95,7 +95,7 @@ export default function Home() {
                 <blockquote className="relative z-10">
                   <div className="text-lg sm:text-xl font-medium text-foreground italic">
                     <p>
-                      "This is brilliant! At first I was skeptical, and was concerned that AI would eliminate the need for higher level thinking, and not leave room for the Holy Spirit to speak to the writer. I love the use of the questions requiring answers that have to be formulated—the helpmate doesn't work without it! The questions prompt the user for insights gleaned and stories and this ensures no two homilies will ever be the same!"
+                      &ldquo;This is brilliant! At first I was skeptical, and was concerned that AI would eliminate the need for higher level thinking, and not leave room for the Holy Spirit to speak to the writer. I love the use of the questions requiring answers that have to be formulated—the helpmate doesn&apos;t work without it! The questions prompt the user for insights gleaned and stories and this ensures no two homilies will ever be the same!&rdquo;
                     </p>
                   </div>
                   <footer className="mt-8">
@@ -120,7 +120,7 @@ export default function Home() {
           <section className="py-16 sm:py-20 bg-gradient-to-r from-primary/5 to-primary/10 dark:from-primary/10 dark:to-primary/20">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
               <p className="text-xl sm:text-2xl font-medium text-foreground mb-4">
-                "The humans have to notice the divine. The machine can help craft and formulate what the human noticed."
+                &ldquo;The humans have to notice the divine. The machine can help craft and formulate what the human noticed.&rdquo;
               </p>
               <p className="text-base text-muted-foreground">
                 — Fr. Josh McCarty, Founder of Homily.build

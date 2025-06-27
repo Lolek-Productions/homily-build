@@ -3,7 +3,7 @@
 import type * as React from "react"
 import Link from "next/link"
 import {
-  BookOpen,
+  BookOpenText,
   LayoutDashboard,
   NotebookText,
   ScrollText,
@@ -127,7 +127,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
                 <a href={`https://www.magisterium.com/`} target="_blank">
-                  <BookOpen />
+                  <BookOpenText />
                   <span>Magesterium AI</span>
                 </a>
               </SidebarMenuButton>
@@ -135,7 +135,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
                 <a href={`https://litcal.johnromanodorazio.com`} target="_blank">
-                  <BookOpen />
+                  <BookOpenText />
                   <span>LitCal</span>
                 </a>
               </SidebarMenuButton>
