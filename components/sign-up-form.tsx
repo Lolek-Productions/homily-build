@@ -3,6 +3,7 @@
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
+import { EyeIcon, EyeOffIcon } from 'lucide-react';
 import {
   Card,
   CardContent,
@@ -23,6 +24,7 @@ export function SignUpForm({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -79,13 +81,39 @@ export function SignUpForm({
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
                 </div>
-                <Input
-                  id="password"
-                  type="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? 'text' : 'password'}
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="hide-password-toggle pr-10"
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                  >
+                    {showPassword ? (
+                      <EyeIcon className="h-4 w-4" aria-hidden="true" />
+                    ) : (
+                      <EyeOffIcon className="h-4 w-4" aria-hidden="true" />
+                    )}
+                    <span className="sr-only">{showPassword ? 'Hide password' : 'Show password'}</span>
+                  </Button>
+                </div>
+                {/* The following style is used to hide the password toggle in browsers that support it */}
+                <style>{`
+                    .hide-password-toggle::-ms-reveal,
+                    .hide-password-toggle::-ms-clear {
+                      visibility: hidden;
+                      pointer-events: none;
+                      display: none;
+                    }
+                  `}</style>
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
