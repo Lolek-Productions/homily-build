@@ -24,11 +24,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <div className="flex justify-between items-center py-4 px-2">
           <Link href="/dashboard" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
             <div className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center">
-              <Image 
-                src="/homily-build-logo.svg" 
-                alt="Homily.build Logo" 
-                width={40} 
-                height={40} 
+              <Image
+                src="/homily-build-logo.svg"
+                alt="Homily.build Logo"
+                width={40}
+                height={40}
                 priority
               />
             </div>
@@ -128,7 +128,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <SidebarMenuButton asChild>
                 <a href={`https://www.magisterium.com/`} target="_blank">
                   <BookOpenText />
-                  <span>Magesterium AI</span>
+                  <span>Magisterium AI</span>
                 </a>
               </SidebarMenuButton>
             </SidebarMenuItem>
